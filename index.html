@@ -31,9 +31,21 @@
                         surface: '#0f172a', // Slate 900
                         purple: '#a855f7', // A vibrant purple
                         purple_dark: '#7e22ce', // A deeper purple
+                        purple_glow: '#d8b4fe',
                     },
                     backgroundImage: {
                         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
                     }
                 }
             }
@@ -44,6 +56,45 @@
             background-color: #020617;
             color: #e2e8f0;
             overflow-x: hidden;
+            cursor: none; /* Hide default cursor */
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #a855f7;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover .cursor-outline {
+            background-color: rgba(168, 85, 247, 0.05);
+        }
+        
+        /* Hover state for links/buttons */
+        body.hovering .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(168, 85, 247, 0.1);
+            border-color: #a855f7;
+            mix-blend-mode: screen;
         }
 
         /* Abstract Aurora Background */
@@ -72,40 +123,79 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Glassmorphism Card */
-        .glass-card {
+        /* Spotlight Card Effect */
+        .spotlight-card {
             background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .spotlight-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            padding: 1px; /* border width */
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y),
+                rgba(168, 85, 247, 0.4),
+                transparent 40%
+            );
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+
+        .spotlight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px -10px rgba(126, 34, 206, 0.3);
         }
         
-        .glass-card:hover {
-            border-color: rgba(168, 85, 247, 0.3);
-            background: rgba(15, 23, 42, 0.8);
-            box-shadow: 0 0 30px -10px rgba(126, 34, 206, 0.15);
+        /* Spotlight inner glow */
+        .spotlight-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                600px circle at var(--mouse-x) var(--mouse-y),
+                rgba(168, 85, 247, 0.06),
+                transparent 40%
+            );
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        
+        .spotlight-card:hover .spotlight-bg {
+            opacity: 1;
         }
 
         /* Text Gradient */
         .text-gradient-purple {
-            background: linear-gradient(to right, #a855f7, #7e22ce);
+            background: linear-gradient(to right, #d8b4fe, #a855f7, #7e22ce);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #020617;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #7e22ce;
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
         }
 
         /* Animations */
@@ -131,48 +221,107 @@
         }
         .group:hover .garuda-wing {
             transform: scale(1.05);
-            filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.4));
+            filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.6));
         }
+
+        /* Modern Navbar Styling */
+        .nav-island {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #a855f7;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            box-shadow: 0 0 8px #a855f7;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: #d8b4fe;
+            text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+        }
+
+        /* Magnetic Button Effect */
+        .magnetic-btn {
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
     </style>
 </head>
 <body class="antialiased selection:bg-purple selection:text-black">
     
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
     <div class="noise-overlay"></div>
     <div class="aurora-bg"></div>
 
-    <!-- Navigation (Floating) -->
-    <nav class="fixed top-0 left-0 w-full z-40 px-6 py-4">
-        <div class="glass-card max-w-6xl mx-auto rounded-full px-6 py-3 flex justify-between items-center">
-            <a href="#" class="text-xl font-serif font-bold tracking-wider text-white flex items-center gap-2">
-                <i data-lucide="feather" class="text-purple w-5 h-5"></i> FC
+    <!-- Navigation (Floating Island Dock) -->
+    <nav class="fixed top-6 left-0 w-full z-50 flex justify-center px-4">
+        <div class="nav-island rounded-2xl px-2 py-2 flex justify-between items-center transition-all duration-300 hover:scale-[1.01] hover:border-purple/30 md:min-w-[500px]">
+            <!-- Logo Area -->
+            <a href="#" class="px-4 py-2 flex items-center gap-2 group magnetic-btn" data-magnetic>
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple to-purple_dark flex items-center justify-center text-white shadow-lg shadow-purple/20 group-hover:shadow-purple/50 transition-all">
+                    <span class="font-serif font-bold text-sm">FC</span>
+                </div>
             </a>
             
-            <div class="hidden md:flex space-x-8 text-xs font-display font-bold uppercase tracking-widest text-slate-400">
-                <a href="#about" class="hover:text-purple transition-colors">Manifesto</a>
-                <a href="#skills" class="hover:text-purple transition-colors">Tech</a>
-                <a href="#experience" class="hover:text-purple transition-colors">Timeline</a>
-                <a href="#projects" class="hover:text-purple transition-colors">Opere</a>
-                <a href="#contact" class="px-5 py-2 bg-purple text-white rounded-full hover:bg-white hover:text-black transition-colors">Contatti</a>
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-1">
+                <a href="#about" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn" data-magnetic>Manifesto</a>
+                <a href="#skills" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn" data-magnetic>Tech</a>
+                <a href="#experience" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn" data-magnetic>Timeline</a>
+                <a href="#projects" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn" data-magnetic>Opere</a>
             </div>
 
+            <!-- CTA -->
+            <a href="#contact" class="hidden md:flex ml-2 px-5 py-2.5 bg-white text-black text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-purple hover:text-white transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] magnetic-btn" data-magnetic>
+                Contatti
+            </a>
+
             <!-- Mobile Menu Toggle -->
-            <button class="md:hidden text-white" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+            <button class="md:hidden p-2 text-slate-300 hover:text-white" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
                 <i data-lucide="menu"></i>
             </button>
         </div>
         
         <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden absolute top-20 left-6 right-6 glass-card rounded-2xl p-6 flex flex-col gap-4 text-center md:hidden">
-            <a href="#about" class="text-slate-300 hover:text-purple">Manifesto</a>
-            <a href="#skills" class="text-slate-300 hover:text-purple">Tech</a>
-            <a href="#experience" class="text-slate-300 hover:text-purple">Timeline</a>
-            <a href="#projects" class="text-slate-300 hover:text-purple">Opere</a>
-            <a href="#contact" class="text-purple font-bold">Contattami</a>
+        <div id="mobile-menu" class="hidden absolute top-20 left-4 right-4 nav-island rounded-2xl p-6 flex flex-col gap-4 text-center md:hidden border border-slate-800">
+            <a href="#about" class="text-slate-300 hover:text-purple py-2 border-b border-slate-800/50">Manifesto</a>
+            <a href="#skills" class="text-slate-300 hover:text-purple py-2 border-b border-slate-800/50">Tech</a>
+            <a href="#experience" class="text-slate-300 hover:text-purple py-2 border-b border-slate-800/50">Timeline</a>
+            <a href="#projects" class="text-slate-300 hover:text-purple py-2 border-b border-slate-800/50">Opere</a>
+            <a href="#contact" class="text-purple font-bold py-2">Contattami</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Animated Blobs Background -->
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-purple/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-purple_dark/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-blue-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+
         <!-- Abstract Garuda Background -->
         <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-20">
              <svg viewBox="0 0 500 500" class="w-[800px] h-[800px] text-slate-800 fill-current animate-pulse duration-[5000ms]">
@@ -182,33 +331,33 @@
 
         <div class="container mx-auto px-6 relative z-10 text-center">
             <div class="fade-in-up">
-                <span class="inline-block py-1 px-3 rounded-full bg-purple/10 border border-purple/20 text-purple text-[10px] font-bold uppercase tracking-[0.2em] mb-6">
+                <span class="inline-block py-1 px-3 rounded-full bg-purple/10 border border-purple/20 text-purple text-[10px] font-bold uppercase tracking-[0.2em] mb-6 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
                     Informatica Umanistica
                 </span>
             </div>
             
             <h1 class="text-6xl md:text-8xl lg:text-9xl font-serif font-bold leading-tight mb-6 fade-in-up delay-100">
-                Fabio <span class="text-gradient-purple garuda-wing inline-block cursor-default">Coppini</span>
+                Fabio <span class="text-gradient-purple garuda-wing inline-block cursor-default select-none hover:scale-105 transition-transform duration-500">Coppini</span>
             </h1>
             
             <p class="text-lg md:text-2xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed mb-10 fade-in-up delay-200">
-                Dove il <strong class="text-white">codice</strong> incontra la <strong class="text-white">filosofia</strong>. 
-                Sviluppatore Web, Designer e Insegnante. 
-                <br> <span class="text-purple italic font-serif mt-2 block">"Libero come un'aquila."</span>
+                Dove il <strong class="text-slate-200">codice</strong> incontra la <strong class="text-slate-200">filosofia</strong>. 
+                <br>Web Developer & Educatore.
+                <br> <span class="text-purple_glow italic font-serif mt-4 block text-xl">"Libero come un'aquila."</span>
             </p>
 
             <div class="flex flex-col md:flex-row gap-4 justify-center items-center fade-in-up delay-300">
-                <a href="#projects" class="group relative px-8 py-4 bg-transparent overflow-hidden rounded-full border border-slate-600 hover:border-purple transition-colors w-full md:w-auto">
-                    <div class="absolute inset-0 w-0 bg-purple transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
-                    <span class="relative text-white font-display font-bold uppercase tracking-wider flex items-center justify-center gap-2">
-                        Esplora Portfolio <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                <a href="#projects" class="spotlight-card group relative px-8 py-4 bg-transparent overflow-hidden rounded-full transition-colors w-full md:w-auto">
+                    <span class="relative z-10 text-white font-display font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+                        Esplora Portfolio <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
                     </span>
+                    <div class="spotlight-bg"></div>
                 </a>
             </div>
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-slate-500">
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-slate-500 hover:text-purple transition-colors cursor-pointer magnetic-btn">
             <i data-lucide="mouse" class="w-6 h-6"></i>
         </div>
     </section>
@@ -219,7 +368,7 @@
             <div class="flex items-end justify-between mb-12">
                 <div>
                     <h2 class="text-4xl md:text-5xl font-serif text-white mb-2">Manifesto</h2>
-                    <div class="h-1 w-24 bg-gradient-to-r from-purple to-transparent"></div>
+                    <div class="h-1 w-24 bg-gradient-to-r from-purple to-transparent shadow-[0_0_10px_#a855f7]"></div>
                 </div>
                 <p class="hidden md:block text-slate-400 text-right max-w-sm">
                     Un approccio multidisciplinare che fonde tecnologia e umanesimo.
@@ -230,69 +379,74 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 auto-rows-[200px] md:auto-rows-[250px]">
                 
                 <!-- Main Card: Laurea & Photo -->
-                <div class="glass-card rounded-3xl p-8 md:col-span-2 row-span-1 flex flex-col justify-center relative overflow-hidden group">
+                <div class="spotlight-card rounded-3xl p-8 md:col-span-2 row-span-1 flex flex-col justify-center relative group">
+                    <div class="spotlight-bg"></div>
                     <!-- User Image -->
-                    <img src="1764076868961.jpg" alt="Fabio Coppini" class="absolute right-0 top-0 h-full w-1/2 object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500 mix-blend-overlay mask-image-gradient">
+                    <img src="1764076868961.jpg" alt="Fabio Coppini" class="absolute right-0 top-0 h-full w-2/3 object-cover opacity-30 group-hover:opacity-60 transition-opacity duration-700 mix-blend-luminosity hover:mix-blend-normal mask-image-gradient">
                     <div class="absolute top-0 right-0 w-64 h-64 bg-purple/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 group-hover:bg-purple/20 transition-all"></div>
                     
                     <div class="relative z-10">
-                        <div class="flex items-center gap-3 mb-4 text-purple">
+                        <div class="flex items-center gap-3 mb-4 text-purple_glow">
                             <i data-lucide="graduation-cap"></i>
                             <span class="uppercase tracking-widest text-xs font-bold">Formazione</span>
                         </div>
                         <h3 class="text-2xl md:text-3xl font-bold text-white mb-2">Informatica Umanistica</h3>
                         <p class="text-slate-400 max-w-md">Università di Pisa. Tesi in Linguistica Computazionale (NLP) sui testi delle medaglie d'oro.</p>
-                        <a href="https://drive.google.com/file/d/1rL6g8-6STGM_1TQIu1_PNudKLnxwpK0e/view?usp=sharing" target="_blank" class="mt-4 inline-flex items-center text-sm text-purple hover:underline">Leggi la Tesi <i data-lucide="arrow-up-right" class="ml-1 w-3 h-3"></i></a>
+                        <a href="https://drive.google.com/file/d/1rL6g8-6STGM_1TQIu1_PNudKLnxwpK0e/view?usp=sharing" target="_blank" class="mt-4 inline-flex items-center text-sm text-purple hover:text-white transition-colors hover:underline">Leggi la Tesi <i data-lucide="arrow-up-right" class="ml-1 w-3 h-3"></i></a>
                     </div>
                 </div>
 
                 <!-- Card: Padel/Sport -->
-                <div class="glass-card rounded-3xl p-6 flex flex-col justify-between group hover:bg-surface transition-colors">
-                    <div class="flex justify-between items-start">
-                        <i data-lucide="activity" class="text-purple w-8 h-8"></i>
+                <div class="spotlight-card rounded-3xl p-6 flex flex-col justify-between group">
+                    <div class="spotlight-bg"></div>
+                    <div class="flex justify-between items-start relative z-10">
+                        <i data-lucide="activity" class="text-purple w-8 h-8 group-hover:scale-110 transition-transform"></i>
                         <span class="text-xs font-bold text-slate-500 uppercase">Agonismo</span>
                     </div>
-                    <div>
+                    <div class="relative z-10">
                         <h4 class="text-xl font-bold text-white">Padel Player</h4>
                         <p class="text-sm text-slate-400 mt-2">Sport a livello agonistico. Disciplina, strategia e riflessi pronti.</p>
                     </div>
                 </div>
 
                 <!-- Card: Teaching -->
-                <div class="glass-card rounded-3xl p-6 md:row-span-2 flex flex-col justify-end relative overflow-hidden">
+                <div class="spotlight-card rounded-3xl p-6 md:row-span-2 flex flex-col justify-end relative">
+                    <div class="spotlight-bg"></div>
                     <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-0"></div>
                     <!-- Abstract geometric shapes simulating robots -->
                     <div class="absolute top-10 right-10 text-slate-800 opacity-20">
                         <i data-lucide="bot" class="w-32 h-32"></i>
                     </div>
                     <div class="relative z-10">
-                        <div class="inline-block bg-purple/20 text-purple text-xs font-bold px-3 py-1 rounded-full mb-4">EDUCATION</div>
+                        <div class="inline-block bg-purple/20 border border-purple/20 text-purple_glow text-xs font-bold px-3 py-1 rounded-full mb-4 shadow-[0_0_10px_rgba(168,85,247,0.2)]">EDUCATION</div>
                         <h3 class="text-2xl font-bold text-white mb-2">Insegnante di Robotica</h3>
                         <p class="text-slate-300 text-sm leading-relaxed mb-4">
                             Mi piace lavorare con i bambini perché sono la voce della verità. Insegno Logica, Lego Spike, Ozobot e Scratch nelle scuole di Prato e Pistoia.
                         </p>
-                        <ul class="text-xs text-slate-400 space-y-1">
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-purple"></i> Empatia e Ascolto</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-purple"></i> Team Leader (Esperienza USA)</li>
+                        <ul class="text-xs text-slate-400 space-y-2">
+                            <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple rounded-full shadow-[0_0_5px_#a855f7]"></div> Empatia e Ascolto</li>
+                            <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple rounded-full shadow-[0_0_5px_#a855f7]"></div> Team Leader (Esperienza USA)</li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Card: English -->
-                <div class="glass-card rounded-3xl p-6 flex items-center justify-between group">
-                    <div>
+                <div class="spotlight-card rounded-3xl p-6 flex items-center justify-between group">
+                    <div class="spotlight-bg"></div>
+                    <div class="relative z-10">
                         <h4 class="text-lg font-bold text-white">Inglese B2</h4>
                         <p class="text-xs text-slate-400">Certificato e fluente</p>
                     </div>
-                    <div class="w-12 h-12 rounded-full border-2 border-slate-700 flex items-center justify-center text-slate-300 group-hover:border-purple group-hover:text-purple transition-colors">
+                    <div class="relative z-10 w-12 h-12 rounded-full border border-slate-700 flex items-center justify-center text-slate-300 group-hover:border-purple group-hover:text-purple group-hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all">
                         <span class="font-serif font-bold">EN</span>
                     </div>
                 </div>
 
                 <!-- Card: Stats -->
-                <div class="glass-card rounded-3xl p-6 flex flex-col justify-center items-center text-center group">
-                   <div class="text-4xl font-display font-bold text-white mb-1 group-hover:text-purple transition-colors">110%</div>
-                   <div class="text-xs uppercase tracking-widest text-slate-500">Dedizione</div>
+                <div class="spotlight-card rounded-3xl p-6 flex flex-col justify-center items-center text-center group">
+                   <div class="spotlight-bg"></div>
+                   <div class="relative z-10 text-4xl font-display font-bold text-white mb-1 group-hover:text-purple_glow group-hover:scale-110 transition-all duration-300">110%</div>
+                   <div class="relative z-10 text-xs uppercase tracking-widest text-slate-500">Dedizione</div>
                 </div>
 
             </div>
@@ -306,52 +460,60 @@
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <!-- Skill Item -->
-                <div class="p-6 border border-slate-800 rounded-xl hover:bg-slate-800/50 transition-colors flex flex-col items-center gap-3 text-center group">
-                    <i data-lucide="code-2" class="w-8 h-8 text-slate-500 group-hover:text-purple transition-colors"></i>
-                    <span class="text-slate-300 font-bold">Python & NLTK</span>
-                    <span class="text-xs text-slate-500">Data & NLP</span>
+                <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
+                    <div class="spotlight-bg"></div>
+                    <i data-lucide="code-2" class="w-8 h-8 text-slate-500 group-hover:text-purple transition-colors relative z-10"></i>
+                    <span class="text-slate-300 font-bold relative z-10">Python & NLTK</span>
+                    <span class="text-xs text-slate-500 relative z-10">Data & NLP</span>
                 </div>
                 <!-- Skill Item -->
-                <div class="p-6 border border-slate-800 rounded-xl hover:bg-slate-800/50 transition-colors flex flex-col items-center gap-3 text-center group">
-                    <i data-lucide="database" class="w-8 h-8 text-slate-500 group-hover:text-blue-400 transition-colors"></i>
-                    <span class="text-slate-300 font-bold">PHP & SQL</span>
-                    <span class="text-xs text-slate-500">Backend</span>
+                <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
+                    <div class="spotlight-bg"></div>
+                    <i data-lucide="database" class="w-8 h-8 text-slate-500 group-hover:text-blue-400 transition-colors relative z-10"></i>
+                    <span class="text-slate-300 font-bold relative z-10">PHP & SQL</span>
+                    <span class="text-xs text-slate-500 relative z-10">Backend</span>
                 </div>
                 <!-- Skill Item -->
-                <div class="p-6 border border-slate-800 rounded-xl hover:bg-slate-800/50 transition-colors flex flex-col items-center gap-3 text-center group">
-                    <i data-lucide="layout" class="w-8 h-8 text-slate-500 group-hover:text-purple_dark transition-colors"></i>
-                    <span class="text-slate-300 font-bold">WordPress & Webflow</span>
-                    <span class="text-xs text-slate-500">CMS & Design</span>
+                <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
+                    <div class="spotlight-bg"></div>
+                    <i data-lucide="layout" class="w-8 h-8 text-slate-500 group-hover:text-purple_dark transition-colors relative z-10"></i>
+                    <span class="text-slate-300 font-bold relative z-10">WordPress & Webflow</span>
+                    <span class="text-xs text-slate-500 relative z-10">CMS & Design</span>
                 </div>
                 <!-- Skill Item -->
-                <div class="p-6 border border-slate-800 rounded-xl hover:bg-slate-800/50 transition-colors flex flex-col items-center gap-3 text-center group">
-                    <i data-lucide="palette" class="w-8 h-8 text-slate-500 group-hover:text-purple transition-colors"></i>
-                    <span class="text-slate-300 font-bold">Adobe Suite</span>
-                    <span class="text-xs text-slate-500">Ps, Ai, Id</span>
+                <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
+                    <div class="spotlight-bg"></div>
+                    <i data-lucide="palette" class="w-8 h-8 text-slate-500 group-hover:text-purple transition-colors relative z-10"></i>
+                    <span class="text-slate-300 font-bold relative z-10">Adobe Suite</span>
+                    <span class="text-xs text-slate-500 relative z-10">Ps, Ai, Id</span>
                 </div>
                  <!-- Skill Item -->
-                 <div class="p-6 border border-slate-800 rounded-xl hover:bg-slate-800/50 transition-colors flex flex-col items-center gap-3 text-center group">
-                    <i data-lucide="video" class="w-8 h-8 text-slate-500 group-hover:text-red-400 transition-colors"></i>
-                    <span class="text-slate-300 font-bold">CapCut & Media</span>
-                    <span class="text-xs text-slate-500">Video Editing</span>
+                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
+                    <div class="spotlight-bg"></div>
+                    <i data-lucide="video" class="w-8 h-8 text-slate-500 group-hover:text-red-400 transition-colors relative z-10"></i>
+                    <span class="text-slate-300 font-bold relative z-10">CapCut & Media</span>
+                    <span class="text-xs text-slate-500 relative z-10">Video Editing</span>
                 </div>
                  <!-- Skill Item -->
-                 <div class="p-6 border border-slate-800 rounded-xl hover:bg-slate-800/50 transition-colors flex flex-col items-center gap-3 text-center group">
-                    <i data-lucide="globe" class="w-8 h-8 text-slate-500 group-hover:text-green-400 transition-colors"></i>
-                    <span class="text-slate-300 font-bold">SEO & Javascript</span>
-                    <span class="text-xs text-slate-500">Optimization</span>
+                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
+                    <div class="spotlight-bg"></div>
+                    <i data-lucide="globe" class="w-8 h-8 text-slate-500 group-hover:text-green-400 transition-colors relative z-10"></i>
+                    <span class="text-slate-300 font-bold relative z-10">SEO & Javascript</span>
+                    <span class="text-xs text-slate-500 relative z-10">Optimization</span>
                 </div>
                  <!-- Skill Item -->
-                 <div class="p-6 border border-slate-800 rounded-xl hover:bg-slate-800/50 transition-colors flex flex-col items-center gap-3 text-center group">
-                    <i data-lucide="figma" class="w-8 h-8 text-slate-500 group-hover:text-purple_dark transition-colors"></i>
-                    <span class="text-slate-300 font-bold">Figma</span>
-                    <span class="text-xs text-slate-500">UI/UX</span>
+                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
+                    <div class="spotlight-bg"></div>
+                    <i data-lucide="figma" class="w-8 h-8 text-slate-500 group-hover:text-purple_dark transition-colors relative z-10"></i>
+                    <span class="text-slate-300 font-bold relative z-10">Figma</span>
+                    <span class="text-xs text-slate-500 relative z-10">UI/UX</span>
                 </div>
                  <!-- Skill Item -->
-                 <div class="p-6 border border-slate-800 rounded-xl hover:bg-slate-800/50 transition-colors flex flex-col items-center gap-3 text-center group">
-                    <i data-lucide="cpu" class="w-8 h-8 text-slate-500 group-hover:text-yellow-400 transition-colors"></i>
-                    <span class="text-slate-300 font-bold">Lego Spike</span>
-                    <span class="text-xs text-slate-500">Educational Robotics</span>
+                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
+                    <div class="spotlight-bg"></div>
+                    <i data-lucide="cpu" class="w-8 h-8 text-slate-500 group-hover:text-yellow-400 transition-colors relative z-10"></i>
+                    <span class="text-slate-300 font-bold relative z-10">Lego Spike</span>
+                    <span class="text-xs text-slate-500 relative z-10">Educational Robotics</span>
                 </div>
             </div>
         </div>
@@ -366,33 +528,36 @@
                 
                 <!-- Item 1 -->
                 <div class="relative pl-8 md:pl-12 group">
-                    <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-purple rounded-full shadow-[0_0_10px_#a855f7]"></span>
-                    <div class="glass-card p-6 rounded-2xl transition-all duration-300 group-hover:translate-x-2">
-                        <span class="text-xs font-bold text-purple uppercase tracking-wider mb-2 block">Set 2024 - Attuale</span>
-                        <h3 class="text-xl font-bold text-white">Educatore Robotica & Informatica</h3>
-                        <p class="text-slate-400 italic mb-2">Scienza Ludica - Pistoia</p>
-                        <p class="text-slate-300 text-sm">Insegnamento nelle scuole primarie e secondarie. Sviluppo logica computazionale con Lego Prime Spike e Ozobot.</p>
+                    <span class="absolute -left-[5px] top-6 w-2.5 h-2.5 bg-purple rounded-full shadow-[0_0_10px_#a855f7] ring-4 ring-black"></span>
+                    <div class="spotlight-card p-6 rounded-2xl group-hover:translate-x-2">
+                        <div class="spotlight-bg"></div>
+                        <span class="relative z-10 text-xs font-bold text-purple_glow uppercase tracking-wider mb-2 block">Set 2024 - Attuale</span>
+                        <h3 class="relative z-10 text-xl font-bold text-white">Educatore Robotica & Informatica</h3>
+                        <p class="relative z-10 text-slate-400 italic mb-2">Scienza Ludica - Pistoia</p>
+                        <p class="relative z-10 text-slate-300 text-sm">Insegnamento nelle scuole primarie e secondarie. Sviluppo logica computazionale con Lego Prime Spike e Ozobot.</p>
                     </div>
                 </div>
 
                 <!-- Item 2 -->
                 <div class="relative pl-8 md:pl-12 group">
-                    <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-slate-600 rounded-full group-hover:bg-purple transition-colors"></span>
-                    <div class="glass-card p-6 rounded-2xl transition-all duration-300 group-hover:translate-x-2">
-                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Nov 2023</span>
-                        <h3 class="text-xl font-bold text-white">Logistica & Distribuzione</h3>
-                        <p class="text-slate-400 italic">Madilo SRL (DHL)</p>
+                    <span class="absolute -left-[5px] top-6 w-2.5 h-2.5 bg-slate-600 rounded-full group-hover:bg-purple transition-colors ring-4 ring-black"></span>
+                    <div class="spotlight-card p-6 rounded-2xl group-hover:translate-x-2">
+                        <div class="spotlight-bg"></div>
+                        <span class="relative z-10 text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Nov 2023</span>
+                        <h3 class="relative z-10 text-xl font-bold text-white">Logistica & Distribuzione</h3>
+                        <p class="relative z-10 text-slate-400 italic">Madilo SRL (DHL)</p>
                     </div>
                 </div>
 
                 <!-- Item 3: Education -->
                 <div class="relative pl-8 md:pl-12 group">
-                    <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-slate-600 rounded-full group-hover:bg-purple transition-colors"></span>
-                    <div class="glass-card p-6 rounded-2xl transition-all duration-300 group-hover:translate-x-2">
-                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">2018 - 2023</span>
-                        <h3 class="text-xl font-bold text-white">Laurea in Informatica Umanistica</h3>
-                        <p class="text-slate-400 italic">Università di Pisa</p>
-                        <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded border border-slate-700 bg-slate-800/50 text-xs text-slate-300">
+                    <span class="absolute -left-[5px] top-6 w-2.5 h-2.5 bg-slate-600 rounded-full group-hover:bg-purple transition-colors ring-4 ring-black"></span>
+                    <div class="spotlight-card p-6 rounded-2xl group-hover:translate-x-2">
+                        <div class="spotlight-bg"></div>
+                        <span class="relative z-10 text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">2018 - 2023</span>
+                        <h3 class="relative z-10 text-xl font-bold text-white">Laurea in Informatica Umanistica</h3>
+                        <p class="relative z-10 text-slate-400 italic">Università di Pisa</p>
+                        <div class="relative z-10 mt-3 inline-flex items-center gap-2 px-3 py-1 rounded border border-slate-700 bg-slate-800/50 text-xs text-slate-300">
                             <span>Voto: 98</span>
                             <span class="w-1 h-1 bg-slate-500 rounded-full"></span>
                             <span>Tesi NLP</span>
@@ -402,13 +567,14 @@
 
                 <!-- Item 4: High School -->
                 <div class="relative pl-8 md:pl-12 group">
-                    <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-slate-600 rounded-full group-hover:bg-purple transition-colors"></span>
-                    <div class="glass-card p-6 rounded-2xl transition-all duration-300 group-hover:translate-x-2">
-                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">2013 - 2018</span>
-                        <h3 class="text-xl font-bold text-white">Diploma Perito Informatico</h3>
-                        <p class="text-slate-400 italic">ITTS Silvano Fedi</p>
-                        <p class="text-slate-500 text-sm mt-2">Tesi: "La Rivoluzione Digitale confrontata con l’Anarchia". Un primo approccio al legame tra tech e società.</p>
-                         <a href="https://drive.google.com/file/d/1TUFOxMBUeuC53R0BwsnYKp5MsOFMxeO6/view?usp=sharing" target="_blank" class="mt-2 inline-flex items-center text-xs text-slate-400 hover:text-white transition-colors">Leggi Tesi <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i></a>
+                    <span class="absolute -left-[5px] top-6 w-2.5 h-2.5 bg-slate-600 rounded-full group-hover:bg-purple transition-colors ring-4 ring-black"></span>
+                    <div class="spotlight-card p-6 rounded-2xl group-hover:translate-x-2">
+                        <div class="spotlight-bg"></div>
+                        <span class="relative z-10 text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">2013 - 2018</span>
+                        <h3 class="relative z-10 text-xl font-bold text-white">Diploma Perito Informatico</h3>
+                        <p class="relative z-10 text-slate-400 italic">ITTS Silvano Fedi</p>
+                        <p class="relative z-10 text-slate-500 text-sm mt-2">Tesi: "La Rivoluzione Digitale confrontata con l’Anarchia". Un primo approccio al legame tra tech e società.</p>
+                         <a href="https://drive.google.com/file/d/1TUFOxMBUeuC53R0BwsnYKp5MsOFMxeO6/view?usp=sharing" target="_blank" class="relative z-10 mt-2 inline-flex items-center text-xs text-slate-400 hover:text-white transition-colors">Leggi Tesi <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i></a>
                     </div>
                 </div>
             </div>
@@ -422,18 +588,19 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Project 1 -->
-                <article class="group relative rounded-3xl overflow-hidden h-[400px] border border-slate-800">
+                <article class="group spotlight-card rounded-3xl overflow-hidden h-[400px]">
+                    <div class="spotlight-bg"></div>
                     <!-- Background Placeholder (Abstract) -->
                     <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-40 group-hover:opacity-60"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
                     
-                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                    <div class="absolute bottom-0 left-0 p-8 w-full z-10">
                         <div class="flex justify-between items-end mb-4">
                             <div>
-                                <h3 class="text-2xl font-bold text-white mb-1 group-hover:text-purple transition-colors">L'Amante della Bistecca</h3>
+                                <h3 class="text-2xl font-bold text-white mb-1 group-hover:text-purple_glow transition-colors">L'Amante della Bistecca</h3>
                                 <p class="text-sm text-slate-400">Sviluppo Wordpress Full Stack</p>
                             </div>
-                            <a href="https://lamantedellabistecca.com/" target="_blank" class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-purple hover:text-white transition-all">
+                            <a href="https://lamantedellabistecca.com/" target="_blank" class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-purple hover:text-white transition-all hover:scale-110">
                                 <i data-lucide="arrow-up-right"></i>
                             </a>
                         </div>
@@ -441,25 +608,26 @@
                             Realizzazione completa del sito web, ottimizzazione SEO, gestione contenuti e layout grafico personalizzato.
                         </p>
                         <div class="flex gap-2">
-                            <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase">CMS</span>
-                            <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase">Web Design</span>
+                            <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase border border-slate-700">CMS</span>
+                            <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase border border-slate-700">Web Design</span>
                         </div>
                     </div>
                 </article>
 
                 <!-- Project 2 -->
-                <article class="group relative rounded-3xl overflow-hidden h-[400px] border border-slate-800">
+                <article class="group spotlight-card rounded-3xl overflow-hidden h-[400px]">
+                    <div class="spotlight-bg"></div>
                     <!-- Background Placeholder (Abstract) -->
                     <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-40 group-hover:opacity-60"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
                     
-                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                    <div class="absolute bottom-0 left-0 p-8 w-full z-10">
                          <div class="flex justify-between items-end mb-4">
                             <div>
-                                <h3 class="text-2xl font-bold text-white mb-1 group-hover:text-purple transition-colors">First Lego League USA</h3>
+                                <h3 class="text-2xl font-bold text-white mb-1 group-hover:text-purple_glow transition-colors">First Lego League USA</h3>
                                 <p class="text-sm text-slate-400">Team Leadership & Robotics</p>
                             </div>
-                             <a href="https://www.youtube.com/watch?v=S2FbYDwy31o" target="_blank" class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-red-500 hover:text-white transition-all">
+                             <a href="https://www.youtube.com/watch?v=S2FbYDwy31o" target="_blank" class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-red-500 hover:text-white transition-all hover:scale-110">
                                 <i data-lucide="youtube"></i>
                             </a>
                         </div>
@@ -467,25 +635,28 @@
                             Coordinamento team scientifico negli USA per competizione internazionale di robotica. Gestione risorse e presentazione tecnica.
                         </p>
                          <div class="flex gap-2">
-                            <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase">Leadership</span>
-                            <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase">Robotics</span>
+                            <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase border border-slate-700">Leadership</span>
+                            <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase border border-slate-700">Robotics</span>
                         </div>
                     </div>
                 </article>
 
                 <!-- Project 3: Vento e Vertigine -->
-                <article class="md:col-span-2 glass-card p-8 rounded-3xl flex flex-col md:flex-row items-center gap-8 border border-slate-800 hover:border-purple transition-colors">
-                    <div class="md:w-1/3 text-purple">
-                         <i data-lucide="leaf" class="w-16 h-16 mb-4"></i>
+                <article class="md:col-span-2 spotlight-card p-8 rounded-3xl flex flex-col md:flex-row items-center gap-8 group">
+                    <div class="spotlight-bg"></div>
+                    <div class="md:w-1/3 text-purple_glow relative z-10">
+                         <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple/20 to-transparent flex items-center justify-center mb-4">
+                             <i data-lucide="leaf" class="w-10 h-10"></i>
+                         </div>
                          <h3 class="text-2xl font-bold text-white">Vento e Vertigine</h3>
                          <p class="text-xs font-bold uppercase tracking-wider mt-2">Volontariato & Innovazione</p>
                     </div>
-                    <div class="md:w-2/3 border-l border-slate-700 pl-0 md:pl-8">
-                        <p class="text-slate-300 mb-6">
+                    <div class="md:w-2/3 border-l border-slate-700 pl-0 md:pl-8 relative z-10">
+                        <p class="text-slate-300 mb-6 leading-relaxed">
                             Associazione di Promozione Sociale. Innovazione etica, sostenibile e uso consapevole della parola. 
                             Un progetto che unisce cultura e tecnologia.
                         </p>
-                        <a href="https://www.ventoevertigine.com/" target="_blank" class="inline-flex items-center gap-2 text-purple hover:text-white transition-colors font-bold">
+                        <a href="https://www.ventoevertigine.com/" target="_blank" class="inline-flex items-center gap-2 text-purple_glow hover:text-white transition-colors font-bold group-hover:translate-x-2 duration-300">
                             Visita il sito <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </a>
                     </div>
@@ -499,17 +670,17 @@
         <div class="container mx-auto px-6 text-center">
             <h4 class="text-xs font-bold text-slate-600 uppercase tracking-[0.3em] mb-8">Interessi & Ispirazioni</h4>
             <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 font-serif text-xl md:text-3xl text-slate-700 select-none">
-                <span class="hover:text-purple transition-colors cursor-default">Leopardi</span>
-                <span class="hover:text-purple transition-colors cursor-default">Scacchi</span>
-                <span class="text-white/20">•</span>
-                <span class="hover:text-purple transition-colors cursor-default">Oscar Wilde</span>
-                <span class="hover:text-purple transition-colors cursor-default">Hip Hop</span>
-                <span class="text-white/20">•</span>
-                <span class="hover:text-purple transition-colors cursor-default">Freud</span>
-                <span class="hover:text-purple transition-colors cursor-default">Bel Canto</span>
-                <span class="text-white/20">•</span>
-                <span class="hover:text-purple transition-colors cursor-default text-slate-400">Padel</span>
-                <span class="hover:text-purple transition-colors cursor-default">Fromm</span>
+                <span class="hover:text-purple_glow transition-colors cursor-default hover:scale-110 duration-200">Leopardi</span>
+                <span class="hover:text-purple_glow transition-colors cursor-default hover:scale-110 duration-200">Scacchi</span>
+                <span class="text-white/10">•</span>
+                <span class="hover:text-purple_glow transition-colors cursor-default hover:scale-110 duration-200">Oscar Wilde</span>
+                <span class="hover:text-purple_glow transition-colors cursor-default hover:scale-110 duration-200">Hip Hop</span>
+                <span class="text-white/10">•</span>
+                <span class="hover:text-purple_glow transition-colors cursor-default hover:scale-110 duration-200">Freud</span>
+                <span class="hover:text-purple_glow transition-colors cursor-default hover:scale-110 duration-200">Bel Canto</span>
+                <span class="text-white/10">•</span>
+                <span class="hover:text-purple_glow transition-colors cursor-default text-slate-500">Padel</span>
+                <span class="hover:text-purple_glow transition-colors cursor-default hover:scale-110 duration-200">Fromm</span>
             </div>
         </div>
     </section>
@@ -518,20 +689,20 @@
     <footer id="contact" class="relative py-24 bg-black overflow-hidden">
         <!-- Giant Background Text -->
         <div class="absolute bottom-0 left-0 w-full text-center pointer-events-none opacity-5">
-            <h2 class="text-[15vw] font-serif font-bold text-white leading-none">GARUDA</h2>
+            <h2 class="text-[15vw] font-serif font-bold text-white leading-none tracking-tighter">GARUDA</h2>
         </div>
 
         <div class="container mx-auto px-6 relative z-10 text-center">
-            <h2 class="text-4xl md:text-6xl font-serif text-white mb-6">Creiamo qualcosa di unico.</h2>
+            <h2 class="text-4xl md:text-6xl font-serif text-white mb-6">Creiamo qualcosa di <span class="text-purple italic">unico</span>.</h2>
             <p class="text-slate-400 text-lg mb-12 max-w-2xl mx-auto">
                 Disponibile per progetti di sviluppo web, consulenze grafiche e percorsi formativi.
             </p>
 
             <div class="flex flex-col md:flex-row justify-center gap-6 mb-16">
-                <a href="mailto:coppinifabio@outlook.it" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform">
+                <a href="mailto:coppinifabio@outlook.it" class="magnetic-btn px-8 py-4 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]">
                     coppinifabio@outlook.it
                 </a>
-                <a href="tel:+393349235662" class="px-8 py-4 border border-white/20 text-white rounded-full hover:bg-white/10 hover:border-white transition-all">
+                <a href="tel:+393349235662" class="magnetic-btn px-8 py-4 border border-white/20 text-white rounded-full hover:bg-white/10 hover:border-white transition-all backdrop-blur-sm">
                     +39 334 923 5662
                 </a>
             </div>
@@ -554,13 +725,73 @@
             </div>
             
             <div class="mt-12 text-xs text-slate-700">
-                &copy; <script>document.write(new Date().getFullYear())</script> Fabio Coppini. Designed with code & soul.
+                &copy; <script>document.write(new Date().getFullYear())</script> Fabio Coppini. Code forged in fire & logic.
             </div>
         </div>
     </footer>
 
     <script>
         lucide.createIcons();
+
+        // Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with slight delay
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover Effect on clickable elements
+        const interactiveElements = document.querySelectorAll('a, button, .spotlight-card');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovering');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovering');
+            });
+        });
+
+        // Spotlight Effect Logic
+        const spotlightCards = document.querySelectorAll('.spotlight-card');
+        spotlightCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Magnetic Button Effect
+        const magneticBtns = document.querySelectorAll('.magnetic-btn');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0px, 0px)';
+            });
+        });
+
     </script>
 </body>
 </html>
