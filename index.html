@@ -6,15 +6,12 @@
     <title>Fabio Coppini | Digital Creative & Developer</title>
     <meta name="description" content="Portfolio di Fabio Coppini - Laureato in Informatica Umanistica, Web Developer e Insegnante di Robotica.">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
@@ -269,24 +266,20 @@
 </head>
 <body class="antialiased selection:bg-purple selection:text-black">
     
-    <!-- Custom Cursor Elements -->
     <div class="cursor-dot hidden md:block"></div>
     <div class="cursor-outline hidden md:block"></div>
 
     <div class="noise-overlay"></div>
     <div class="aurora-bg"></div>
 
-    <!-- Navigation (Floating Island Dock) -->
     <nav class="fixed top-6 left-0 w-full z-50 flex justify-center px-4">
         <div class="nav-island rounded-2xl px-2 py-2 flex justify-between items-center transition-all duration-300 hover:scale-[1.01] hover:border-purple/30 md:min-w-[500px]">
-            <!-- Logo Area -->
             <a href="#" class="px-4 py-2 flex items-center gap-2 group magnetic-btn" data-magnetic>
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple to-purple_dark flex items-center justify-center text-white shadow-lg shadow-purple/20 group-hover:shadow-purple/50 transition-all">
                     <img src="https://github.com/CoppiniFabioProjects/portfolio/blob/main/fototessera.png" alt="Logo" class="w-full h-full object-cover rounded-lg" />
                 </div>
             </a>
             
-            <!-- Desktop Links -->
             <div class="hidden md:flex items-center gap-1">
                 <a href="#about" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn" data-magnetic>Vetrina</a>
                 <a href="#skills" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn" data-magnetic>Tech</a>
@@ -294,18 +287,15 @@
                 <a href="#projects" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn" data-magnetic>Progetti</a>
             </div>
 
-            <!-- CTA -->
             <a href="#contact" class="hidden md:flex ml-2 px-5 py-2.5 bg-white text-black text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-purple hover:text-white transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] magnetic-btn" data-magnetic>
                 Contatti
             </a>
 
-            <!-- Mobile Menu Toggle -->
             <button class="md:hidden p-2 text-slate-300 hover:text-white" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
                 <i data-lucide="menu"></i>
             </button>
         </div>
         
-        <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden absolute top-20 left-4 right-4 nav-island rounded-2xl p-6 flex flex-col gap-4 text-center md:hidden border border-slate-800">
             <a href="#about" class="text-slate-300 hover:text-purple py-2 border-b border-slate-800/50">Vetrina</a>
             <a href="#skills" class="text-slate-300 hover:text-purple py-2 border-b border-slate-800/50">Tech</a>
@@ -315,14 +305,11 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        <!-- Animated Blobs Background -->
         <div class="absolute top-0 -left-4 w-72 h-72 bg-purple/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
         <div class="absolute top-0 -right-4 w-72 h-72 bg-purple_dark/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
         <div class="absolute -bottom-8 left-20 w-72 h-72 bg-blue-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
 
-        <!-- Abstract Garuda Background -->
         <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-20">
              <svg viewBox="0 0 500 500" class="w-[800px] h-[800px] text-slate-800 fill-current animate-pulse duration-[5000ms]">
                 <path d="M250 100 C 150 100, 50 200, 50 300 L 250 400 L 450 300 C 450 200, 350 100, 250 100 Z M 250 150 L 350 300 L 250 350 L 150 300 Z" />
@@ -341,7 +328,7 @@
             </h1>
             
             <p class="text-lg md:text-2xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed mb-10 fade-in-up delay-200">
-                Non sono il classico sviluppatore. <strong class="text-slate-200">Laureato</strong> in <strong class="text-slate-200">Informatica Umanistica</strong>all'Università di Pisa, 
+                Non sono il classico sviluppatore. <strong class="text-slate-200">Laureato</strong> in <strong class="text-slate-200">Informatica Umanistica</strong> all'Università di Pisa, 
                 <br>opero nell'intersezione rara tra la <strong class="text-slate-200">fredda precisione</strong> degli algoritmi e la <strong class="text-slate-200">caotica bellezza</strong> della cultura umana.
                 <br> <span class="text-purple_glow italic font-serif mt-4 block text-xl">"Libero come un'aquila."</span>
             </p>
@@ -356,13 +343,11 @@
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
         <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-slate-500 hover:text-purple transition-colors cursor-pointer magnetic-btn">
             <i data-lucide="mouse" class="w-6 h-6"></i>
         </div>
     </section>
 
-    <!-- Bento Grid About Section -->
     <section id="about" class="py-24 relative">
         <div class="container mx-auto px-6">
             <div class="flex items-end justify-between mb-12">
@@ -375,13 +360,10 @@
                 </p>
             </div>
 
-            <!-- Bento Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 auto-rows-[200px] md:auto-rows-[250px]">
                 
-                <!-- Main Card: Laurea & Photo -->
                 <div class="spotlight-card rounded-3xl p-8 md:col-span-2 row-span-1 flex flex-col justify-center relative group">
                     <div class="spotlight-bg"></div>
-                    <!-- User Image -->
                     <img src="1764076868961.jpg" alt="Fabio Coppini" class="absolute right-0 top-0 h-full w-2/3 object-cover opacity-30 group-hover:opacity-60 transition-opacity duration-700 mix-blend-luminosity hover:mix-blend-normal mask-image-gradient">
                     <div class="absolute top-0 right-0 w-64 h-64 bg-purple/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 group-hover:bg-purple/20 transition-all"></div>
                     
@@ -396,7 +378,6 @@
                     </div>
                 </div>
 
-                <!-- Card: Padel/Sport -->
                 <div class="spotlight-card rounded-3xl p-6 flex flex-col justify-between group">
                     <div class="spotlight-bg"></div>
                     <div class="flex justify-between items-start relative z-10">
@@ -410,11 +391,9 @@
                     </div>
                 </div>
 
-                <!-- Card: Teaching -->
                 <div class="spotlight-card rounded-3xl p-6 md:row-span-2 flex flex-col justify-end relative">
                     <div class="spotlight-bg"></div>
                     <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-0"></div>
-                    <!-- Abstract geometric shapes simulating robots -->
                     <div class="absolute top-10 right-10 text-slate-800 opacity-20">
                         <i data-lucide="bot" class="w-32 h-32"></i>
                     </div>
@@ -432,7 +411,6 @@
                     </div>
                 </div>
 
-                <!-- Card: English -->
                 <div class="spotlight-card rounded-3xl p-6 flex items-center justify-between group">
                     <div class="spotlight-bg"></div>
                     <div class="relative z-10">
@@ -444,7 +422,6 @@
                     </div>
                 </div>
 
-                <!-- Card: Stats -->
                 <div class="spotlight-card rounded-3xl p-6 flex flex-col justify-center items-center text-center group">
                    <div class="spotlight-bg"></div>
                    <div class="relative z-10 text-4xl font-display font-bold text-white mb-1 group-hover:text-purple_glow group-hover:scale-110 transition-all duration-300">110%</div>
@@ -455,62 +432,53 @@
         </div>
     </section>
 
-    <!-- Tech Stack (Horizontal Scroll/Grid) -->
     <section id="skills" class="py-24 bg-black/20">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-serif text-white mb-12 text-center">Arsenale Tecnologico</h2>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <!-- Skill Item -->
                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
                     <div class="spotlight-bg"></div>
                     <i data-lucide="code-2" class="w-8 h-8 text-slate-500 group-hover:text-purple transition-colors relative z-10"></i>
                     <span class="text-slate-300 font-bold relative z-10">Python & NLTK</span>
                     <span class="text-xs text-slate-500 relative z-10">Data & NLP</span>
                 </div>
-                <!-- Skill Item -->
                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
                     <div class="spotlight-bg"></div>
                     <i data-lucide="database" class="w-8 h-8 text-slate-500 group-hover:text-blue-400 transition-colors relative z-10"></i>
                     <span class="text-slate-300 font-bold relative z-10">PHP & SQL</span>
                     <span class="text-xs text-slate-500 relative z-10">Backend</span>
                 </div>
-                <!-- Skill Item -->
                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
                     <div class="spotlight-bg"></div>
                     <i data-lucide="layout" class="w-8 h-8 text-slate-500 group-hover:text-purple_dark transition-colors relative z-10"></i>
                     <span class="text-slate-300 font-bold relative z-10">WordPress & Webflow</span>
                     <span class="text-xs text-slate-500 relative z-10">CMS & Design</span>
                 </div>
-                <!-- Skill Item -->
                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
                     <div class="spotlight-bg"></div>
                     <i data-lucide="palette" class="w-8 h-8 text-slate-500 group-hover:text-purple transition-colors relative z-10"></i>
                     <span class="text-slate-300 font-bold relative z-10">Adobe Suite</span>
                     <span class="text-xs text-slate-500 relative z-10">Ps, Ai, Id</span>
                 </div>
-                 <!-- Skill Item -->
                  <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
                     <div class="spotlight-bg"></div>
                     <i data-lucide="video" class="w-8 h-8 text-slate-500 group-hover:text-red-400 transition-colors relative z-10"></i>
                     <span class="text-slate-300 font-bold relative z-10">CapCut & Media</span>
                     <span class="text-xs text-slate-500 relative z-10">Video Editing</span>
                 </div>
-                 <!-- Skill Item -->
                  <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
                     <div class="spotlight-bg"></div>
                     <i data-lucide="globe" class="w-8 h-8 text-slate-500 group-hover:text-green-400 transition-colors relative z-10"></i>
                     <span class="text-slate-300 font-bold relative z-10">SEO & Javascript</span>
                     <span class="text-xs text-slate-500 relative z-10">Optimization</span>
                 </div>
-                 <!-- Skill Item -->
                  <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
                     <div class="spotlight-bg"></div>
                     <i data-lucide="figma" class="w-8 h-8 text-slate-500 group-hover:text-purple_dark transition-colors relative z-10"></i>
                     <span class="text-slate-300 font-bold relative z-10">Figma</span>
                     <span class="text-xs text-slate-500 relative z-10">UI/UX</span>
                 </div>
-                 <!-- Skill Item -->
                  <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group">
                     <div class="spotlight-bg"></div>
                     <i data-lucide="cpu" class="w-8 h-8 text-slate-500 group-hover:text-yellow-400 transition-colors relative z-10"></i>
@@ -521,26 +489,44 @@
         </div>
     </section>
 
-    <!-- Experience Timeline (Styled) -->
     <section id="experience" class="py-24">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-serif text-white mb-16">Percorso & Esperienza</h2>
 
             <div class="relative border-l border-slate-800 ml-4 space-y-12">
                 
-                <!-- Item 1 -->
                 <div class="relative pl-8 md:pl-12 group">
                     <span class="absolute -left-[5px] top-6 w-2.5 h-2.5 bg-purple rounded-full shadow-[0_0_10px_#a855f7] ring-4 ring-black"></span>
+                    
+                    <div class="spotlight-card p-6 rounded-2xl group-hover:translate-x-2 border-purple/30">
+                        <div class="spotlight-bg"></div>
+                        <span class="relative z-10 text-xs font-bold text-purple_glow uppercase tracking-wider mb-2 block">2 Maggio 2025 - Attuale</span>
+                        <h3 class="relative z-10 text-xl font-bold text-white">Apprendista Programmatore & "Sbottinatore" Tuttofare</h3>
+                        <p class="relative z-10 text-slate-400 italic mb-2">01Informatica</p>
+                        
+                        <div class="relative z-10 text-slate-300 text-sm space-y-2">
+                             <p>
+                                Dal codice all'hardware, risolvo problemi. Mi occupo di sviluppo software, assistenza tecnica e gestione imprevisti informatici a 360°.
+                             </p>
+                             <div class="flex items-center gap-2 mt-2 pt-2 border-t border-slate-700/50">
+                                <i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-current"></i>
+                                <span class="italic text-slate-400">Mentorship d'eccellenza con il grande <strong class="text-white">Michele</strong>, un tutor coi fiocchi.</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative pl-8 md:pl-12 group">
+                    <span class="absolute -left-[5px] top-6 w-2.5 h-2.5 bg-slate-600 rounded-full group-hover:bg-purple transition-colors ring-4 ring-black"></span>
                     <div class="spotlight-card p-6 rounded-2xl group-hover:translate-x-2">
                         <div class="spotlight-bg"></div>
-                        <span class="relative z-10 text-xs font-bold text-purple_glow uppercase tracking-wider mb-2 block">Set 2024 - Attuale</span>
+                        <span class="relative z-10 text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Set 2024 - Attuale</span>
                         <h3 class="relative z-10 text-xl font-bold text-white">Educatore Robotica & Informatica</h3>
                         <p class="relative z-10 text-slate-400 italic mb-2">Scienza Ludica - Pistoia</p>
                         <p class="relative z-10 text-slate-300 text-sm">Insegnamento nelle scuole primarie e secondarie. Sviluppo logica computazionale con Lego Prime Spike e Ozobot.</p>
                     </div>
                 </div>
 
-                <!-- Item 2 -->
                 <div class="relative pl-8 md:pl-12 group">
                     <span class="absolute -left-[5px] top-6 w-2.5 h-2.5 bg-slate-600 rounded-full group-hover:bg-purple transition-colors ring-4 ring-black"></span>
                     <div class="spotlight-card p-6 rounded-2xl group-hover:translate-x-2">
@@ -551,7 +537,6 @@
                     </div>
                 </div>
 
-                <!-- Item 3: Education -->
                 <div class="relative pl-8 md:pl-12 group">
                     <span class="absolute -left-[5px] top-6 w-2.5 h-2.5 bg-slate-600 rounded-full group-hover:bg-purple transition-colors ring-4 ring-black"></span>
                     <div class="spotlight-card p-6 rounded-2xl group-hover:translate-x-2">
@@ -567,7 +552,6 @@
                     </div>
                 </div>
 
-                <!-- Item 4: High School -->
                 <div class="relative pl-8 md:pl-12 group">
                     <span class="absolute -left-[5px] top-6 w-2.5 h-2.5 bg-slate-600 rounded-full group-hover:bg-purple transition-colors ring-4 ring-black"></span>
                     <div class="spotlight-card p-6 rounded-2xl group-hover:translate-x-2">
@@ -583,16 +567,13 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
     <section id="projects" class="py-24 bg-gradient-to-b from-transparent to-slate-900/50">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-serif text-white mb-12 text-right">Opere Digitali</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Project 1 -->
                 <article class="group spotlight-card rounded-3xl overflow-hidden h-[400px]">
                 <div class="spotlight-bg"></div>
-                <!-- Background Placeholder (Abstract) -->
                 <div class="absolute inset-0 bg-[url('https://github.com/CoppiniFabioProjects/portfolio/raw/main/logo_01informatica.png')] bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-40 group-hover:opacity-60"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
 
@@ -618,10 +599,8 @@
                     </div>
                 </article>
 
-                <!-- Project 2 -->
                 <article class="group spotlight-card rounded-3xl overflow-hidden h-[400px]">
                     <div class="spotlight-bg"></div>
-                    <!-- Background Placeholder (Abstract) -->
                     <div class="absolute inset-0 bg-[url('https://github.com/CoppiniFabioProjects/portfolio/blob/main/CHALLENGE_2.jpg')] bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-40 group-hover:opacity-60"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
                     
@@ -645,7 +624,6 @@
                     </div>
                 </article>
 
-                <!-- Project 3: Vento e Vertigine -->
                 <article class="md:col-span-2 spotlight-card p-8 rounded-3xl flex flex-col md:flex-row items-center gap-8 group">
                     <div class="spotlight-bg"></div>
                     <div class="md:w-1/3 text-purple_glow relative z-10">
@@ -669,7 +647,6 @@
         </div>
     </section>
 
-    <!-- Passioni (Text Cloud) -->
     <section class="py-20 border-t border-slate-900">
         <div class="container mx-auto px-6 text-center">
             <h4 class="text-xs font-bold text-slate-600 uppercase tracking-[0.3em] mb-8">Interessi & Ispirazioni</h4>
@@ -689,9 +666,7 @@
         </div>
     </section>
 
-    <!-- Footer / Contact -->
     <footer id="contact" class="relative py-24 bg-black overflow-hidden">
-        <!-- Giant Background Text -->
         <div class="absolute bottom-0 left-0 w-full text-center pointer-events-none opacity-5">
             <h2 class="text-[15vw] font-serif font-bold text-white leading-none tracking-tighter">GARUDA</h2>
         </div>
@@ -799,10 +774,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
