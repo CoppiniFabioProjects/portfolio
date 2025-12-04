@@ -1,8 +1,3 @@
-Certamente\! L'aquila "Garuda" è un elemento grafico molto forte e merita di essere il punto focale della Hero Section. Ho integrato l'immagine `garuda.png` al centro della pagina iniziale, rendendola **gigantesca** e applicando un effetto di "respiro" (pulsazione lenta) e un'ombra soffusa viola per integrarla perfettamente con lo stile cyber/tech del sito.
-
-Sostituisci l'intero contenuto del tuo file `index.html` con il seguente codice. Assicurati che il file `garuda.png` sia correttamente caricato nel tuo repository GitHub nella cartella principale (`main`), proprio come hai fatto per le altre immagini.
-
-```html
 <!DOCTYPE html>
 <html lang="it" class="scroll-smooth">
 <head>
@@ -315,11 +310,11 @@ Sostituisci l'intero contenuto del tuo file `index.html` con il seguente codice.
         <div class="absolute top-0 -right-4 w-72 h-72 bg-purple_dark/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
         <div class="absolute -bottom-8 left-20 w-72 h-72 bg-blue-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
 
-        <div class="absolute inset-0 pointer-events-none flex items-center justify-center z-0 overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none flex items-center justify-start md:pl-10 z-0 overflow-hidden">
              <img 
                 src="https://raw.githubusercontent.com/CoppiniFabioProjects/portfolio/main/garuda.png" 
                 alt="Garuda Eagle" 
-                class="w-[150vw] md:w-[1000px] lg:w-[1200px] max-w-none h-auto object-contain opacity-25 animate-[pulse_6s_ease-in-out_infinite] drop-shadow-[0_0_50px_rgba(168,85,247,0.3)]"
+                class="w-[100vw] md:w-[800px] lg:w-[900px] max-w-none h-auto object-contain opacity-25 animate-[pulse_6s_ease-in-out_infinite] drop-shadow-[0_0_50px_rgba(168,85,247,0.3)]"
              >
         </div>
 
@@ -629,6 +624,7 @@ Sostituisci l'intero contenuto del tuo file `index.html` con il seguente codice.
 
                 <article class="group spotlight-card rounded-3xl overflow-hidden h-[400px]">
                     <div class="spotlight-bg"></div>
+                    <div class="absolute inset-0 bg-[url('https://raw.githubusercontent.com/CoppiniFabioProjects/portfolio/main/modula.png')] bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-40 group-hover:opacity-60"></div>
                     <div class="absolute inset-0 bg-slate-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-800 via-slate-950 to-black opacity-80"></div>
                     <div class="absolute inset-0 flex items-center justify-center opacity-10 group-hover:opacity-20 transition-opacity duration-500">
                          <i data-lucide="network" class="w-32 h-32 text-purple"></i>
