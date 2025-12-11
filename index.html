@@ -56,6 +56,63 @@
             cursor: none; /* Hide default cursor */
         }
 
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #020617;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        
+        .loader-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 0.2em;
+            color: #a855f7;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .loader-bar-bg {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: #a855f7;
+            box-shadow: 0 0 10px #a855f7;
+            transition: width 0.1s linear;
+        }
+
+        /* --- SCROLL PROGRESS --- */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #a855f7, #d8b4fe);
+            width: 0%;
+            z-index: 10000;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            transition: width 0.1s;
+        }
+
         /* Custom Cursor */
         .cursor-dot,
         .cursor-outline {
@@ -194,6 +251,92 @@
             }
         }
 
+        /* --- GLITCH EFFECT --- */
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #020617; /* Matches body bg to hide original */
+        }
+
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 #00ffff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 #ff00ff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        
+        /* Only glitch on hover for better readability */
+        .glitch-wrapper:hover .glitch-text::before,
+        .glitch-wrapper:hover .glitch-text::after {
+            opacity: 1;
+        }
+        
+        .glitch-text::before, .glitch-text::after { opacity: 0; transition: opacity 0.2s; }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(2px, 9999px, 86px, 0); transform: skew(0.85deg); }
+            5% { clip: rect(30px, 9999px, 16px, 0); transform: skew(0.85deg); }
+            10% { clip: rect(62px, 9999px, 60px, 0); transform: skew(0.09deg); }
+            15% { clip: rect(37px, 9999px, 5px, 0); transform: skew(0.53deg); }
+            20% { clip: rect(74px, 9999px, 82px, 0); transform: skew(0.18deg); }
+            25% { clip: rect(10px, 9999px, 49px, 0); transform: skew(0.48deg); }
+            30% { clip: rect(5px, 9999px, 92px, 0); transform: skew(0.84deg); }
+            35% { clip: rect(34px, 9999px, 20px, 0); transform: skew(0.24deg); }
+            40% { clip: rect(63px, 9999px, 64px, 0); transform: skew(0.04deg); }
+            45% { clip: rect(11px, 9999px, 93px, 0); transform: skew(0.08deg); }
+            50% { clip: rect(80px, 9999px, 8px, 0); transform: skew(0.84deg); }
+            55% { clip: rect(48px, 9999px, 34px, 0); transform: skew(0.13deg); }
+            60% { clip: rect(3px, 9999px, 97px, 0); transform: skew(0.09deg); }
+            65% { clip: rect(25px, 9999px, 69px, 0); transform: skew(0.25deg); }
+            70% { clip: rect(56px, 9999px, 86px, 0); transform: skew(0.22deg); }
+            75% { clip: rect(81px, 9999px, 19px, 0); transform: skew(0.79deg); }
+            80% { clip: rect(12px, 9999px, 32px, 0); transform: skew(0.51deg); }
+            85% { clip: rect(66px, 9999px, 4px, 0); transform: skew(0.21deg); }
+            90% { clip: rect(98px, 9999px, 2px, 0); transform: skew(0.63deg); }
+            95% { clip: rect(5px, 9999px, 20px, 0); transform: skew(0.74deg); }
+            100% { clip: rect(24px, 9999px, 89px, 0); transform: skew(0.06deg); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 11px, 0); transform: skew(0.06deg); }
+            5% { clip: rect(21px, 9999px, 35px, 0); transform: skew(0.21deg); }
+            10% { clip: rect(99px, 9999px, 68px, 0); transform: skew(0.39deg); }
+            15% { clip: rect(36px, 9999px, 8px, 0); transform: skew(0.08deg); }
+            20% { clip: rect(4px, 9999px, 5px, 0); transform: skew(0.16deg); }
+            25% { clip: rect(78px, 9999px, 50px, 0); transform: skew(0.03deg); }
+            30% { clip: rect(49px, 9999px, 78px, 0); transform: skew(0.75deg); }
+            35% { clip: rect(1px, 9999px, 23px, 0); transform: skew(0.04deg); }
+            40% { clip: rect(96px, 9999px, 5px, 0); transform: skew(0.01deg); }
+            45% { clip: rect(31px, 9999px, 48px, 0); transform: skew(0.68deg); }
+            50% { clip: rect(8px, 9999px, 93px, 0); transform: skew(0.54deg); }
+            55% { clip: rect(60px, 9999px, 14px, 0); transform: skew(0.63deg); }
+            60% { clip: rect(18px, 9999px, 76px, 0); transform: skew(0.05deg); }
+            65% { clip: rect(34px, 9999px, 6px, 0); transform: skew(0.16deg); }
+            70% { clip: rect(87px, 9999px, 81px, 0); transform: skew(0.13deg); }
+            75% { clip: rect(5px, 9999px, 76px, 0); transform: skew(0.46deg); }
+            80% { clip: rect(42px, 9999px, 3px, 0); transform: skew(0.35deg); }
+            85% { clip: rect(6px, 9999px, 98px, 0); transform: skew(0.29deg); }
+            90% { clip: rect(95px, 9999px, 42px, 0); transform: skew(0.81deg); }
+            95% { clip: rect(11px, 9999px, 54px, 0); transform: skew(0.19deg); }
+            100% { clip: rect(2px, 9999px, 70px, 0); transform: skew(0.35deg); }
+        }
+
         /* Animations */
         .fade-in-up {
             animation: fadeInUp 0.8s ease-out forwards;
@@ -259,6 +402,39 @@
         /* Magnetic Button Effect */
         .magnetic-btn {
             transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            backdrop-filter: blur(5px);
+        }
+
+        #back-to-top:hover {
+            background: rgba(168, 85, 247, 0.8);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* --- TECH MENU ANIMATIONS --- */
@@ -349,6 +525,17 @@
 </head>
 <body class="antialiased selection:bg-purple selection:text-black">
     
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-text">SYSTEM BOOT...</div>
+        <div class="loader-bar-bg">
+            <div class="loader-bar" id="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress"></div>
+
     <div class="cursor-dot hidden md:block"></div>
     <div class="cursor-outline hidden md:block"></div>
 
@@ -413,8 +600,8 @@
                 </span>
             </div>
             
-            <h1 class="text-6xl md:text-8xl lg:text-9xl font-serif font-bold leading-tight mb-6 fade-in-up delay-100 drop-shadow-2xl">
-                Fabio <span class="text-gradient-purple garuda-wing inline-block cursor-default select-none hover:scale-105 transition-transform duration-500">Coppini</span>
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-serif font-bold leading-tight mb-6 fade-in-up delay-100 drop-shadow-2xl glitch-wrapper">
+                Fabio <span class="text-gradient-purple garuda-wing inline-block cursor-default select-none hover:scale-105 transition-transform duration-500 glitch-text" data-text="Coppini">Coppini</span>
             </h1>
             
             <p class="text-lg md:text-2xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed mb-10 fade-in-up delay-200">
@@ -438,6 +625,14 @@
         </div>
     </section>
 
+    <!-- Resto del codice rimane identico, aggiungo solo il pulsante Back To Top -->
+    
+    <div id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i data-lucide="arrow-up" class="w-6 h-6"></i>
+    </div>
+
+    <!-- Sezioni (About, Skills, Experience, Projects, Footer) identiche a prima -->
+    
     <section id="about" class="py-24 relative">
         <div class="container mx-auto px-6">
             <div class="flex items-end justify-between mb-12">
@@ -837,6 +1032,39 @@
     <script>
         lucide.createIcons();
 
+        // --- PRELOADER LOGIC ---
+        window.addEventListener('load', () => {
+            const loaderBar = document.getElementById('loader-bar');
+            const preloader = document.getElementById('preloader');
+
+            // Animate bar
+            loaderBar.style.width = '100%';
+
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+            }, 800); // Hide after animation
+        });
+
+        // --- SCROLL PROGRESS & BACK TO TOP LOGIC ---
+        const scrollProgress = document.getElementById('scroll-progress');
+        const backToTopBtn = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            // Progress Bar
+            const totalScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (totalScroll / windowHeight) * 100;
+            scrollProgress.style.width = scrolled + "%";
+
+            // Back to Top Button Visibility
+            if (totalScroll > 500) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
         // Custom Cursor Logic
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
@@ -857,7 +1085,7 @@
         });
 
         // Hover Effect on clickable elements
-        const interactiveElements = document.querySelectorAll('a, button, .spotlight-card');
+        const interactiveElements = document.querySelectorAll('a, button, .spotlight-card, #back-to-top');
         interactiveElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 document.body.classList.add('hovering');
