@@ -129,6 +129,7 @@
             width: 8px;
             height: 8px;
             background-color: #a855f7;
+            box-shadow: 0 0 10px #a855f7;
         }
 
         .cursor-outline {
@@ -188,10 +189,7 @@
         .spotlight-card::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             border-radius: inherit;
             padding: 1px; /* border width */
             background: radial-gradient(
@@ -218,7 +216,6 @@
             box-shadow: 0 10px 40px -10px rgba(126, 34, 206, 0.3);
         }
         
-        /* Spotlight inner glow */
         .spotlight-bg {
             position: absolute;
             inset: 0;
@@ -236,13 +233,22 @@
             opacity: 1;
         }
 
-        /* Text Gradient */
-        .text-gradient-purple {
-            background: linear-gradient(to right, #d8b4fe, #a855f7, #7e22ce);
+        /* --- NEW: LIQUID TEXT EFFECT (Replaces Glitch) --- */
+        .text-liquid {
+            background: linear-gradient(
+                to right,
+                #a855f7 20%,
+                #d8b4fe 30%,
+                #fff 50%,
+                #d8b4fe 70%,
+                #a855f7 80%
+            );
+            background-size: 200% auto;
+            color: #000;
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: shine 5s linear infinite;
+            animation: shine 4s linear infinite;
         }
 
         @keyframes shine {
@@ -251,91 +257,59 @@
             }
         }
 
-        /* --- GLITCH EFFECT --- */
-        .glitch-text {
+        /* --- NEW: ULTRAMODERN BUTTONS --- */
+        .btn-ultra {
             position: relative;
-            display: inline-block;
+            overflow: hidden;
+            background: transparent;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 1;
         }
 
-        .glitch-text::before,
-        .glitch-text::after {
-            content: attr(data-text);
+        /* Swipe fill animation */
+        .btn-ultra::after {
+            content: '';
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #020617; /* Matches body bg to hide original */
+            background-color: #a855f7;
+            border-radius: inherit;
+            z-index: -2;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        .glitch-text::before {
-            left: 2px;
-            text-shadow: -1px 0 #00ffff;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
+        .btn-ultra:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
         }
 
-        .glitch-text::after {
-            left: -2px;
-            text-shadow: -1px 0 #ff00ff;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        .btn-ultra:hover {
+            color: #fff;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+            border-color: #a855f7;
+            letter-spacing: 0.05em; /* Subtle expansion */
         }
         
-        /* Only glitch on hover for better readability */
-        .glitch-wrapper:hover .glitch-text::before,
-        .glitch-wrapper:hover .glitch-text::after {
-            opacity: 1;
+        /* Subtle inner shine */
+        .btn-ultra::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+            z-index: -1;
         }
-        
-        .glitch-text::before, .glitch-text::after { opacity: 0; transition: opacity 0.2s; }
+        .btn-ultra:hover::before {
+            left: 100%;
+        }
 
-        @keyframes glitch-anim {
-            0% { clip: rect(2px, 9999px, 86px, 0); transform: skew(0.85deg); }
-            5% { clip: rect(30px, 9999px, 16px, 0); transform: skew(0.85deg); }
-            10% { clip: rect(62px, 9999px, 60px, 0); transform: skew(0.09deg); }
-            15% { clip: rect(37px, 9999px, 5px, 0); transform: skew(0.53deg); }
-            20% { clip: rect(74px, 9999px, 82px, 0); transform: skew(0.18deg); }
-            25% { clip: rect(10px, 9999px, 49px, 0); transform: skew(0.48deg); }
-            30% { clip: rect(5px, 9999px, 92px, 0); transform: skew(0.84deg); }
-            35% { clip: rect(34px, 9999px, 20px, 0); transform: skew(0.24deg); }
-            40% { clip: rect(63px, 9999px, 64px, 0); transform: skew(0.04deg); }
-            45% { clip: rect(11px, 9999px, 93px, 0); transform: skew(0.08deg); }
-            50% { clip: rect(80px, 9999px, 8px, 0); transform: skew(0.84deg); }
-            55% { clip: rect(48px, 9999px, 34px, 0); transform: skew(0.13deg); }
-            60% { clip: rect(3px, 9999px, 97px, 0); transform: skew(0.09deg); }
-            65% { clip: rect(25px, 9999px, 69px, 0); transform: skew(0.25deg); }
-            70% { clip: rect(56px, 9999px, 86px, 0); transform: skew(0.22deg); }
-            75% { clip: rect(81px, 9999px, 19px, 0); transform: skew(0.79deg); }
-            80% { clip: rect(12px, 9999px, 32px, 0); transform: skew(0.51deg); }
-            85% { clip: rect(66px, 9999px, 4px, 0); transform: skew(0.21deg); }
-            90% { clip: rect(98px, 9999px, 2px, 0); transform: skew(0.63deg); }
-            95% { clip: rect(5px, 9999px, 20px, 0); transform: skew(0.74deg); }
-            100% { clip: rect(24px, 9999px, 89px, 0); transform: skew(0.06deg); }
-        }
-        @keyframes glitch-anim2 {
-            0% { clip: rect(65px, 9999px, 11px, 0); transform: skew(0.06deg); }
-            5% { clip: rect(21px, 9999px, 35px, 0); transform: skew(0.21deg); }
-            10% { clip: rect(99px, 9999px, 68px, 0); transform: skew(0.39deg); }
-            15% { clip: rect(36px, 9999px, 8px, 0); transform: skew(0.08deg); }
-            20% { clip: rect(4px, 9999px, 5px, 0); transform: skew(0.16deg); }
-            25% { clip: rect(78px, 9999px, 50px, 0); transform: skew(0.03deg); }
-            30% { clip: rect(49px, 9999px, 78px, 0); transform: skew(0.75deg); }
-            35% { clip: rect(1px, 9999px, 23px, 0); transform: skew(0.04deg); }
-            40% { clip: rect(96px, 9999px, 5px, 0); transform: skew(0.01deg); }
-            45% { clip: rect(31px, 9999px, 48px, 0); transform: skew(0.68deg); }
-            50% { clip: rect(8px, 9999px, 93px, 0); transform: skew(0.54deg); }
-            55% { clip: rect(60px, 9999px, 14px, 0); transform: skew(0.63deg); }
-            60% { clip: rect(18px, 9999px, 76px, 0); transform: skew(0.05deg); }
-            65% { clip: rect(34px, 9999px, 6px, 0); transform: skew(0.16deg); }
-            70% { clip: rect(87px, 9999px, 81px, 0); transform: skew(0.13deg); }
-            75% { clip: rect(5px, 9999px, 76px, 0); transform: skew(0.46deg); }
-            80% { clip: rect(42px, 9999px, 3px, 0); transform: skew(0.35deg); }
-            85% { clip: rect(6px, 9999px, 98px, 0); transform: skew(0.29deg); }
-            90% { clip: rect(95px, 9999px, 42px, 0); transform: skew(0.81deg); }
-            95% { clip: rect(11px, 9999px, 54px, 0); transform: skew(0.19deg); }
-            100% { clip: rect(2px, 9999px, 70px, 0); transform: skew(0.35deg); }
-        }
 
         /* Animations */
         .fade-in-up {
@@ -357,6 +331,7 @@
 
         .garuda-wing {
             transition: all 0.5s ease;
+            display: inline-block;
         }
         .group:hover .garuda-wing {
             transform: scale(1.05);
@@ -404,37 +379,76 @@
             transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* Back to Top Button */
+        /* --- NEW: BACK TO TOP HUD BUTTON --- */
         #back-to-top {
             position: fixed;
             bottom: 30px;
             right: 30px;
             width: 50px;
             height: 50px;
-            background: rgba(168, 85, 247, 0.2);
-            border: 1px solid rgba(168, 85, 247, 0.5);
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(168, 85, 247, 0.4);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #fff;
+            color: #a855f7;
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             z-index: 999;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
+            overflow: hidden;
+        }
+
+        /* Ring animation on hover */
+        #back-to-top::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: #a855f7;
+            border-bottom-color: #a855f7;
+            animation: spin 3s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #back-to-top:hover::before {
+            opacity: 1;
+            animation-duration: 1.5s;
         }
 
         #back-to-top:hover {
-            background: rgba(168, 85, 247, 0.8);
+            background: rgba(168, 85, 247, 0.1);
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
+            color: white;
+            border-color: #d8b4fe;
+        }
+        
+        /* Arrow animation */
+        #back-to-top:hover i {
+            animation: arrowUp 0.6s ease-in-out infinite alternate;
+        }
+
+        @keyframes arrowUp {
+            from { transform: translateY(2px); }
+            to { transform: translateY(-2px); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         #back-to-top.show {
             opacity: 1;
             visibility: visible;
+            transform: translateY(0);
         }
 
         /* --- TECH MENU ANIMATIONS --- */
@@ -557,7 +571,8 @@
                 <a href="#projects" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn" data-magnetic>Progetti</a>
             </div>
 
-            <a href="#contact" class="hidden md:flex ml-2 px-5 py-2.5 bg-white text-black text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-purple hover:text-white transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] magnetic-btn" data-magnetic>
+            <!-- UPDATED BUTTON: Btn Ultra Class -->
+            <a href="#contact" class="hidden md:flex ml-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider magnetic-btn btn-ultra" data-magnetic>
                 Contatti
             </a>
 
@@ -600,8 +615,9 @@
                 </span>
             </div>
             
-            <h1 class="text-6xl md:text-8xl lg:text-9xl font-serif font-bold leading-tight mb-6 fade-in-up delay-100 drop-shadow-2xl glitch-wrapper">
-                Fabio <span class="text-gradient-purple garuda-wing inline-block cursor-default select-none hover:scale-105 transition-transform duration-500 glitch-text" data-text="Coppini">Coppini</span>
+            <!-- UPDATED NAME: Liquid Text Class -->
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-serif font-bold leading-tight mb-6 fade-in-up delay-100 drop-shadow-2xl">
+                Fabio <span class="garuda-wing inline-block cursor-default select-none hover:scale-105 transition-transform duration-500 text-liquid">Coppini</span>
             </h1>
             
             <p class="text-lg md:text-2xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed mb-10 fade-in-up delay-200">
@@ -611,11 +627,9 @@
             </p>
 
             <div class="flex flex-col md:flex-row gap-4 justify-center items-center fade-in-up delay-300">
-                <a href="#projects" class="spotlight-card group relative px-8 py-4 bg-transparent overflow-hidden rounded-full transition-colors w-full md:w-auto">
-                    <span class="relative z-10 text-white font-display font-bold uppercase tracking-wider flex items-center justify-center gap-2">
-                        Esplora Portfolio <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
-                    </span>
-                    <div class="spotlight-bg"></div>
+                <!-- UPDATED BUTTON: Btn Ultra + Magnetic -->
+                <a href="#projects" class="btn-ultra magnetic-btn group relative px-10 py-5 rounded-full w-full md:w-auto text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2" data-magnetic>
+                    Esplora Portfolio <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
                 </a>
             </div>
         </div>
@@ -625,10 +639,9 @@
         </div>
     </section>
 
-    <!-- Resto del codice rimane identico, aggiungo solo il pulsante Back To Top -->
-    
+    <!-- UPDATED: Back To Top with new ID and Structure -->
     <div id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-        <i data-lucide="arrow-up" class="w-6 h-6"></i>
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
     </div>
 
     <!-- Sezioni (About, Skills, Experience, Projects, Footer) identiche a prima -->
@@ -998,10 +1011,11 @@
             </p>
 
             <div class="flex flex-col md:flex-row justify-center gap-6 mb-16">
-                <a href="mailto:coppinifabio@outlook.it" class="magnetic-btn px-8 py-4 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                <!-- UPDATED BUTTONS: Ultra style on footer actions too -->
+                <a href="mailto:coppinifabio@outlook.it" class="btn-ultra magnetic-btn px-8 py-4 font-bold rounded-full text-white" data-magnetic>
                     coppinifabio99@gmail.com
                 </a>
-                <a href="tel:+393349235662" class="magnetic-btn px-8 py-4 border border-white/20 text-white rounded-full hover:bg-white/10 hover:border-white transition-all backdrop-blur-sm">
+                <a href="tel:+393349235662" class="btn-ultra magnetic-btn px-8 py-4 font-bold rounded-full text-white" data-magnetic>
                     +39 334 923 5662
                 </a>
             </div>
