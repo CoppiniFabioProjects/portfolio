@@ -261,6 +261,90 @@
             transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
+        /* --- TECH MENU ANIMATIONS --- */
+        
+        /* Hamburger to X Animation */
+        .menu-toggle {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .hamburger-line {
+            width: 24px;
+            height: 2px;
+            background-color: #e2e8f0;
+            border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform-origin: center;
+        }
+
+        .menu-toggle.is-active .line-1 {
+            transform: translateY(8px) rotate(45deg);
+            background-color: #a855f7;
+            box-shadow: 0 0 10px #a855f7;
+        }
+
+        .menu-toggle.is-active .line-2 {
+            transform: translateX(20px);
+            opacity: 0;
+        }
+
+        .menu-toggle.is-active .line-3 {
+            transform: translateY(-8px) rotate(-45deg);
+            background-color: #a855f7;
+            box-shadow: 0 0 10px #a855f7;
+        }
+
+        /* Mobile Menu Container Animation */
+        #mobile-menu {
+            transform-origin: top center;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        #mobile-menu.menu-closed {
+            opacity: 0;
+            transform: scale(0.95) translateY(-20px) perspective(1000px) rotateX(-10deg);
+            pointer-events: none;
+            filter: blur(10px);
+        }
+
+        #mobile-menu.menu-open {
+            opacity: 1;
+            transform: scale(1) translateY(0) perspective(1000px) rotateX(0deg);
+            pointer-events: auto;
+            filter: blur(0px);
+        }
+
+        /* Staggered Links Animation */
+        #mobile-menu.menu-open .mobile-link {
+            animation: slideInTech 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        @keyframes slideInTech {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Delays */
+        #mobile-menu.menu-open .mobile-link:nth-child(1) { animation-delay: 0.1s; }
+        #mobile-menu.menu-open .mobile-link:nth-child(2) { animation-delay: 0.15s; }
+        #mobile-menu.menu-open .mobile-link:nth-child(3) { animation-delay: 0.2s; }
+        #mobile-menu.menu-open .mobile-link:nth-child(4) { animation-delay: 0.25s; }
+        #mobile-menu.menu-open .mobile-link:nth-child(5) { animation-delay: 0.3s; }
+
     </style>
 </head>
 <body class="antialiased selection:bg-purple selection:text-black">
@@ -290,17 +374,21 @@
                 Contatti
             </a>
 
-            <button class="md:hidden p-2 text-slate-300 hover:text-white" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-                <i data-lucide="menu"></i>
+            <!-- Tech Mobile Menu Button -->
+            <button id="mobile-btn" class="menu-toggle md:hidden p-2 mr-2 z-50 group">
+                <span class="hamburger-line line-1 group-hover:bg-purple_glow"></span>
+                <span class="hamburger-line line-2 group-hover:bg-purple_glow"></span>
+                <span class="hamburger-line line-3 group-hover:bg-purple_glow"></span>
             </button>
         </div>
         
-        <div id="mobile-menu" class="hidden absolute top-20 left-4 right-4 nav-island rounded-2xl p-6 flex flex-col gap-4 text-center md:hidden border border-slate-800">
-            <a href="#about" class="text-slate-300 hover:text-purple py-2 border-b border-slate-800/50">Vetrina</a>
-            <a href="#skills" class="text-slate-300 hover:text-purple py-2 border-b border-slate-800/50">Tech</a>
-            <a href="#experience" class="text-slate-300 hover:text-purple py-2 border-b border-slate-800/50">Timeline</a>
-            <a href="#projects" class="text-slate-300 hover:text-purple py-2 border-b border-slate-800/50">Progetti</a>
-            <a href="#contact" class="text-purple font-bold py-2">Contattami</a>
+        <!-- Tech Mobile Menu Container -->
+        <div id="mobile-menu" class="absolute top-24 left-4 right-4 nav-island rounded-2xl p-6 flex flex-col gap-4 text-center md:hidden border border-slate-700/50 backdrop-blur-xl shadow-2xl menu-closed z-40">
+            <a href="#about" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors">Vetrina</a>
+            <a href="#skills" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors">Tech</a>
+            <a href="#experience" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors">Timeline</a>
+            <a href="#projects" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors">Progetti</a>
+            <a href="#contact" class="mobile-link text-purple font-bold py-3 bg-purple/10 rounded-xl hover:bg-purple/20 transition-all shadow-[0_0_10px_rgba(168,85,247,0.1)]">Contattami</a>
         </div>
     </nav>
 
@@ -808,13 +896,33 @@
             });
         });
 
-        // Mobile Menu Auto-close logic
+        // Tech Mobile Menu Logic
+        const mobileBtn = document.getElementById('mobile-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = mobileMenu.querySelectorAll('a');
+        const mobileLinks = mobileMenu.querySelectorAll('.mobile-link');
 
+        mobileBtn.addEventListener('click', () => {
+            mobileBtn.classList.toggle('is-active');
+            
+            if (mobileMenu.classList.contains('menu-closed')) {
+                // Open Menu
+                mobileMenu.classList.remove('menu-closed');
+                mobileMenu.classList.add('menu-open');
+            } else {
+                // Close Menu
+                mobileMenu.classList.remove('menu-open');
+                mobileMenu.classList.add('menu-closed');
+            }
+        });
+
+        // Auto-close on link click with tech delay
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+                setTimeout(() => {
+                    mobileBtn.classList.remove('is-active');
+                    mobileMenu.classList.remove('menu-open');
+                    mobileMenu.classList.add('menu-closed');
+                }, 150); // Slight delay for better UX feeling
             });
         });
 
