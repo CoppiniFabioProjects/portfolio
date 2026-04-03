@@ -10,7 +10,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -22,6 +22,7 @@
                         sans: ['Inter', 'sans-serif'],
                         display: ['Space Grotesk', 'sans-serif'],
                         serif: ['Cinzel Decorative', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
                         dark: '#020617',
@@ -32,12 +33,15 @@
                         lions_blue: '#0033A0',
                         lions_red: '#E31837',
                         lions_yellow: '#FFC72C',
+                        garuda: '#2DD4BF',
+                        docker: '#3B82F6',
+                        terminal: '#22C55E',
                     },
                     animation: {
                         'blob': 'blob 7s infinite',
                         'float': 'float 6s ease-in-out infinite',
                         'shimmer': 'shimmer 2s linear infinite',
-                        'counter': 'counter 2s ease-out forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         blob: {
@@ -74,95 +78,75 @@
 
         /* --- PRELOADER --- */
         #preloader {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: #020617;
-            z-index: 99999;
-            display: flex; justify-content: center; align-items: center;
-            flex-direction: column;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #020617; z-index: 99999;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
             transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
         }
         .loader-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem; letter-spacing: 0.2em;
-            color: #a855f7; margin-bottom: 20px;
-            text-transform: uppercase;
-            animation: pulse 1.5s ease-in-out infinite;
+            font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; letter-spacing: 0.15em;
+            color: #a855f7; margin-bottom: 20px; text-transform: uppercase;
         }
-        .loader-bar-bg {
-            width: 200px; height: 2px;
-            background: rgba(255, 255, 255, 0.1);
-            position: relative; overflow: hidden; border-radius: 1px;
+        .loader-text span {
+            display: inline-block;
+            animation: typeBlink 0.8s step-end infinite;
         }
+        @keyframes typeBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .loader-bar-bg { width: 200px; height: 2px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; border-radius: 1px; }
         .loader-bar {
-            position: absolute; top: 0; left: 0;
-            height: 100%; width: 0%;
-            background: linear-gradient(90deg, #a855f7, #d8b4fe);
-            box-shadow: 0 0 15px #a855f7;
-            transition: width 0.1s linear; border-radius: 1px;
+            position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+            background: linear-gradient(90deg, #a855f7, #2DD4BF, #d8b4fe);
+            box-shadow: 0 0 15px #a855f7; transition: width 0.1s linear; border-radius: 1px;
         }
 
         /* --- SCROLL PROGRESS --- */
         #scroll-progress {
-            position: fixed; top: 0; left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #a855f7, #d8b4fe, #a855f7);
-            background-size: 200% 100%;
-            animation: shimmer 2s linear infinite;
-            width: 0%; z-index: 10000;
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, #a855f7, #2DD4BF, #d8b4fe, #a855f7);
+            background-size: 200% 100%; animation: shimmer 2s linear infinite;
+            width: 0%; z-index: 10000; box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
         }
 
         /* --- CUSTOM CURSOR --- */
         .cursor-dot, .cursor-outline {
-            position: fixed; top: 0; left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%; z-index: 9999;
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 9999; pointer-events: none;
         }
         .cursor-dot {
-            width: 8px; height: 8px;
-            background-color: #a855f7;
+            width: 8px; height: 8px; background-color: #a855f7;
             box-shadow: 0 0 10px #a855f7, 0 0 20px rgba(168, 85, 247, 0.3);
         }
         .cursor-outline {
-            width: 40px; height: 40px;
-            border: 1px solid rgba(168, 85, 247, 0.5);
+            width: 40px; height: 40px; border: 1px solid rgba(168, 85, 247, 0.5);
             transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
         }
         body:hover .cursor-outline { background-color: rgba(168, 85, 247, 0.05); }
         body.hovering .cursor-outline {
-            width: 60px; height: 60px;
-            background-color: rgba(168, 85, 247, 0.1);
-            border-color: #a855f7;
-            mix-blend-mode: screen;
+            width: 60px; height: 60px; background-color: rgba(168, 85, 247, 0.1);
+            border-color: #a855f7; mix-blend-mode: screen;
         }
 
         /* --- BACKGROUNDS --- */
         .aurora-bg {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%; z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: 
                 radial-gradient(circle at 15% 50%, rgba(168, 85, 247, 0.08), transparent 25%), 
-                radial-gradient(circle at 85% 30%, rgba(126, 34, 206, 0.05), transparent 25%);
+                radial-gradient(circle at 85% 30%, rgba(45, 212, 191, 0.05), transparent 25%),
+                radial-gradient(circle at 50% 80%, rgba(126, 34, 206, 0.04), transparent 25%);
         }
         .noise-overlay {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 50; opacity: 0.03;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         /* --- SPOTLIGHT CARD --- */
         .spotlight-card {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative; overflow: hidden;
-            transition: transform 0.3s ease;
+            background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative; overflow: hidden; transition: transform 0.3s ease;
         }
         .spotlight-card::before {
-            content: ""; position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             border-radius: inherit; padding: 1px;
             background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(168, 85, 247, 0.4), transparent 40%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -170,10 +154,7 @@
             pointer-events: none; opacity: 0; transition: opacity 0.5s;
         }
         .spotlight-card:hover::before { opacity: 1; }
-        .spotlight-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px -10px rgba(126, 34, 206, 0.3);
-        }
+        .spotlight-card:hover { transform: translateY(-5px); box-shadow: 0 10px 40px -10px rgba(126, 34, 206, 0.3); }
         .spotlight-bg {
             position: absolute; inset: 0;
             background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(168, 85, 247, 0.06), transparent 40%);
@@ -181,42 +162,24 @@
         }
         .spotlight-card:hover .spotlight-bg { opacity: 1; }
 
-        /* --- 3D TILT CARD --- */
-        .tilt-card {
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-        .tilt-card-inner {
-            transition: transform 0.1s ease-out;
-            transform-style: preserve-3d;
-        }
-
         /* --- LIQUID TEXT --- */
         .text-liquid {
-            background: linear-gradient(to right, #a855f7 20%, #d8b4fe 30%, #fff 50%, #d8b4fe 70%, #a855f7 80%);
-            background-size: 200% auto;
-            color: #000; background-clip: text; -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 4s linear infinite;
+            background: linear-gradient(to right, #a855f7 20%, #2DD4BF 30%, #fff 50%, #2DD4BF 70%, #a855f7 80%);
+            background-size: 200% auto; color: #000; background-clip: text; -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; animation: shine 4s linear infinite;
         }
         @keyframes shine { to { background-position: 200% center; } }
 
         /* --- ULTRA BUTTONS --- */
         .btn-ultra {
-            position: relative; overflow: hidden;
-            background: transparent;
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            color: #e2e8f0;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            z-index: 1;
+            position: relative; overflow: hidden; background: transparent;
+            border: 1px solid rgba(168, 85, 247, 0.3); color: #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); z-index: 1;
         }
         .btn-ultra::after {
-            content: ''; position: absolute; bottom: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: #a855f7; border-radius: inherit;
-            z-index: -2; transform: scaleX(0);
-            transform-origin: bottom right;
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+            background-color: #a855f7; border-radius: inherit; z-index: -2; transform: scaleX(0);
+            transform-origin: bottom right; transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .btn-ultra:hover::after { transform: scaleX(1); transform-origin: bottom left; }
         .btn-ultra:hover {
@@ -224,46 +187,24 @@
             border-color: #a855f7; letter-spacing: 0.05em;
         }
         .btn-ultra::before {
-            content: ''; position: absolute; top: 0; left: -100%;
-            width: 100%; height: 100%;
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.5s; z-index: -1;
         }
         .btn-ultra:hover::before { left: 100%; }
 
         /* --- ANIMATIONS --- */
-        .fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-            opacity: 0; transform: translateY(20px);
-        }
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        .delay-100 { animation-delay: 0.1s; } .delay-200 { animation-delay: 0.2s; } .delay-300 { animation-delay: 0.3s; }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* Scroll reveal */
-        .reveal {
-            opacity: 0; transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal-left {
-            opacity: 0; transform: translateX(-40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal-left.visible { opacity: 1; transform: translateX(0); }
-        .reveal-right {
-            opacity: 0; transform: translateX(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        .reveal-right { opacity: 0; transform: translateX(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-right.visible { opacity: 1; transform: translateX(0); }
-        .reveal-scale {
-            opacity: 0; transform: scale(0.9);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        .reveal-scale { opacity: 0; transform: scale(0.9); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-scale.visible { opacity: 1; transform: scale(1); }
 
-        /* Stagger children */
         .stagger-children .reveal:nth-child(1) { transition-delay: 0ms; }
         .stagger-children .reveal:nth-child(2) { transition-delay: 100ms; }
         .stagger-children .reveal:nth-child(3) { transition-delay: 200ms; }
@@ -273,66 +214,43 @@
         .stagger-children .reveal:nth-child(7) { transition-delay: 600ms; }
         .stagger-children .reveal:nth-child(8) { transition-delay: 700ms; }
 
-        .garuda-wing {
-            transition: all 0.5s ease; display: inline-block;
-        }
-        .group:hover .garuda-wing {
-            transform: scale(1.05);
-            filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.6));
-        }
+        .garuda-wing { transition: all 0.5s ease; display: inline-block; }
+        .group:hover .garuda-wing { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.6)); }
 
         /* --- NAVBAR --- */
         .nav-island {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
         .nav-link { position: relative; transition: color 0.3s; }
         .nav-link::after {
-            content: ''; position: absolute; bottom: -4px; left: 50%;
-            width: 0; height: 2px; background: #a855f7;
-            transition: all 0.3s ease; transform: translateX(-50%);
-            box-shadow: 0 0 8px #a855f7;
+            content: ''; position: absolute; bottom: -4px; left: 50%; width: 0; height: 2px; background: #a855f7;
+            transition: all 0.3s ease; transform: translateX(-50%); box-shadow: 0 0 8px #a855f7;
         }
         .nav-link:hover::after { width: 100%; }
-        .nav-link:hover {
-            color: #d8b4fe;
-            text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
-        }
+        .nav-link:hover { color: #d8b4fe; text-shadow: 0 0 8px rgba(168, 85, 247, 0.5); }
 
         /* --- MAGNETIC BUTTON --- */
         .magnetic-btn { transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
 
         /* --- BACK TO TOP --- */
         #back-to-top {
-            position: fixed; bottom: 30px; right: 30px;
-            width: 50px; height: 50px;
-            background: rgba(15, 23, 42, 0.4);
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            color: #a855f7; cursor: pointer;
-            opacity: 0; visibility: hidden;
-            transition: all 0.4s ease; z-index: 999;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
-            overflow: hidden;
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+            background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            color: #a855f7; cursor: pointer; opacity: 0; visibility: hidden;
+            transition: all 0.4s ease; z-index: 999; backdrop-filter: blur(8px);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.1); overflow: hidden;
         }
         #back-to-top::before {
-            content: ''; position: absolute; inset: -2px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            border-top-color: #a855f7; border-bottom-color: #a855f7;
-            animation: spin 3s linear infinite;
-            opacity: 0; transition: opacity 0.3s;
+            content: ''; position: absolute; inset: -2px; border-radius: 50%;
+            border: 2px solid transparent; border-top-color: #a855f7; border-bottom-color: #a855f7;
+            animation: spin 3s linear infinite; opacity: 0; transition: opacity 0.3s;
         }
         #back-to-top:hover::before { opacity: 1; animation-duration: 1.5s; }
         #back-to-top:hover {
-            background: rgba(168, 85, 247, 0.1);
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
-            color: white; border-color: #d8b4fe;
+            background: rgba(168, 85, 247, 0.1); transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.5); color: white; border-color: #d8b4fe;
         }
         #back-to-top:hover i { animation: arrowUp 0.6s ease-in-out infinite alternate; }
         @keyframes arrowUp { from { transform: translateY(2px); } to { transform: translateY(-2px); } }
@@ -341,38 +259,23 @@
 
         /* --- MOBILE MENU --- */
         .menu-toggle {
-            position: relative; width: 32px; height: 32px;
-            background: transparent; border: none; cursor: pointer;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center; gap: 6px;
+            position: relative; width: 32px; height: 32px; background: transparent; border: none; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
         }
         .hamburger-line {
-            width: 24px; height: 2px; background-color: #e2e8f0;
-            border-radius: 2px;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            transform-origin: center;
+            width: 24px; height: 2px; background-color: #e2e8f0; border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); transform-origin: center;
         }
-        .menu-toggle.is-active .line-1 {
-            transform: translateY(8px) rotate(45deg);
-            background-color: #a855f7; box-shadow: 0 0 10px #a855f7;
-        }
+        .menu-toggle.is-active .line-1 { transform: translateY(8px) rotate(45deg); background-color: #a855f7; box-shadow: 0 0 10px #a855f7; }
         .menu-toggle.is-active .line-2 { transform: translateX(20px); opacity: 0; }
-        .menu-toggle.is-active .line-3 {
-            transform: translateY(-8px) rotate(-45deg);
-            background-color: #a855f7; box-shadow: 0 0 10px #a855f7;
-        }
-        #mobile-menu {
-            transform-origin: top center;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        .menu-toggle.is-active .line-3 { transform: translateY(-8px) rotate(-45deg); background-color: #a855f7; box-shadow: 0 0 10px #a855f7; }
+        #mobile-menu { transform-origin: top center; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         #mobile-menu.menu-closed {
-            opacity: 0;
-            transform: scale(0.95) translateY(-20px) perspective(1000px) rotateX(-10deg);
+            opacity: 0; transform: scale(0.95) translateY(-20px) perspective(1000px) rotateX(-10deg);
             pointer-events: none; filter: blur(10px);
         }
         #mobile-menu.menu-open {
-            opacity: 1;
-            transform: scale(1) translateY(0) perspective(1000px) rotateX(0deg);
+            opacity: 1; transform: scale(1) translateY(0) perspective(1000px) rotateX(0deg);
             pointer-events: auto; filter: blur(0px);
         }
         #mobile-menu.menu-open .mobile-link {
@@ -386,11 +289,11 @@
         #mobile-menu.menu-open .mobile-link:nth-child(4) { animation-delay: 0.25s; }
         #mobile-menu.menu-open .mobile-link:nth-child(5) { animation-delay: 0.3s; }
         #mobile-menu.menu-open .mobile-link:nth-child(6) { animation-delay: 0.35s; }
+        #mobile-menu.menu-open .mobile-link:nth-child(7) { animation-delay: 0.4s; }
 
         /* --- CLICK ANIMATIONS --- */
         .sparkle-particle {
-            position: fixed; pointer-events: none; z-index: 9999;
-            border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%;
             animation: sparkle-pop 0.8s ease-out forwards;
         }
         @keyframes sparkle-pop {
@@ -406,89 +309,60 @@
             100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0); }
         }
         .click-pop:active { animation: click-pop-anim 0.3s ease-out; }
-        @keyframes click-pop-anim {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.92); }
-            100% { transform: scale(1); }
-        }
+        @keyframes click-pop-anim { 0% { transform: scale(1); } 50% { transform: scale(0.92); } 100% { transform: scale(1); } }
 
         /* --- SECTION INDICATOR --- */
         .section-indicator {
-            position: fixed; right: 20px; top: 50%;
-            transform: translateY(-50%);
-            z-index: 100;
-            display: flex; flex-direction: column; gap: 12px;
+            position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+            z-index: 100; display: flex; flex-direction: column; gap: 12px;
         }
         .section-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: rgba(168, 85, 247, 0.2);
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            transition: all 0.3s ease;
-            cursor: pointer;
+            width: 8px; height: 8px; border-radius: 50%;
+            background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.3);
+            transition: all 0.3s ease; cursor: pointer;
         }
-        .section-dot.active {
-            background: #a855f7;
-            box-shadow: 0 0 10px #a855f7;
-            transform: scale(1.3);
-        }
-        .section-dot:hover {
-            background: rgba(168, 85, 247, 0.5);
-            transform: scale(1.2);
-        }
+        .section-dot.active { background: #a855f7; box-shadow: 0 0 10px #a855f7; transform: scale(1.3); }
+        .section-dot:hover { background: rgba(168, 85, 247, 0.5); transform: scale(1.2); }
 
         /* --- PARALLAX HERO --- */
-        .parallax-layer {
-            transition: transform 0.1s ease-out;
-            will-change: transform;
-        }
-
-        /* --- COUNTER ANIMATION --- */
-        .counter-value {
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-
-        /* --- SKILL BAR --- */
-        .skill-bar-fill {
-            height: 100%;
-            border-radius: 999px;
-            background: linear-gradient(90deg, #a855f7, #d8b4fe);
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
-            width: 0%;
-            transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .skill-bar-fill.animated { width: var(--target-width); }
+        .parallax-layer { transition: transform 0.1s ease-out; will-change: transform; }
 
         /* --- TIMELINE GLOW --- */
-        .timeline-dot {
-            transition: all 0.5s ease;
-        }
+        .timeline-dot { transition: all 0.5s ease; }
         .timeline-item:hover .timeline-dot {
-            box-shadow: 0 0 20px #a855f7, 0 0 40px rgba(168, 85, 247, 0.3);
-            transform: scale(1.5);
+            box-shadow: 0 0 20px #a855f7, 0 0 40px rgba(168, 85, 247, 0.3); transform: scale(1.5);
         }
 
         /* --- PROJECT CARD OVERLAY --- */
-        .project-overlay {
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .project-card:hover .project-overlay {
-            opacity: 1;
-        }
-        .project-card:hover .project-image {
-            transform: scale(1.1);
-        }
+        .project-card:hover .project-image { transform: scale(1.1); }
 
         /* --- MARQUEE --- */
-        .marquee-track {
-            display: flex;
-            animation: marquee 30s linear infinite;
+        .marquee-track { display: flex; animation: marquee 30s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- TERMINAL STYLE --- */
+        .terminal-line {
+            font-family: 'JetBrains Mono', monospace;
         }
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        .terminal-prompt::before {
+            content: '❯ ';
+            color: #2DD4BF;
+        }
+
+        /* --- SKILL TAG --- */
+        .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+        }
+        .skill-tag:hover {
+            transform: translateY(-2px);
         }
 
         /* --- HIDE ON MOBILE --- */
@@ -503,10 +377,8 @@
     
     <!-- Preloader -->
     <div id="preloader">
-        <div class="loader-text">SYSTEM BOOT...</div>
-        <div class="loader-bar-bg">
-            <div class="loader-bar" id="loader-bar"></div>
-        </div>
+        <div class="loader-text">system boot<span>_</span></div>
+        <div class="loader-bar-bg"><div class="loader-bar" id="loader-bar"></div></div>
     </div>
 
     <!-- Scroll Progress -->
@@ -521,6 +393,7 @@
         <div class="section-dot" data-section="hero" title="Home"></div>
         <div class="section-dot" data-section="about" title="Vetrina"></div>
         <div class="section-dot" data-section="skills" title="Tech"></div>
+        <div class="section-dot" data-section="linux" title="Linux"></div>
         <div class="section-dot" data-section="experience" title="Timeline"></div>
         <div class="section-dot" data-section="projects" title="Progetti"></div>
         <div class="section-dot" data-section="beneficenza" title="Beneficenza"></div>
@@ -533,19 +406,20 @@
 
     <!-- NAVBAR -->
     <nav class="fixed top-6 left-0 w-full z-50 flex justify-center px-4">
-        <div class="nav-island rounded-2xl px-2 py-2 flex justify-between items-center transition-all duration-300 hover:scale-[1.01] hover:border-purple/30 md:min-w-[600px]">
+        <div class="nav-island rounded-2xl px-2 py-2 flex justify-between items-center transition-all duration-300 hover:scale-[1.01] hover:border-purple/30 md:min-w-[650px]">
             <a href="#" class="px-4 py-2 flex items-center gap-2 group magnetic-btn click-pop" data-magnetic>
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple to-purple_dark flex items-center justify-center text-white shadow-lg shadow-purple/20 group-hover:shadow-purple/50 transition-all">
                     <img src="https://raw.githubusercontent.com/CoppiniFabioProjects/portfolio/main/fototessera.png" alt="Logo" class="w-full h-full object-cover rounded-lg" />
                 </div>
             </a>
             
-            <div class="hidden md:flex items-center gap-1">
-                <a href="#about" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn click-pop" data-magnetic>Vetrina</a>
-                <a href="#skills" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn click-pop" data-magnetic>Tech</a>
-                <a href="#experience" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn click-pop" data-magnetic>Timeline</a>
-                <a href="#projects" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn click-pop" data-magnetic>Progetti</a>
-                <a href="#beneficenza" class="nav-link px-4 py-2 text-sm font-medium text-purple_glow magnetic-btn click-pop" data-magnetic>♥ Beneficenza</a>
+            <div class="hidden md:flex items-center gap-0.5">
+                <a href="#about" class="nav-link px-3 py-2 text-sm font-medium text-slate-300 magnetic-btn click-pop" data-magnetic>Vetrina</a>
+                <a href="#skills" class="nav-link px-3 py-2 text-sm font-medium text-slate-300 magnetic-btn click-pop" data-magnetic>Tech</a>
+                <a href="#linux" class="nav-link px-3 py-2 text-sm font-medium text-garuda magnetic-btn click-pop" data-magnetic>Linux</a>
+                <a href="#experience" class="nav-link px-3 py-2 text-sm font-medium text-slate-300 magnetic-btn click-pop" data-magnetic>Timeline</a>
+                <a href="#projects" class="nav-link px-3 py-2 text-sm font-medium text-slate-300 magnetic-btn click-pop" data-magnetic>Progetti</a>
+                <a href="#beneficenza" class="nav-link px-3 py-2 text-sm font-medium text-purple_glow magnetic-btn click-pop" data-magnetic>♥ Beneficenza</a>
             </div>
 
             <a href="#contact" class="hidden md:flex ml-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider magnetic-btn btn-ultra click-pop" data-magnetic>
@@ -562,6 +436,7 @@
         <div id="mobile-menu" class="absolute top-24 left-4 right-4 nav-island rounded-2xl p-6 flex flex-col gap-4 text-center md:hidden border border-slate-700/50 backdrop-blur-xl shadow-2xl menu-closed z-40">
             <a href="#about" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors click-pop">Vetrina</a>
             <a href="#skills" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors click-pop">Tech</a>
+            <a href="#linux" class="mobile-link text-garuda font-bold py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors click-pop">🐧 Linux</a>
             <a href="#experience" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors click-pop">Timeline</a>
             <a href="#projects" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors click-pop">Progetti</a>
             <a href="#beneficenza" class="mobile-link text-purple_glow font-bold py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors click-pop">♥ Beneficenza</a>
@@ -569,16 +444,12 @@
         </div>
     </nav>
 
-    <!-- ============================================ -->
-    <!-- HERO SECTION                                 -->
-    <!-- ============================================ -->
+    <!-- HERO SECTION -->
     <section id="hero" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        <!-- Parallax Blobs -->
         <div class="parallax-layer absolute top-0 -left-4 w-72 h-72 bg-purple/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" data-speed="0.02"></div>
-        <div class="parallax-layer absolute top-0 -right-4 w-72 h-72 bg-purple_dark/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" data-speed="0.03"></div>
+        <div class="parallax-layer absolute top-0 -right-4 w-72 h-72 bg-garuda/20 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" data-speed="0.03"></div>
         <div class="parallax-layer absolute -bottom-8 left-20 w-72 h-72 bg-blue-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" data-speed="0.015"></div>
 
-        <!-- Garuda Eagle (Parallax) -->
         <div class="parallax-layer absolute inset-0 pointer-events-none flex items-center justify-start md:pl-10 z-0 overflow-hidden" data-speed="0.05">
              <img src="https://raw.githubusercontent.com/CoppiniFabioProjects/portfolio/main/garuda.png" alt="Garuda Eagle" class="w-[100vw] md:w-[800px] lg:w-[900px] max-w-none h-auto object-contain opacity-25 animate-[pulse_6s_ease-in-out_infinite] drop-shadow-[0_0_50px_rgba(168,85,247,0.3)]" id="garuda-img">
         </div>
@@ -617,9 +488,7 @@
         <i data-lucide="arrow-up" class="w-5 h-5"></i>
     </div>
 
-    <!-- ============================================ -->
-    <!-- VETRINA                                      -->
-    <!-- ============================================ -->
+    <!-- VETRINA -->
     <section id="about" class="py-24 relative">
         <div class="container mx-auto px-6">
             <div class="flex items-end justify-between mb-12 reveal">
@@ -726,68 +595,319 @@
     </section>
 
     <!-- ============================================ -->
-    <!-- SKILLS                                       -->
+    <!-- SKILLS (UPDATED)                             -->
     <!-- ============================================ -->
-    <section id="skills" class="py-24 bg-black/20">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-serif text-white mb-12 text-center reveal">Arsenale Tecnologico</h2>
+    <section id="skills" class="py-24 bg-black/20 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-purple/5 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-lions_blue/5 rounded-full blur-[100px]"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl font-serif text-white mb-4">Arsenale Tecnologico</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">
+                    Tecnologie moderne, workflow AI-native e competenze cloud. 
+                    Costruisco software scalabile sfruttando il meglio dell'ecosistema attuale.
+                </p>
+            </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 stagger-children">
-                <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group reveal click-pop">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 stagger-children">
+                
+                <!-- FRONTEND -->
+                <div class="spotlight-card p-6 rounded-2xl flex flex-col gap-4 group reveal click-pop">
                     <div class="spotlight-bg"></div>
-                    <i data-lucide="code-2" class="w-8 h-8 text-slate-500 group-hover:text-purple transition-colors relative z-10"></i>
-                    <span class="text-slate-300 font-bold relative z-10">Python & NLTK</span>
-                    <span class="text-xs text-slate-500 relative z-10">Data & NLP</span>
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-xl bg-purple/20 flex items-center justify-center text-purple_glow">
+                            <i data-lucide="layout" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Frontend</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple rounded-full"></div> React 19</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple rounded-full"></div> Tailwind CSS v4</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple rounded-full"></div> Vite 8</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple rounded-full"></div> Recharts</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple rounded-full"></div> jsPDF</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple rounded-full"></div> PWA (Service Workers)</li>
+                    </ul>
                 </div>
-                <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group reveal click-pop">
+
+                <!-- BACKEND & CLOUD -->
+                <div class="spotlight-card p-6 rounded-2xl flex flex-col gap-4 group reveal click-pop">
                     <div class="spotlight-bg"></div>
-                    <i data-lucide="database" class="w-8 h-8 text-slate-500 group-hover:text-blue-400 transition-colors relative z-10"></i>
-                    <span class="text-slate-300 font-bold relative z-10">PHP & SQL</span>
-                    <span class="text-xs text-slate-500 relative z-10">Backend</span>
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
+                            <i data-lucide="cloud" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Backend & Cloud</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-400 rounded-full"></div> Supabase (PostgreSQL)</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-400 rounded-full"></div> Auth & RLS Policies</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-400 rounded-full"></div> Storage Buckets</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-400 rounded-full"></div> Vercel Deploy</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-400 rounded-full"></div> Git & GitHub</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-400 rounded-full"></div> REST APIs</li>
+                    </ul>
                 </div>
-                <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group reveal click-pop">
+
+                <!-- AI & AGENTS -->
+                <div class="spotlight-card p-6 rounded-2xl flex flex-col gap-4 group reveal click-pop border-purple/30">
                     <div class="spotlight-bg"></div>
-                    <i data-lucide="layout" class="w-8 h-8 text-slate-500 group-hover:text-purple_dark transition-colors relative z-10"></i>
-                    <span class="text-slate-300 font-bold relative z-10">WordPress & Webflow</span>
-                    <span class="text-xs text-slate-500 relative z-10">CMS & Design</span>
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple to-blue-500 flex items-center justify-center text-white shadow-lg shadow-purple/20">
+                            <i data-lucide="bot" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">AI-Native Dev</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple_glow rounded-full"></div> Cursor IDE</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple_glow rounded-full"></div> Claude Code</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple_glow rounded-full"></div> Qwen Models</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple_glow rounded-full"></div> Prompt Engineering</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple_glow rounded-full"></div> AI-Assisted Workflow</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple_glow rounded-full"></div> Debugging con AI</li>
+                    </ul>
                 </div>
-                <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group reveal click-pop">
+
+                <!-- CONCEPTS -->
+                <div class="spotlight-card p-6 rounded-2xl flex flex-col gap-4 group reveal click-pop">
                     <div class="spotlight-bg"></div>
-                    <i data-lucide="palette" class="w-8 h-8 text-slate-500 group-hover:text-purple transition-colors relative z-10"></i>
-                    <span class="text-slate-300 font-bold relative z-10">Adobe Suite</span>
-                    <span class="text-xs text-slate-500 relative z-10">Ps, Ai, Id</span>
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-xl bg-lions_yellow/20 flex items-center justify-center text-lions_yellow">
+                            <i data-lucide="brain" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Concetti</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-lions_yellow rounded-full"></div> RBAC (Ruoli)</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-lions_yellow rounded-full"></div> Dashboard UI/UX</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-lions_yellow rounded-full"></div> Data Visualization</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-lions_yellow rounded-full"></div> Responsive Design</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-lions_yellow rounded-full"></div> Component Architecture</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-lions_yellow rounded-full"></div> State Management</li>
+                    </ul>
                 </div>
-                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group reveal click-pop">
-                    <div class="spotlight-bg"></div>
-                    <i data-lucide="video" class="w-8 h-8 text-slate-500 group-hover:text-red-400 transition-colors relative z-10"></i>
-                    <span class="text-slate-300 font-bold relative z-10">CapCut & Media</span>
-                    <span class="text-xs text-slate-500 relative z-10">Video Editing</span>
-                </div>
-                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group reveal click-pop">
-                    <div class="spotlight-bg"></div>
-                    <i data-lucide="globe" class="w-8 h-8 text-slate-500 group-hover:text-green-400 transition-colors relative z-10"></i>
-                    <span class="text-slate-300 font-bold relative z-10">SEO & Javascript</span>
-                    <span class="text-xs text-slate-500 relative z-10">Optimization</span>
-                </div>
-                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group reveal click-pop">
-                    <div class="spotlight-bg"></div>
-                    <i data-lucide="figma" class="w-8 h-8 text-slate-500 group-hover:text-purple_dark transition-colors relative z-10"></i>
-                    <span class="text-slate-300 font-bold relative z-10">Figma</span>
-                    <span class="text-xs text-slate-500 relative z-10">UI/UX</span>
-                </div>
-                 <div class="spotlight-card p-6 rounded-xl flex flex-col items-center gap-3 text-center group reveal click-pop">
-                    <div class="spotlight-bg"></div>
-                    <i data-lucide="cpu" class="w-8 h-8 text-slate-500 group-hover:text-yellow-400 transition-colors relative z-10"></i>
-                    <span class="text-slate-300 font-bold relative z-10">Lego Spike</span>
-                    <span class="text-xs text-slate-500 relative z-10">Educational Robotics</span>
-                </div>
+
             </div>
         </div>
     </section>
 
     <!-- ============================================ -->
-    <!-- EXPERIENCE                                   -->
+    <!-- LINUX & DEV ENVIRONMENT (NEW!)               -->
     <!-- ============================================ -->
+    <section id="linux" class="py-24 relative overflow-hidden">
+        <!-- Background -->
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/30 via-garuda/5 to-slate-900/30"></div>
+        <div class="absolute top-1/4 left-0 w-80 h-80 bg-garuda/10 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-1/4 right-0 w-80 h-80 bg-purple/10 rounded-full blur-[120px]"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <!-- Header -->
+            <div class="flex items-end justify-between mb-16 reveal">
+                <div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="inline-block py-1 px-3 rounded-full bg-garuda/10 border border-garuda/20 text-garuda text-[10px] font-bold uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(45,212,191,0.2)] font-mono">
+                            ~/environment
+                        </span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-serif text-white mb-2">Il Mio <span class="text-garuda">Ecosistema</span></h2>
+                    <div class="h-1 w-24 bg-gradient-to-r from-garuda to-purple shadow-[0_0_10px_#2DD4BF]"></div>
+                </div>
+                <p class="hidden md:block text-slate-400 text-right max-w-sm reveal-right">
+                    Linux è la mia casa. Il terminale è il mio strumento. Docker il mio cantiere.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- LINUX CARD -->
+                <div class="spotlight-card rounded-3xl p-8 group reveal-scale">
+                    <div class="spotlight-bg"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-garuda to-emerald-600 flex items-center justify-center text-white shadow-lg shadow-garuda/20">
+                                <i data-lucide="terminal" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">Linux Enthusiast</h3>
+                                <p class="text-garuda text-sm font-mono">garuda-linux • arch-based</p>
+                            </div>
+                        </div>
+
+                        <p class="text-slate-300 leading-relaxed mb-6">
+                            Vivo su <strong class="text-white">Garuda Linux</strong>, una distribuzione Arch-based performante e bellissima. 
+                            Il terminale è il mio ambiente naturale: mi muovo tra filesystem, script bash e configurazioni con la stessa naturalezza con cui altri usano il mouse.
+                        </p>
+
+                        <!-- Terminal mockup -->
+                        <div class="bg-black/40 rounded-xl p-4 font-mono text-xs border border-white/5 mb-6">
+                            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-white/5">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                <span class="text-slate-500 ml-2">fabio@garuda ~</span>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="terminal-line"><span class="text-garuda">❯</span> <span class="text-slate-300">neofetch</span></p>
+                                <p class="text-slate-500">OS: Garuda Linux x86_64</p>
+                                <p class="text-slate-500">Kernel: linux-zen</p>
+                                <p class="text-slate-500">Shell: zsh + oh-my-zsh</p>
+                                <p class="text-slate-500">DE: Hyprland (Wayland)</p>
+                                <p class="terminal-line"><span class="text-garuda">❯</span> <span class="text-slate-300 animate-pulse">_</span></p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-garuda/10 text-garuda border border-garuda/20 hover:bg-garuda/20 hover:border-garuda/40">
+                                <i data-lucide="cpu" class="w-3 h-3"></i> Garuda Linux
+                            </span>
+                            <span class="skill-tag bg-garuda/10 text-garuda border border-garuda/20 hover:bg-garuda/20 hover:border-garuda/40">
+                                <i data-lucide="terminal" class="w-3 h-3"></i> Arch Linux
+                            </span>
+                            <span class="skill-tag bg-garuda/10 text-garuda border border-garuda/20 hover:bg-garuda/20 hover:border-garuda/40">
+                                <i data-lucide="command" class="w-3 h-3"></i> Bash / Zsh
+                            </span>
+                            <span class="skill-tag bg-garuda/10 text-garuda border border-garuda/20 hover:bg-garuda/20 hover:border-garuda/40">
+                                <i data-lucide="settings" class="w-3 h-3"></i> System Config
+                            </span>
+                            <span class="skill-tag bg-garuda/10 text-garuda border border-garuda/20 hover:bg-garuda/20 hover:border-garuda/40">
+                                <i data-lucide="shield" class="w-3 h-3"></i> Sicurezza
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOCKER & DEV CARD -->
+                <div class="spotlight-card rounded-3xl p-8 group reveal-scale">
+                    <div class="spotlight-bg"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-docker to-blue-700 flex items-center justify-center text-white shadow-lg shadow-docker/20">
+                                <i data-lucide="container" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">Web App Developer</h3>
+                                <p class="text-docker text-sm font-mono">full-stack • cloud-native</p>
+                            </div>
+                        </div>
+
+                        <p class="text-slate-300 leading-relaxed mb-6">
+                            Costruisco <strong class="text-white">Web App moderne</strong> con React e Supabase, containerizzo con Docker 
+                            e deployo su Vercel. Ogni progetto è un prodotto: curato, performante, accessibile.
+                        </p>
+
+                        <!-- Dev workflow -->
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center gap-3 p-3 bg-black/20 rounded-xl border border-white/5">
+                                <div class="w-8 h-8 rounded-lg bg-docker/20 flex items-center justify-center text-docker shrink-0">
+                                    <i data-lucide="container" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-white">Docker Desktop</p>
+                                    <p class="text-xs text-slate-400">Containerizzazione e testing locale</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-black/20 rounded-xl border border-white/5">
+                                <div class="w-8 h-8 rounded-lg bg-purple/20 flex items-center justify-center text-purple_glow shrink-0">
+                                    <i data-lucide="git-branch" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-white">Git + GitHub</p>
+                                    <p class="text-xs text-slate-400">Version control e CI/CD pipeline</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-black/20 rounded-xl border border-white/5">
+                                <div class="w-8 h-8 rounded-lg bg-lions_yellow/20 flex items-center justify-center text-lions_yellow shrink-0">
+                                    <i data-lucide="rocket" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-white">Vercel Deploy</p>
+                                    <p class="text-xs text-slate-400">Deploy automatico da GitHub</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag bg-docker/10 text-docker border border-docker/20 hover:bg-docker/20 hover:border-docker/40">
+                                <i data-lucide="container" class="w-3 h-3"></i> Docker
+                            </span>
+                            <span class="skill-tag bg-docker/10 text-docker border border-docker/20 hover:bg-docker/20 hover:border-docker/40">
+                                <i data-lucide="globe" class="w-3 h-3"></i> Web App Dev
+                            </span>
+                            <span class="skill-tag bg-docker/10 text-docker border border-docker/20 hover:bg-docker/20 hover:border-docker/40">
+                                <i data-lucide="zap" class="w-3 h-3"></i> Performance
+                            </span>
+                            <span class="skill-tag bg-docker/10 text-docker border border-docker/20 hover:bg-docker/20 hover:border-docker/40">
+                                <i data-lucide="accessibility" class="w-3 h-3"></i> Accessibilità
+                            </span>
+                            <span class="skill-tag bg-docker/10 text-docker border border-docker/20 hover:bg-docker/20 hover:border-docker/40">
+                                <i data-lucide="smartphone" class="w-3 h-3"></i> Mobile-First
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Additional Skills Row -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 stagger-children">
+                
+                <!-- HARDWARE & TROUBLESHOOTING -->
+                <div class="spotlight-card p-6 rounded-2xl flex flex-col gap-4 group reveal click-pop">
+                    <div class="spotlight-bg"></div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-400">
+                            <i data-lucide="wrench" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Hardware</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-orange-400 rounded-full"></div> Assemblaggio PC</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-orange-400 rounded-full"></div> Troubleshooting</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-orange-400 rounded-full"></div> Assistenza Tecnica</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-orange-400 rounded-full"></div> Reti & Networking</li>
+                    </ul>
+                </div>
+
+                <!-- PROBLEM SOLVING -->
+                <div class="spotlight-card p-6 rounded-2xl flex flex-col gap-4 group reveal click-pop">
+                    <div class="spotlight-bg"></div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-xl bg-terminal/20 flex items-center justify-center text-terminal">
+                            <i data-lucide="lightbulb" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Problem Solving</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-terminal rounded-full"></div> Debugging Avanzato</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-terminal rounded-full"></div> Pensiero Critico</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-terminal rounded-full"></div> Ricerca Autonoma</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-terminal rounded-full"></div> Adattabilità</li>
+                    </ul>
+                </div>
+
+                <!-- OPEN SOURCE & COMMUNITY -->
+                <div class="spotlight-card p-6 rounded-2xl flex flex-col gap-4 group reveal click-pop">
+                    <div class="spotlight-bg"></div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-xl bg-pink-500/20 flex items-center justify-center text-pink-400">
+                            <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Community</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-pink-400 rounded-full"></div> Open Source</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-pink-400 rounded-full"></div> Documentazione</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-pink-400 rounded-full"></div> Knowledge Sharing</li>
+                        <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-pink-400 rounded-full"></div> Mentorship</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE -->
     <section id="experience" class="py-24">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-serif text-white mb-16 reveal">Percorso & Esperienza</h2>
@@ -862,9 +982,7 @@
         </div>
     </section>
 
-    <!-- ============================================ -->
-    <!-- PROJECTS                                     -->
-    <!-- ============================================ -->
+    <!-- PROJECTS -->
     <section id="projects" class="py-24 bg-gradient-to-b from-transparent to-slate-900/50">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-serif text-white mb-12 text-right reveal">Progetti</h2>
@@ -976,9 +1094,7 @@
         </div>
     </section>
 
-    <!-- ============================================ -->
-    <!-- BENEFICENZA / ServiceScore                   -->
-    <!-- ============================================ -->
+    <!-- BENEFICENZA / ServiceScore -->
     <section id="beneficenza" class="py-24 relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-lions_blue/5 to-slate-900/50"></div>
         <div class="absolute top-0 left-1/4 w-96 h-96 bg-lions_blue/10 rounded-full blur-[120px]"></div>
@@ -1057,9 +1173,7 @@
         </div>
     </section>
 
-    <!-- ============================================ -->
-    <!-- INTERESSI (Marquee)                          -->
-    <!-- ============================================ -->
+    <!-- INTERESSI (Marquee) -->
     <section class="py-20 border-t border-slate-900 overflow-hidden">
         <div class="container mx-auto px-6 text-center mb-8 reveal">
             <h4 class="text-xs font-bold text-slate-600 uppercase tracking-[0.3em]">Interessi & Ispirazioni</h4>
@@ -1083,6 +1197,8 @@
                     <span class="text-purple/20">◆</span>
                     <span class="hover:text-purple_glow transition-colors cursor-default hover:scale-110 duration-200">Gaming</span>
                     <span class="text-purple/20">◆</span>
+                    <span class="hover:text-garuda transition-colors cursor-default hover:scale-110 duration-200 font-mono text-xl">Linux</span>
+                    <span class="text-purple/20">◆</span>
                 </div>
                 <div class="flex items-center gap-x-12 px-6 font-serif text-2xl md:text-4xl text-slate-700 select-none whitespace-nowrap">
                     <span class="hover:text-purple_glow transition-colors cursor-default hover:scale-110 duration-200">Leopardi</span>
@@ -1101,14 +1217,14 @@
                     <span class="text-purple/20">◆</span>
                     <span class="hover:text-purple_glow transition-colors cursor-default hover:scale-110 duration-200">Gaming</span>
                     <span class="text-purple/20">◆</span>
+                    <span class="hover:text-garuda transition-colors cursor-default hover:scale-110 duration-200 font-mono text-xl">Linux</span>
+                    <span class="text-purple/20">◆</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ============================================ -->
-    <!-- FOOTER / CONTACT                             -->
-    <!-- ============================================ -->
+    <!-- FOOTER / CONTACT -->
     <footer id="contact" class="relative py-24 bg-black overflow-hidden">
         <div class="absolute bottom-0 left-0 w-full text-center pointer-events-none opacity-5">
             <h2 class="text-[15vw] font-serif font-bold text-white leading-none tracking-tighter">GARUDA</h2>
@@ -1116,9 +1232,7 @@
 
         <div class="container mx-auto px-6 relative z-10 text-center">
             <h2 class="text-4xl md:text-6xl font-serif text-white mb-6 reveal">Creiamo qualcosa di <span class="text-purple italic">unico</span>.</h2>
-            <p class="text-slate-400 text-lg mb-12 max-w-2xl mx-auto reveal">
-                
-            </p>
+            <p class="text-slate-400 text-lg mb-12 max-w-2xl mx-auto reveal"></p>
 
             <div class="flex flex-col md:flex-row justify-center gap-6 mb-16 reveal">
                 <a href="mailto:coppinifabio99@gmail.com" class="btn-ultra magnetic-btn px-8 py-4 font-bold rounded-full text-white click-pop" data-magnetic>
@@ -1152,9 +1266,7 @@
         </div>
     </footer>
 
-    <!-- ============================================ -->
-    <!-- JAVASCRIPT                                   -->
-    <!-- ============================================ -->
+    <!-- JAVASCRIPT -->
     <script>
         lucide.createIcons();
 
@@ -1264,7 +1376,7 @@
 
         // --- SECTION INDICATOR ---
         function updateSectionIndicator() {
-            const sections = ['hero', 'about', 'skills', 'experience', 'projects', 'beneficenza', 'contact'];
+            const sections = ['hero', 'about', 'skills', 'linux', 'experience', 'projects', 'beneficenza', 'contact'];
             const dots = document.querySelectorAll('.section-dot');
             let current = 'hero';
             sections.forEach(id => {
@@ -1286,7 +1398,7 @@
         });
 
         // --- CLICK SPARKLE EFFECT ---
-        const SPARKLE_COLORS = ['#a855f7', '#d8b4fe', '#7e22ce', '#c084fc', '#e9d5ff'];
+        const SPARKLE_COLORS = ['#a855f7', '#d8b4fe', '#2DD4BF', '#c084fc', '#e9d5ff'];
         document.addEventListener('click', (e) => {
             for (let i = 0; i < 8; i++) {
                 const particle = document.createElement('div');
@@ -1313,18 +1425,15 @@
             garudaImg.addEventListener('click', () => {
                 garudaClicks++;
                 if (garudaClicks >= 5) {
-                    // Confetti explosion!
                     for (let i = 0; i < 50; i++) {
                         const confetti = document.createElement('div');
                         confetti.className = 'confetti-particle';
                         const angle = Math.random() * Math.PI * 2;
                         const distance = 50 + Math.random() * 150;
                         confetti.style.cssText = `
-                            left: ${window.innerWidth / 2}px;
-                            top: ${window.innerHeight / 2}px;
-                            width: ${4 + Math.random() * 8}px;
-                            height: ${4 + Math.random() * 8}px;
-                            background: ${['#a855f7', '#d8b4fe', '#FFC72C', '#E31837', '#0033A0'][Math.floor(Math.random() * 5)]};
+                            left: ${window.innerWidth / 2}px; top: ${window.innerHeight / 2}px;
+                            width: ${4 + Math.random() * 8}px; height: ${4 + Math.random() * 8}px;
+                            background: ${['#a855f7', '#d8b4fe', '#FFC72C', '#E31837', '#0033A0', '#2DD4BF'][Math.floor(Math.random() * 6)]};
                             border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
                             --dx: ${Math.cos(angle) * distance}px;
                             --dy: ${Math.sin(angle) * distance}px;
