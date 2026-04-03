@@ -24,11 +24,14 @@
                         serif: ['Cinzel Decorative', 'serif'],
                     },
                     colors: {
-                        dark: '#020617', // Slate 950
-                        surface: '#0f172a', // Slate 900
-                        purple: '#a855f7', // A vibrant purple
-                        purple_dark: '#7e22ce', // A deeper purple
+                        dark: '#020617',
+                        surface: '#0f172a',
+                        purple: '#a855f7',
+                        purple_dark: '#7e22ce',
                         purple_glow: '#d8b4fe',
+                        lions_blue: '#0033A0',
+                        lions_red: '#E31837',
+                        lions_yellow: '#FFC72C',
                     },
                     backgroundImage: {
                         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -53,16 +56,14 @@
             background-color: #020617;
             color: #e2e8f0;
             overflow-x: hidden;
-            cursor: none; /* Hide default cursor */
+            cursor: none;
         }
 
         /* --- PRELOADER --- */
         #preloader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background-color: #020617;
             z-index: 99999;
             display: flex;
@@ -82,8 +83,7 @@
         }
 
         .loader-bar-bg {
-            width: 200px;
-            height: 2px;
+            width: 200px; height: 2px;
             background: rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
@@ -91,10 +91,8 @@
 
         .loader-bar {
             position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
+            top: 0; left: 0;
+            height: 100%; width: 0%;
             background: #a855f7;
             box-shadow: 0 0 10px #a855f7;
             transition: width 0.1s linear;
@@ -102,9 +100,7 @@
 
         /* --- SCROLL PROGRESS --- */
         #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
+            position: fixed; top: 0; left: 0;
             height: 3px;
             background: linear-gradient(90deg, #a855f7, #d8b4fe);
             width: 0%;
@@ -114,70 +110,53 @@
         }
 
         /* Custom Cursor */
-        .cursor-dot,
-        .cursor-outline {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .cursor-dot, .cursor-outline {
+            position: fixed; top: 0; left: 0;
             transform: translate(-50%, -50%);
             border-radius: 50%;
             z-index: 9999;
             pointer-events: none;
         }
-
         .cursor-dot {
-            width: 8px;
-            height: 8px;
+            width: 8px; height: 8px;
             background-color: #a855f7;
             box-shadow: 0 0 10px #a855f7;
         }
-
         .cursor-outline {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border: 1px solid rgba(168, 85, 247, 0.5);
             transition: width 0.2s, height 0.2s, background-color 0.2s;
         }
-
         body:hover .cursor-outline {
             background-color: rgba(168, 85, 247, 0.05);
         }
-        
         body.hovering .cursor-outline {
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             background-color: rgba(168, 85, 247, 0.1);
             border-color: #a855f7;
             mix-blend-mode: screen;
         }
 
-        /* Abstract Aurora Background */
+        /* Aurora Background */
         .aurora-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -1;
             background: 
                 radial-gradient(circle at 15% 50%, rgba(168, 85, 247, 0.08), transparent 25%), 
                 radial-gradient(circle at 85% 30%, rgba(126, 34, 206, 0.05), transparent 25%);
         }
 
-        /* Grain texture overlay */
+        /* Grain texture */
         .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 50;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; z-index: 50;
             opacity: 0.03;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Spotlight Card Effect */
+        /* Spotlight Card */
         .spotlight-card {
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -185,64 +164,36 @@
             overflow: hidden;
             transition: transform 0.3s ease;
         }
-
         .spotlight-card::before {
             content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             border-radius: inherit;
-            padding: 1px; /* border width */
-            background: radial-gradient(
-                800px circle at var(--mouse-x) var(--mouse-y),
-                rgba(168, 85, 247, 0.4),
-                transparent 40%
-            );
-            -webkit-mask: 
-                linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
+            padding: 1px;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(168, 85, 247, 0.4), transparent 40%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.5s;
         }
-
-        .spotlight-card:hover::before {
-            opacity: 1;
-        }
-
+        .spotlight-card:hover::before { opacity: 1; }
         .spotlight-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 40px -10px rgba(126, 34, 206, 0.3);
         }
-        
         .spotlight-bg {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(
-                600px circle at var(--mouse-x) var(--mouse-y),
-                rgba(168, 85, 247, 0.06),
-                transparent 40%
-            );
+            position: absolute; inset: 0;
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(168, 85, 247, 0.06), transparent 40%);
             opacity: 0;
             transition: opacity 0.5s;
             pointer-events: none;
         }
-        
-        .spotlight-card:hover .spotlight-bg {
-            opacity: 1;
-        }
+        .spotlight-card:hover .spotlight-bg { opacity: 1; }
 
-        /* --- NEW: LIQUID TEXT EFFECT (Replaces Glitch) --- */
+        /* Liquid Text */
         .text-liquid {
-            background: linear-gradient(
-                to right,
-                #a855f7 20%,
-                #d8b4fe 30%,
-                #fff 50%,
-                #d8b4fe 70%,
-                #a855f7 80%
-            );
+            background: linear-gradient(to right, #a855f7 20%, #d8b4fe 30%, #fff 50%, #d8b4fe 70%, #a855f7 80%);
             background-size: 200% auto;
             color: #000;
             background-clip: text;
@@ -250,32 +201,23 @@
             -webkit-text-fill-color: transparent;
             animation: shine 4s linear infinite;
         }
-
         @keyframes shine {
-            to {
-                background-position: 200% center;
-            }
+            to { background-position: 200% center; }
         }
 
-        /* --- NEW: ULTRAMODERN BUTTONS --- */
+        /* Ultra Buttons */
         .btn-ultra {
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
             background: transparent;
             border: 1px solid rgba(168, 85, 247, 0.3);
             color: #e2e8f0;
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             z-index: 1;
         }
-
-        /* Swipe fill animation */
         .btn-ultra::after {
             content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: absolute; bottom: 0; left: 0;
+            width: 100%; height: 100%;
             background-color: #a855f7;
             border-radius: inherit;
             z-index: -2;
@@ -283,33 +225,25 @@
             transform-origin: bottom right;
             transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
-
         .btn-ultra:hover::after {
             transform: scaleX(1);
             transform-origin: bottom left;
         }
-
         .btn-ultra:hover {
             color: #fff;
             box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
             border-color: #a855f7;
-            letter-spacing: 0.05em; /* Subtle expansion */
+            letter-spacing: 0.05em;
         }
-        
-        /* Subtle inner shine */
         .btn-ultra::before {
             content: '';
-            position: absolute;
-            top: 0; left: -100%;
+            position: absolute; top: 0; left: -100%;
             width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.5s;
             z-index: -1;
         }
-        .btn-ultra:hover::before {
-            left: 100%;
-        }
-
+        .btn-ultra:hover::before { left: 100%; }
 
         /* Animations */
         .fade-in-up {
@@ -317,16 +251,11 @@
             opacity: 0;
             transform: translateY(20px);
         }
-        
         .delay-100 { animation-delay: 0.1s; }
         .delay-200 { animation-delay: 0.2s; }
         .delay-300 { animation-delay: 0.3s; }
-
         @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .garuda-wing {
@@ -338,7 +267,7 @@
             filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.6));
         }
 
-        /* Modern Navbar Styling */
+        /* Navbar */
         .nav-island {
             background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(16px);
@@ -346,68 +275,49 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
-
         .nav-link {
             position: relative;
             transition: color 0.3s;
         }
-        
         .nav-link::after {
             content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            width: 0;
-            height: 2px;
+            position: absolute; bottom: -4px; left: 50%;
+            width: 0; height: 2px;
             background: #a855f7;
             transition: all 0.3s ease;
             transform: translateX(-50%);
             box-shadow: 0 0 8px #a855f7;
         }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
+        .nav-link:hover::after { width: 100%; }
         .nav-link:hover {
             color: #d8b4fe;
             text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
         }
 
-        /* Magnetic Button Effect */
+        /* Magnetic Button */
         .magnetic-btn {
             transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* --- NEW: BACK TO TOP HUD BUTTON --- */
+        /* Back to Top */
         #back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
+            position: fixed; bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
             background: rgba(15, 23, 42, 0.4);
             border: 1px solid rgba(168, 85, 247, 0.4);
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #a855f7;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
+            display: flex; justify-content: center; align-items: center;
+            color: #a855f7; cursor: pointer;
+            opacity: 0; visibility: hidden;
             transition: all 0.4s ease;
             z-index: 999;
             backdrop-filter: blur(8px);
             box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
             overflow: hidden;
         }
-
-        /* Ring animation on hover */
         #back-to-top::before {
             content: '';
-            position: absolute;
-            inset: -2px;
+            position: absolute; inset: -2px;
             border-radius: 50%;
             border: 2px solid transparent;
             border-top-color: #a855f7;
@@ -416,12 +326,10 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-
         #back-to-top:hover::before {
             opacity: 1;
             animation-duration: 1.5s;
         }
-
         #back-to-top:hover {
             background: rgba(168, 85, 247, 0.1);
             transform: translateY(-5px);
@@ -429,112 +337,82 @@
             color: white;
             border-color: #d8b4fe;
         }
-        
-        /* Arrow animation */
         #back-to-top:hover i {
             animation: arrowUp 0.6s ease-in-out infinite alternate;
         }
-
         @keyframes arrowUp {
             from { transform: translateY(2px); }
             to { transform: translateY(-2px); }
         }
-
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-
         #back-to-top.show {
-            opacity: 1;
-            visibility: visible;
+            opacity: 1; visibility: visible;
             transform: translateY(0);
         }
 
-        /* --- TECH MENU ANIMATIONS --- */
-        
-        /* Hamburger to X Animation */
+        /* Mobile Menu */
         .menu-toggle {
             position: relative;
-            width: 32px;
-            height: 32px;
-            background: transparent;
-            border: none;
+            width: 32px; height: 32px;
+            background: transparent; border: none;
             cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
             gap: 6px;
         }
-
         .hamburger-line {
-            width: 24px;
-            height: 2px;
+            width: 24px; height: 2px;
             background-color: #e2e8f0;
             border-radius: 2px;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             transform-origin: center;
         }
-
         .menu-toggle.is-active .line-1 {
             transform: translateY(8px) rotate(45deg);
             background-color: #a855f7;
             box-shadow: 0 0 10px #a855f7;
         }
-
         .menu-toggle.is-active .line-2 {
-            transform: translateX(20px);
-            opacity: 0;
+            transform: translateX(20px); opacity: 0;
         }
-
         .menu-toggle.is-active .line-3 {
             transform: translateY(-8px) rotate(-45deg);
             background-color: #a855f7;
             box-shadow: 0 0 10px #a855f7;
         }
-
-        /* Mobile Menu Container Animation */
         #mobile-menu {
             transform-origin: top center;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
         #mobile-menu.menu-closed {
             opacity: 0;
             transform: scale(0.95) translateY(-20px) perspective(1000px) rotateX(-10deg);
             pointer-events: none;
             filter: blur(10px);
         }
-
         #mobile-menu.menu-open {
             opacity: 1;
             transform: scale(1) translateY(0) perspective(1000px) rotateX(0deg);
             pointer-events: auto;
             filter: blur(0px);
         }
-
-        /* Staggered Links Animation */
         #mobile-menu.menu-open .mobile-link {
             animation: slideInTech 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
             transform: translateX(-20px);
         }
-
         @keyframes slideInTech {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            to { opacity: 1; transform: translateX(0); }
         }
-
-        /* Delays */
         #mobile-menu.menu-open .mobile-link:nth-child(1) { animation-delay: 0.1s; }
         #mobile-menu.menu-open .mobile-link:nth-child(2) { animation-delay: 0.15s; }
         #mobile-menu.menu-open .mobile-link:nth-child(3) { animation-delay: 0.2s; }
         #mobile-menu.menu-open .mobile-link:nth-child(4) { animation-delay: 0.25s; }
         #mobile-menu.menu-open .mobile-link:nth-child(5) { animation-delay: 0.3s; }
-
+        #mobile-menu.menu-open .mobile-link:nth-child(6) { animation-delay: 0.35s; }
     </style>
 </head>
 <body class="antialiased selection:bg-purple selection:text-black">
@@ -547,7 +425,7 @@
         </div>
     </div>
 
-    <!-- Scroll Progress Bar -->
+    <!-- Scroll Progress -->
     <div id="scroll-progress"></div>
 
     <div class="cursor-dot hidden md:block"></div>
@@ -557,7 +435,7 @@
     <div class="aurora-bg"></div>
 
     <nav class="fixed top-6 left-0 w-full z-50 flex justify-center px-4">
-        <div class="nav-island rounded-2xl px-2 py-2 flex justify-between items-center transition-all duration-300 hover:scale-[1.01] hover:border-purple/30 md:min-w-[500px]">
+        <div class="nav-island rounded-2xl px-2 py-2 flex justify-between items-center transition-all duration-300 hover:scale-[1.01] hover:border-purple/30 md:min-w-[600px]">
             <a href="#" class="px-4 py-2 flex items-center gap-2 group magnetic-btn" data-magnetic>
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple to-purple_dark flex items-center justify-center text-white shadow-lg shadow-purple/20 group-hover:shadow-purple/50 transition-all">
                     <img src="https://raw.githubusercontent.com/CoppiniFabioProjects/portfolio/main/fototessera.png" alt="Logo" class="w-full h-full object-cover rounded-lg" />
@@ -569,14 +447,13 @@
                 <a href="#skills" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn" data-magnetic>Tech</a>
                 <a href="#experience" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn" data-magnetic>Timeline</a>
                 <a href="#projects" class="nav-link px-4 py-2 text-sm font-medium text-slate-300 magnetic-btn" data-magnetic>Progetti</a>
+                <a href="#beneficenza" class="nav-link px-4 py-2 text-sm font-medium text-purple_glow magnetic-btn" data-magnetic>♥ Beneficenza</a>
             </div>
 
-            <!-- UPDATED BUTTON: Btn Ultra Class -->
             <a href="#contact" class="hidden md:flex ml-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider magnetic-btn btn-ultra" data-magnetic>
                 Contatti
             </a>
 
-            <!-- Tech Mobile Menu Button -->
             <button id="mobile-btn" class="menu-toggle md:hidden p-2 mr-2 z-50 group">
                 <span class="hamburger-line line-1 group-hover:bg-purple_glow"></span>
                 <span class="hamburger-line line-2 group-hover:bg-purple_glow"></span>
@@ -584,28 +461,23 @@
             </button>
         </div>
         
-        <!-- Tech Mobile Menu Container -->
         <div id="mobile-menu" class="absolute top-24 left-4 right-4 nav-island rounded-2xl p-6 flex flex-col gap-4 text-center md:hidden border border-slate-700/50 backdrop-blur-xl shadow-2xl menu-closed z-40">
             <a href="#about" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors">Vetrina</a>
             <a href="#skills" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors">Tech</a>
             <a href="#experience" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors">Timeline</a>
             <a href="#projects" class="mobile-link text-slate-300 hover:text-purple py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors">Progetti</a>
+            <a href="#beneficenza" class="mobile-link text-purple_glow font-bold py-3 border-b border-slate-800/50 hover:bg-white/5 rounded-lg transition-colors">♥ Beneficenza</a>
             <a href="#contact" class="mobile-link text-purple font-bold py-3 bg-purple/10 rounded-xl hover:bg-purple/20 transition-all shadow-[0_0_10px_rgba(168,85,247,0.1)]">Contattami</a>
         </div>
     </nav>
 
     <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        
         <div class="absolute top-0 -left-4 w-72 h-72 bg-purple/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
         <div class="absolute top-0 -right-4 w-72 h-72 bg-purple_dark/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
         <div class="absolute -bottom-8 left-20 w-72 h-72 bg-blue-900/30 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
 
         <div class="absolute inset-0 pointer-events-none flex items-center justify-start md:pl-10 z-0 overflow-hidden">
-             <img 
-                src="https://raw.githubusercontent.com/CoppiniFabioProjects/portfolio/main/garuda.png" 
-                alt="Garuda Eagle" 
-                class="w-[100vw] md:w-[800px] lg:w-[900px] max-w-none h-auto object-contain opacity-25 animate-[pulse_6s_ease-in-out_infinite] drop-shadow-[0_0_50px_rgba(168,85,247,0.3)]"
-             >
+             <img src="https://raw.githubusercontent.com/CoppiniFabioProjects/portfolio/main/garuda.png" alt="Garuda Eagle" class="w-[100vw] md:w-[800px] lg:w-[900px] max-w-none h-auto object-contain opacity-25 animate-[pulse_6s_ease-in-out_infinite] drop-shadow-[0_0_50px_rgba(168,85,247,0.3)]">
         </div>
 
         <div class="container mx-auto px-6 relative z-10 text-center">
@@ -615,7 +487,6 @@
                 </span>
             </div>
             
-            <!-- UPDATED NAME: Liquid Text Class -->
             <h1 class="text-6xl md:text-8xl lg:text-9xl font-serif font-bold leading-tight mb-6 fade-in-up delay-100 drop-shadow-2xl">
                 Fabio <span class="garuda-wing inline-block cursor-default select-none hover:scale-105 transition-transform duration-500 text-liquid">Coppini</span>
             </h1>
@@ -627,7 +498,6 @@
             </p>
 
             <div class="flex flex-col md:flex-row gap-4 justify-center items-center fade-in-up delay-300">
-                <!-- UPDATED BUTTON: Btn Ultra + Magnetic -->
                 <a href="#projects" class="btn-ultra magnetic-btn group relative px-10 py-5 rounded-full w-full md:w-auto text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2" data-magnetic>
                     Esplora Portfolio <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
                 </a>
@@ -639,13 +509,11 @@
         </div>
     </section>
 
-    <!-- UPDATED: Back To Top with new ID and Structure -->
     <div id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
         <i data-lucide="arrow-up" class="w-5 h-5"></i>
     </div>
-
-    <!-- Sezioni (About, Skills, Experience, Projects, Footer) identiche a prima -->
     
+    <!-- VETRINA -->
     <section id="about" class="py-24 relative">
         <div class="container mx-auto px-6">
             <div class="flex items-end justify-between mb-12">
@@ -703,7 +571,6 @@
                         <p class="text-slate-300 text-sm leading-relaxed mb-4">
                             Mi piace lavorare con i bambini perché sono la voce della verità. Insegno Logica, Lego Spike, Ozobot e Scratch nelle scuole di Prato e Pistoia.
                         </p>
-
                         <ul class="text-xs text-slate-400 space-y-2">
                             <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple rounded-full shadow-[0_0_5px_#a855f7]"></div> Empatia e Ascolto</li>
                             <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-purple rounded-full shadow-[0_0_5px_#a855f7]"></div> Team Leader (Esperienza USA)</li>
@@ -752,6 +619,7 @@
         </div>
     </section>
 
+    <!-- SKILLS -->
     <section id="skills" class="py-24 bg-black/20">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-serif text-white mb-12 text-center">Arsenale Tecnologico</h2>
@@ -809,6 +677,7 @@
         </div>
     </section>
 
+    <!-- EXPERIENCE -->
     <section id="experience" class="py-24">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-serif text-white mb-16">Percorso & Esperienza</h2>
@@ -817,17 +686,13 @@
                 
                 <div class="relative pl-8 md:pl-12 group">
                     <span class="absolute -left-[5px] top-6 w-2.5 h-2.5 bg-purple rounded-full shadow-[0_0_10px_#a855f7] ring-4 ring-black"></span>
-                    
                     <div class="spotlight-card p-6 rounded-2xl group-hover:translate-x-2 border-purple/30">
                         <div class="spotlight-bg"></div>
                         <span class="relative z-10 text-xs font-bold text-purple_glow uppercase tracking-wider mb-2 block">2 Maggio 2025 - Attuale</span>
                         <h3 class="relative z-10 text-xl font-bold text-white">Apprendista Programmatore & "Sbottinatore" Tuttofare</h3>
                         <p class="relative z-10 text-slate-400 italic mb-2">01Informatica</p>
-                        
                         <div class="relative z-10 text-slate-300 text-sm space-y-2">
-                             <p>
-                                Dal codice all'hardware, risolvo problemi. Mi occupo di sviluppo software, assistenza tecnica e gestione imprevisti informatici a 360°.
-                             </p>
+                             <p>Dal codice all'hardware, risolvo problemi. Mi occupo di sviluppo software, assistenza tecnica e gestione imprevisti informatici a 360°.</p>
                              <div class="flex items-center gap-2 mt-2 pt-2 border-t border-slate-700/50">
                                 <i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-current"></i>
                                 <span class="italic text-slate-400">Mentorship d'eccellenza con il grande <strong class="text-white">Michele</strong>, un tutor coi fiocchi.</span>
@@ -879,7 +744,7 @@
                         <span class="relative z-10 text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">2013 - 2018</span>
                         <h3 class="relative z-10 text-xl font-bold text-white">Diploma Perito Informatico</h3>
                         <p class="relative z-10 text-slate-400 italic">ITTS Silvano Fedi</p>
-                        <p class="relative z-10 text-slate-500 text-sm mt-2">Tesi: "La Rivoluzione Digitale confrontata con l’Anarchia". Un primo approccio al legame tra tech e società.</p>
+                        <p class="relative z-10 text-slate-500 text-sm mt-2">Tesi: "La Rivoluzione Digitale confrontata con l'Anarchia".</p>
                          <a href="https://drive.google.com/file/d/1TUFOxMBUeuC53R0BwsnYKp5MsOFMxeO6/view?usp=sharing" target="_blank" class="relative z-10 mt-2 inline-flex items-center text-xs text-slate-400 hover:text-white transition-colors">Leggi Tesi <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i></a>
                     </div>
                 </div>
@@ -887,23 +752,19 @@
         </div>
     </section>
 
+    <!-- PROJECTS -->
     <section id="projects" class="py-24 bg-gradient-to-b from-transparent to-slate-900/50">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-serif text-white mb-12 text-right">Progetti</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
-                <!-- NEW PROJECT: FITTRACKER APP (Cyber Style) -->
                 <article class="group spotlight-card rounded-3xl overflow-hidden h-[400px] md:col-span-2 relative">
                     <div class="spotlight-bg"></div>
-                    <!-- Background with specific cyber treatment -->
                     <div class="absolute inset-0 bg-[url('https://raw.githubusercontent.com/CoppiniFabioProjects/portfolio/main/fototessera.png')] bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="filter: grayscale(100%) contrast(1.2);"></div>
-                    
-                    <!-- Purple/Cyber Overlay Layers -->
                     <div class="absolute inset-0 bg-purple/60 mix-blend-overlay transition-opacity duration-300 group-hover:bg-purple/40"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-purple/20"></div>
                     
-                    <!-- Content -->
                     <div class="absolute inset-0 flex flex-col items-center justify-center z-20">
                          <h3 class="text-5xl md:text-7xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-purple_glow to-white drop-shadow-[0_0_15px_rgba(168,85,247,0.8)] text-center group-hover:scale-105 transition-transform duration-500">
                             FitTracker<br>App
@@ -915,9 +776,7 @@
 
                     <div class="absolute bottom-0 left-0 p-8 w-full z-20 flex justify-between items-end">
                         <div>
-                            <p class="text-slate-300 text-sm max-w-md line-clamp-2">
-                                Il futuro del fitness intelligente. Monitoraggio biometrico e AI personalizzata.
-                            </p>
+                            <p class="text-slate-300 text-sm max-w-md line-clamp-2">Il futuro del fitness intelligente. Monitoraggio biometrico e AI personalizzata.</p>
                         </div>
                         <div class="flex gap-2">
                             <span class="px-2 py-1 bg-purple/20 backdrop-blur rounded text-[10px] text-white uppercase border border-purple/30">Mobile</span>
@@ -930,7 +789,6 @@
                 <div class="spotlight-bg"></div>
                 <div class="absolute inset-0 bg-[url('https://github.com/CoppiniFabioProjects/portfolio/blob/main/01Informatica_puzzle_01-scaled.jpg?raw=true')] bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-40 group-hover:opacity-60"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
-
                     <div class="absolute bottom-0 left-0 p-8 w-full z-10">
                         <div class="flex justify-between items-end mb-4">
                             <div>
@@ -941,14 +799,11 @@
                                 <i data-lucide="arrow-up-right"></i>
                             </a>
                         </div>
-                        <p class="text-slate-400 text-sm line-clamp-2 mb-4 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                            Apprendista
-                        </p>
+                        <p class="text-slate-400 text-sm line-clamp-2 mb-4 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">Apprendista</p>
                         <div class="flex gap-2">
                             <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase border border-slate-700">CMS</span>
                             <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase border border-slate-700">Web Design</span>
                             <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase border border-slate-700">Sviluppo Java</span>
-                            <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase border border-slate-700">Assisntenza Tecnica e Software</span>
                         </div>
                     </div>
                 </article>
@@ -973,9 +828,7 @@
                             </a>
                         </div>
                         
-                        <p class="text-slate-300 text-sm mb-4 line-clamp-3 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                            Web App per la gestione flussi di magazzino e interfacciamento tra hardware automatici ed ERP. Orchestrazione ibrida DB2/SQL Server e logica barcode avanzata.
-                        </p>
+                        <p class="text-slate-300 text-sm mb-4 line-clamp-3 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">Web App per la gestione flussi di magazzino e interfacciamento tra hardware automatici ed ERP.</p>
     
                         <div class="flex flex-wrap gap-2">
                             <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase border border-slate-700">Architettura Ibrida</span>
@@ -1001,9 +854,7 @@
                                 <i data-lucide="youtube"></i>
                             </a>
                         </div>
-                         <p class="text-slate-400 text-sm line-clamp-2 mb-4 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                            Coordinamento team scientifico negli USA per competizione internazionale di robotica. Gestione risorse e presentazione tecnica.
-                        </p>
+                         <p class="text-slate-400 text-sm line-clamp-2 mb-4 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">Coordinamento team scientifico negli USA per competizione internazionale di robotica.</p>
                          <div class="flex gap-2">
                             <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase border border-slate-700">Leadership</span>
                             <span class="px-2 py-1 bg-slate-800 rounded text-[10px] text-slate-300 uppercase border border-slate-700">Robotics</span>
@@ -1015,6 +866,100 @@
         </div>
     </section>
 
+    <!-- ============================================ -->
+    <!-- NEW SECTION: BENEFICENZA / ServiceScore      -->
+    <!-- ============================================ -->
+    <section id="beneficenza" class="py-24 relative overflow-hidden">
+        <!-- Background accent -->
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-lions_blue/5 to-slate-900/50"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-lions_blue/10 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-lions_yellow/10 rounded-full blur-[100px]"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <!-- Section Header -->
+            <div class="flex items-end justify-between mb-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="inline-block py-1 px-3 rounded-full bg-lions_blue/20 border border-lions_blue/30 text-lions_yellow text-[10px] font-bold uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(0,51,160,0.3)]">
+                            ♛ Progetto di Beneficenza
+                        </span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-serif text-white mb-2">Service<span class="text-lions_yellow">Score</span></h2>
+                    <div class="h-1 w-24 bg-gradient-to-r from-lions_yellow to-lions_red shadow-[0_0_10px_#FFC72C]"></div>
+                </div>
+                <p class="hidden md:block text-slate-400 text-right max-w-sm">
+                    Tecnologia al servizio del bene. Una piattaforma per i Lions Club Italia.
+                </p>
+            </div>
+
+            <!-- Main Feature Card -->
+            <div class="spotlight-card rounded-3xl p-8 md:p-12 mb-8 group relative overflow-hidden">
+                <div class="spotlight-bg"></div>
+                <!-- Decorative gradient overlay -->
+                <div class="absolute inset-0 bg-gradient-to-br from-lions_blue/[0.03] via-transparent to-lions_yellow/[0.03]"></div>
+                
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    <!-- Left: Description -->
+                    <div class="space-y-6">
+                        <h3 class="text-2xl md:text-3xl font-bold text-white">
+                            Digitalizzare il <span class="text-lions_yellow">Service</span> Lions
+                        </h3>
+                        <p class="text-slate-300 leading-relaxed">
+                            Ho progettato e sviluppato <strong class="text-white">ServiceScore</strong>, una piattaforma web per i Lions Club Italia che digitalizza la rendicontazione e la classificazione dei progetti benefici. 
+                            Un sistema completo con dashboard, classifiche live, statistiche e gestione utenti — tutto open e accessibile.
+                        </p>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Il progetto nasce dall'idea di portare trasparenza e competizione sana nel mondo del volontariato, permettendo a ogni club di monitorare il proprio impatto sociale in tempo reale.
+                        </p>
+                        
+                        <!-- Tech Stack Tags -->
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            <span class="px-3 py-1 bg-lions_blue/10 backdrop-blur rounded-full text-[10px] text-lions_yellow uppercase border border-lions_blue/20 font-bold tracking-wider">React 19</span>
+                            <span class="px-3 py-1 bg-lions_blue/10 backdrop-blur rounded-full text-[10px] text-lions_yellow uppercase border border-lions_blue/20 font-bold tracking-wider">Vite 8</span>
+                            <span class="px-3 py-1 bg-lions_blue/10 backdrop-blur rounded-full text-[10px] text-lions_yellow uppercase border border-lions_blue/20 font-bold tracking-wider">Tailwind CSS</span>
+                            <span class="px-3 py-1 bg-lions_blue/10 backdrop-blur rounded-full text-[10px] text-lions_yellow uppercase border border-lions_blue/20 font-bold tracking-wider">Supabase</span>
+                            <span class="px-3 py-1 bg-lions_blue/10 backdrop-blur rounded-full text-[10px] text-lions_yellow uppercase border border-lions_blue/20 font-bold tracking-wider">PWA</span>
+                            <span class="px-3 py-1 bg-lions_blue/10 backdrop-blur rounded-full text-[10px] text-lions_yellow uppercase border border-lions_blue/20 font-bold tracking-wider">Recharts</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Stats Grid -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gradient-to-br from-lions_blue/20 to-lions_blue/5 p-5 rounded-2xl border border-lions_blue/20 text-center group/stat hover:border-lions_yellow/30 transition-all">
+                            <i data-lucide="trophy" class="w-6 h-6 text-lions_yellow mx-auto mb-2"></i>
+                            <div class="text-2xl font-black text-white">Live</div>
+                            <div class="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-1">Classifiche</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-lions_red/20 to-lions_red/5 p-5 rounded-2xl border border-lions_red/20 text-center group/stat hover:border-lions_yellow/30 transition-all">
+                            <i data-lucide="bar-chart-3" class="w-6 h-6 text-lions_red mx-auto mb-2"></i>
+                            <div class="text-2xl font-black text-white">Stats</div>
+                            <div class="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-1">Grafici</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-lions_yellow/20 to-lions_yellow/5 p-5 rounded-2xl border border-lions_yellow/20 text-center group/stat hover:border-lions_yellow/40 transition-all">
+                            <i data-lucide="smartphone" class="w-6 h-6 text-lions_yellow mx-auto mb-2"></i>
+                            <div class="text-2xl font-black text-white">PWA</div>
+                            <div class="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-1">Offline</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple/20 to-purple/5 p-5 rounded-2xl border border-purple/20 text-center group/stat hover:border-purple/40 transition-all">
+                            <i data-lucide="users" class="w-6 h-6 text-purple_glow mx-auto mb-2"></i>
+                            <div class="text-2xl font-black text-white">Role</div>
+                            <div class="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-1">Accessi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center">
+                <a href="https://servicescore.vercel.app" target="_blank" class="btn-ultra magnetic-btn inline-flex items-center gap-3 px-10 py-5 rounded-full text-sm font-bold uppercase tracking-widest" data-magnetic>
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                    Visita ServiceScore
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interessi -->
     <section class="py-20 border-t border-slate-900">
         <div class="container mx-auto px-6 text-center">
             <h4 class="text-xs font-bold text-slate-600 uppercase tracking-[0.3em] mb-8">Interessi & Ispirazioni</h4>
@@ -1034,6 +979,7 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer id="contact" class="relative py-24 bg-black overflow-hidden">
         <div class="absolute bottom-0 left-0 w-full text-center pointer-events-none opacity-5">
             <h2 class="text-[15vw] font-serif font-bold text-white leading-none tracking-tighter">GARUDA</h2>
@@ -1041,12 +987,9 @@
 
         <div class="container mx-auto px-6 relative z-10 text-center">
             <h2 class="text-4xl md:text-6xl font-serif text-white mb-6">Creiamo qualcosa di <span class="text-purple italic">unico</span>.</h2>
-            <p class="text-slate-400 text-lg mb-12 max-w-2xl mx-auto">
-                
-            </p>
+            <p class="text-slate-400 text-lg mb-12 max-w-2xl mx-auto"></p>
 
             <div class="flex flex-col md:flex-row justify-center gap-6 mb-16">
-                <!-- UPDATED BUTTONS: Ultra style on footer actions too -->
                 <a href="mailto:coppinifabio99@gmail.com" class="btn-ultra magnetic-btn px-8 py-4 font-bold rounded-full text-white" data-magnetic>
                     coppinifabio99@gmail.com
                 </a>
@@ -1081,32 +1024,25 @@
     <script>
         lucide.createIcons();
 
-        // --- PRELOADER LOGIC ---
+        // Preloader
         window.addEventListener('load', () => {
             const loaderBar = document.getElementById('loader-bar');
             const preloader = document.getElementById('preloader');
-
-            // Animate bar
             loaderBar.style.width = '100%';
-
             setTimeout(() => {
                 preloader.style.opacity = '0';
                 preloader.style.visibility = 'hidden';
-            }, 800); // Hide after animation
+            }, 800);
         });
 
-        // --- SCROLL PROGRESS & BACK TO TOP LOGIC ---
+        // Scroll Progress & Back to Top
         const scrollProgress = document.getElementById('scroll-progress');
         const backToTopBtn = document.getElementById('back-to-top');
-
         window.addEventListener('scroll', () => {
-            // Progress Bar
             const totalScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (totalScroll / windowHeight) * 100;
             scrollProgress.style.width = scrolled + "%";
-
-            // Back to Top Button Visibility
             if (totalScroll > 500) {
                 backToTopBtn.classList.add('show');
             } else {
@@ -1114,95 +1050,66 @@
             }
         });
 
-        // Custom Cursor Logic
+        // Custom Cursor
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
-
         window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-
-            // Dot follows instantly
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-
-            // Outline follows with slight delay
+            cursorDot.style.left = `${e.clientX}px`;
+            cursorDot.style.top = `${e.clientY}px`;
             cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
+                left: `${e.clientX}px`,
+                top: `${e.clientY}px`
             }, { duration: 500, fill: "forwards" });
         });
 
-        // Hover Effect on clickable elements
         const interactiveElements = document.querySelectorAll('a, button, .spotlight-card, #back-to-top');
         interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                document.body.classList.add('hovering');
-            });
-            el.addEventListener('mouseleave', () => {
-                document.body.classList.remove('hovering');
-            });
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });
 
-        // Spotlight Effect Logic
-        const spotlightCards = document.querySelectorAll('.spotlight-card');
-        spotlightCards.forEach(card => {
+        // Spotlight Effect
+        document.querySelectorAll('.spotlight-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
             });
         });
 
-        // Magnetic Button Effect
-        const magneticBtns = document.querySelectorAll('.magnetic-btn');
-        magneticBtns.forEach(btn => {
+        // Magnetic Buttons
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
                 const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+                btn.style.transform = `translate(${(e.clientX - rect.left - rect.width / 2) * 0.2}px, ${(e.clientY - rect.top - rect.height / 2) * 0.2}px)`;
             });
-
             btn.addEventListener('mouseleave', () => {
                 btn.style.transform = 'translate(0px, 0px)';
             });
         });
 
-        // Tech Mobile Menu Logic
+        // Mobile Menu
         const mobileBtn = document.getElementById('mobile-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = mobileMenu.querySelectorAll('.mobile-link');
-
         mobileBtn.addEventListener('click', () => {
             mobileBtn.classList.toggle('is-active');
-            
             if (mobileMenu.classList.contains('menu-closed')) {
-                // Open Menu
                 mobileMenu.classList.remove('menu-closed');
                 mobileMenu.classList.add('menu-open');
             } else {
-                // Close Menu
                 mobileMenu.classList.remove('menu-open');
                 mobileMenu.classList.add('menu-closed');
             }
         });
-
-        // Auto-close on link click with tech delay
-        mobileLinks.forEach(link => {
+        mobileMenu.querySelectorAll('.mobile-link').forEach(link => {
             link.addEventListener('click', () => {
                 setTimeout(() => {
                     mobileBtn.classList.remove('is-active');
                     mobileMenu.classList.remove('menu-open');
                     mobileMenu.classList.add('menu-closed');
-                }, 150); // Slight delay for better UX feeling
+                }, 150);
             });
         });
-
     </script>
 </body>
 </html>
