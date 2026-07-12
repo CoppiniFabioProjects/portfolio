@@ -4,7 +4,7 @@ import { tech } from "../data/content";
 
 export default function Tech() {
   return (
-    <section id="skills" className="relative py-28">
+    <section id="skills" className="relative py-20 md:py-28">
       <div className="container mx-auto px-6">
         <SectionHeader
           index="02"

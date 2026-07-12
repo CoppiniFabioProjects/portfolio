@@ -18,7 +18,7 @@ function Flagship({ p, i }) {
   const reverse = i % 2 === 1;
 
   return (
-    <div ref={ref} className="group grid lg:grid-cols-12 gap-8 lg:gap-12 items-center py-10">
+    <div ref={ref} className="group grid lg:grid-cols-12 gap-6 lg:gap-12 items-center py-6 md:py-10">
       {/* Image */}
       <div className={`lg:col-span-7 ${reverse ? "lg:order-2" : ""}`}>
         <Spotlight className="relative overflow-hidden rounded-3xl aspect-[16/10] glass">
@@ -41,7 +41,7 @@ function Flagship({ p, i }) {
           <span className="section-index">.{p.index}</span>
           <span className="kicker">Progetto di punta</span>
         </div>
-        <h3 className="display-serif text-white text-5xl md:text-6xl mb-4">
+        <h3 className="display-serif text-white text-4xl sm:text-5xl md:text-6xl mb-4 break-words">
           <AnimatedLines lines={[p.title]} />
         </h3>
         <p className={`display-serif italic text-xl md:text-2xl ${a.text} mb-5`}>{p.tagline}</p>
@@ -66,7 +66,7 @@ function Flagship({ p, i }) {
 
 export default function Projects() {
   return (
-    <section id="projects" className="relative py-28 overflow-hidden">
+    <section id="projects" className="relative py-20 md:py-28 overflow-hidden">
       <div className="blob bg-purple w-[34rem] h-[34rem] -left-40 top-1/3 opacity-20" />
       <div className="container mx-auto px-6 relative">
         <SectionHeader index="05" eyebrow="Lavori" title="Progetti" sub="Due progetti di punta, e tutto il resto che ho costruito." />

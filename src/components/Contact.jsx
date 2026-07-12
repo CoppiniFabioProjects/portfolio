@@ -29,7 +29,7 @@ export default function Contact() {
         <span className="font-display font-black text-[22vw] leading-none text-white/[0.03]">GARUDA</span>
       </div>
 
-      <div className="container mx-auto px-6 py-24 relative z-10 text-center">
+      <div className="container mx-auto px-6 py-16 md:py-24 relative z-10 text-center">
         <Reveal>
           <h2 className="font-display text-4xl md:text-7xl text-white mb-4">
             Creiamo qualcosa di <span className="text-gradient italic">unico</span>.

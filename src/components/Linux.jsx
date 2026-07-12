@@ -4,7 +4,7 @@ import { linux } from "../data/content";
 
 export default function Linux() {
   return (
-    <section id="linux" className="relative py-28 overflow-hidden">
+    <section id="linux" className="relative py-20 md:py-28 overflow-hidden">
       <div className="blob bg-garuda w-[30rem] h-[30rem] -right-40 top-10 opacity-20" />
       <div className="container mx-auto px-6 relative">
         <SectionHeader

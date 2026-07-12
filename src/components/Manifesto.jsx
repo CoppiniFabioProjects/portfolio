@@ -11,7 +11,7 @@ export default function Manifesto() {
   const bgOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.06, 0]);
 
   return (
-    <section id="manifesto" ref={ref} className="relative h-[200vh]">
+    <section id="manifesto" ref={ref} className="relative h-[160vh] md:h-[200vh]">
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
         {/* Drifting watermark */}
         <motion.div
@@ -27,11 +27,11 @@ export default function Manifesto() {
             <span className="kicker">{manifesto.kicker}</span>
           </div>
 
-          <h2 className="display-serif text-white text-6xl md:text-8xl lg:text-9xl mb-10">
+          <h2 className="display-serif text-white text-5xl sm:text-6xl md:text-8xl lg:text-9xl mb-8 md:mb-10">
             <AnimatedLines lines={manifesto.lines} stagger={0.15} />
           </h2>
 
-          <p className="max-w-xl text-lg md:text-xl text-mist leading-relaxed">
+          <p className="max-w-xl text-base md:text-xl text-mist leading-relaxed">
             <WordReveal text={manifesto.body} />
           </p>
         </div>

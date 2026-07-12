@@ -4,7 +4,7 @@ import { timeline } from "../data/content";
 
 export default function Timeline() {
   return (
-    <section id="experience" className="relative py-28">
+    <section id="experience" className="relative py-20 md:py-28">
       <div className="container mx-auto px-6">
         <SectionHeader index="04" eyebrow="Percorso" title="Timeline" sub="Dove ho imparato, costruito e insegnato." />
 

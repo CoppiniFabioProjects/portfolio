@@ -36,11 +36,16 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background-color: var(--color-ink);
   color: #e8e6f0;
   font-family: var(--font-body);
   overflow-x: hidden;
+  max-width: 100vw;
 }
 
 ::selection {
@@ -254,7 +259,8 @@ html.lenis body {
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 0.85;
-  font-size: clamp(3.5rem, 13vw, 13rem);
+  font-size: clamp(2.75rem, 13vw, 13rem);
+  overflow-wrap: break-word;
 }
 .display-serif {
   font-family: var(--font-display);

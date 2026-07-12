@@ -5,7 +5,7 @@ import { vetrina } from "../data/content";
 
 export default function Vetrina() {
   return (
-    <section id="about" className="relative py-28">
+    <section id="about" className="relative py-20 md:py-28">
       <div className="container mx-auto px-6">
         <SectionHeader
           index="01"
