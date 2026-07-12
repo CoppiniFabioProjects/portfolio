@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { useSmoothScroll } from "./components/primitives";
 import Nav from "./components/Nav";
+import Cursor from "./components/Cursor";
 import ScrollGuide from "./components/ScrollGuide";
 import Hero from "./components/Hero";
 import Manifesto from "./components/Manifesto";
@@ -54,6 +55,7 @@ export default function App() {
   return (
     <>
       <div className="grain" />
+      <Cursor />
       <ScrollProgress />
       <Nav />
       <ScrollGuide />

@@ -183,7 +183,7 @@ export const flagship = [
     body:
       "Piattaforma per il Lions Club — Distretto 108 LA (Toscana): organizza, misura e valorizza il servizio alla comunità. Evoluzione del progetto ServiceScore, oggi con dominio proprio.",
     tags: ["React", "Supabase", "Dashboard", "Lions 108 LA"],
-    image: "/portfolio/benesseredigitale.png",
+    image: "/portfolio/digitalions.png",
     link: "https://digitalions108la.it",
     linkLabel: "Visita DigitaLions",
     status: "Live",
