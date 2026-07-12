@@ -1,0 +1,236 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS — Editoriale cinematico
+   ============================================================ */
+@theme {
+  --font-display: "Fraunces", "Cinzel Decorative", serif;
+  --font-serif: "Cinzel Decorative", serif;
+  --font-sans: "Space Grotesk", "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-ink: #050509;
+  --color-ink-2: #0a0a12;
+  --color-paper: #f4f1ea;
+  --color-purple: #a855f7;
+  --color-purple-glow: #c084fc;
+  --color-purple-dark: #7e22ce;
+  --color-garuda: #2dd4bf;
+  --color-garuda-glow: #5eead4;
+  --color-lions-blue: #0033a0;
+  --color-lions-red: #e31837;
+  --color-lions-gold: #ffc72c;
+  --color-mist: #94a3b8;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+:root {
+  color-scheme: dark;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: #e8e6f0;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-purple);
+  color: #fff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--color-purple-dark), var(--color-purple));
+  border-radius: 99px;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ============================================================
+   TYPOGRAPHY HELPERS
+   ============================================================ */
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+}
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(120deg, #fff 0%, var(--color-purple-glow) 55%, var(--color-garuda) 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-gradient-purple {
+  background: linear-gradient(120deg, var(--color-purple-glow), var(--color-purple-dark));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ============================================================
+   GLASS / CARDS
+   ============================================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.card-hover {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.5s ease, box-shadow 0.5s ease;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  border-color: rgba(168, 85, 247, 0.35);
+  box-shadow: 0 30px 60px -20px rgba(168, 85, 247, 0.25);
+}
+
+/* Spotlight card — follows cursor via --mx / --my set in JS */
+.spotlight {
+  position: relative;
+  overflow: hidden;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    600px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(168, 85, 247, 0.12),
+    transparent 40%
+  );
+  pointer-events: none;
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn-primary {
+  position: relative;
+  background: linear-gradient(120deg, var(--color-purple), var(--color-purple-dark));
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(192, 132, 252, 0.4),
+    0 20px 40px -12px rgba(168, 85, 247, 0.5);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(192, 132, 252, 0.7),
+    0 28px 50px -12px rgba(168, 85, 247, 0.7);
+}
+.btn-ghost {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.35s ease;
+}
+.btn-ghost:hover {
+  border-color: var(--color-purple);
+  background: rgba(168, 85, 247, 0.08);
+}
+
+/* ============================================================
+   DECOR
+   ============================================================ */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -40px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+.animate-blob {
+  animation: blobFloat 18s ease-in-out infinite;
+}
+
+@keyframes pulseSlow {
+  0%, 100% { opacity: 0.18; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(1.04); }
+}
+.animate-pulse-slow {
+  animation: pulseSlow 7s ease-in-out infinite;
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* Reveal (fallback for reduced motion) */
+@media (prefers-reduced-motion: reduce) {
+  .animate-blob,
+  .animate-pulse-slow,
+  .animate-marquee {
+    animation: none !important;
+  }
+  * {
+    scroll-behavior: auto !important;
+  }
+}
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-purple), transparent);
+  box-shadow: 0 0 12px var(--color-purple);
+}

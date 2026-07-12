@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="262" height="64" viewBox="0 0 262 64" fill="none">
+  <!-- S mark (la strada + il nodo di fiducia) = lettera iniziale -->
+  <svg x="2" y="13" width="30" height="38.6" viewBox="9 6 28 36" overflow="visible">
+    <path d="M34 14c-3-4-9-5-13-2-4 3-4 9 0 12 5 4 6 7 3 11-3 3-9 3-12-1"
+          stroke="#418a80" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="24" cy="24" r="2.7" fill="#418a80"/>
+  </svg>
+  <!-- "postiamoci" — la S del marchio fa da iniziale -> "Spostiamoci" -->
+  <text x="31" y="47" font-family="'Space Grotesk','Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif"
+        font-size="40" font-weight="500" letter-spacing="-1">
+    <tspan fill="#13201e">posti</tspan><tspan fill="#418a80">amo</tspan><tspan fill="#13201e">ci</tspan>
+  </text>
+</svg>

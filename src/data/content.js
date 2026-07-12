@@ -1,0 +1,209 @@
+// ============================================================
+//  CONTENUTI — Fabio Coppini Portfolio
+//  Modifica qui testi e link: i componenti leggono da questo file.
+// ============================================================
+
+export const profile = {
+  name: "Fabio Coppini",
+  role: "Informatico Umanista",
+  location: "Pistoia / Quarrata, Italia",
+  email: "coppinifabio99@gmail.com",
+  phone: "+39 334 923 5662",
+  linkedin: "https://www.linkedin.com/in/coppinifabio/",
+  github: "https://github.com/CoppiniFabioProjects/",
+  tagline: "Libero come un'aquila.",
+  intro:
+    "Non sono il classico sviluppatore. Laureato in Informatica Umanistica all'Università di Pisa, opero nell'intersezione rara tra la fredda precisione degli algoritmi e la caotica bellezza della cultura umana.",
+};
+
+export const nav = [
+  { id: "about", label: "Vetrina" },
+  { id: "skills", label: "Tech" },
+  { id: "linux", label: "Linux" },
+  { id: "experience", label: "Timeline" },
+  { id: "projects", label: "Progetti" },
+  { id: "beneficenza", label: "Beneficenza" },
+  { id: "contact", label: "Contatti" },
+];
+
+export const vetrina = {
+  main: {
+    title: "Informatica Umanistica",
+    subtitle: "Università di Pisa",
+    body:
+      "Tesi in Linguistica Computazionale (NLP) sui testi delle medaglie d'oro. Un percorso che unisce la precisione degli algoritmi alla bellezza della cultura umana.",
+    stats: [
+      { value: "NLP", label: "Tesi" },
+      { value: "98", label: "Voto" },
+    ],
+    link: {
+      href: "https://drive.google.com/drive/folders/171K8z4jlj_PbVp7bJ7IUweG75Hj5ZixM?usp=sharing",
+      label: "Leggi la Tesi",
+    },
+  },
+  cards: [
+    {
+      icon: "Trophy",
+      title: "Padel Player",
+      body:
+        "Gioco competitivo e agonistico. Disciplina, strategia e riflessi trasferiti dal campo al codice.",
+      link: { href: "https://app.playtomic.io/", label: "Playtomic" },
+      image: "/portfolio/padel.jpg",
+      accent: "garuda",
+    },
+    {
+      icon: "Bot",
+      title: "Insegnante di Robotica",
+      body:
+        "Con Scienza Ludica APS insegno robotica ed educativa nelle scuole di Prato e Pistoia: Lego Spike, Ozobot e Scratch.",
+      link: { href: "https://scienzaludica.org/", label: "Scienza Ludica" },
+      image: "/portfolio/scienzaludica.jpg",
+      accent: "purple",
+    },
+    {
+      icon: "Sprout",
+      title: "Vento e Vertigine",
+      body:
+        "Volontariato con attenzione all'innovazione etica, alla sostenibilità e all'uso consapevole del linguaggio.",
+      link: { href: "https://www.ventoevertigine.com/", label: "Vento e Vertigine" },
+      image: "/portfolio/ventoevertigine.jpg",
+      accent: "garuda",
+    },
+  ],
+  stats: [
+    { value: "B2", label: "Inglese" },
+    { value: "110%", label: "Dedizione" },
+    { value: "B", label: "Patente" },
+  ],
+};
+
+export const tech = [
+  {
+    title: "Frontend",
+    icon: "Layout",
+    accent: "purple",
+    items: ["React 19", "Tailwind CSS v4", "Vite", "Recharts", "jsPDF", "PWA / Service Workers"],
+  },
+  {
+    title: "Backend & Cloud",
+    icon: "Database",
+    accent: "garuda",
+    items: ["Supabase (PostgreSQL)", "Auth & RLS Policies", "Storage Buckets", "Vercel Deploy", "Git & GitHub", "REST APIs"],
+  },
+  {
+    title: "AI-Native Dev",
+    icon: "Sparkles",
+    accent: "purple",
+    items: ["Cursor IDE", "Claude Code", "Qwen Models", "Prompt Engineering", "AI-Assisted Workflow", "AI Debugging"],
+  },
+  {
+    title: "Concetti",
+    icon: "Boxes",
+    accent: "garuda",
+    items: ["RBAC", "Dashboard UI/UX", "Data Visualization", "Responsive Design", "Component Architecture", "State Management"],
+  },
+];
+
+export const linux = {
+  distro: "Garuda Linux",
+  points: [
+    { icon: "Terminal", title: "Terminale & Shell", body: "Zsh + oh-my-zsh, Hyprland (Wayland). Ambiente cucito su misura, veloce e minimale." },
+    { icon: "Container", title: "Docker & Deploy", body: "Containerizzazione, pipeline GitHub CI/CD, deploy su Vercel di web app React/Supabase." },
+    { icon: "Cpu", title: "Hardware & Networking", body: "Assemblaggio PC, troubleshooting hardware, reti e debugging avanzato." },
+    { icon: "Users", title: "Community", body: "Open source, documentazione, condivisione della conoscenza e mentorship." },
+  ],
+};
+
+export const timeline = [
+  {
+    period: "Mag 2025 — oggi",
+    org: "01Informatica",
+    role: "Apprendista Programmatore & Sbottinatore Tuttofare",
+    body: "Sviluppo software, supporto tecnico e risoluzione di problemi IT. Mentorship di Michele.",
+    current: true,
+  },
+  {
+    period: "Set 2024 — oggi",
+    org: "Scienza Ludica",
+    role: "Educatore di Robotica & Informatica",
+    body: "Docenza nelle scuole primarie e secondarie di Prato e Pistoia.",
+    current: true,
+  },
+  {
+    period: "Nov 2023",
+    org: "Madilo SRL (DHL)",
+    role: "Logistica & Distribuzione",
+    body: "Ruolo operativo nella logistica e distribuzione.",
+  },
+  {
+    period: "2018 — 2023",
+    org: "Università di Pisa",
+    role: "Laurea in Informatica Umanistica",
+    body: "Voto 98/110. Tesi con focus su Linguistica Computazionale (NLP).",
+  },
+  {
+    period: "2013 — 2018",
+    org: "ITTS Silvano Fedi",
+    role: "Diploma Perito Informatico",
+    body: 'Tesi: "La Rivoluzione Digitale confrontata con l\'Anarchia".',
+    link: "https://drive.google.com/file/d/1TUFOxMBUeuC53R0BwsnYKp5MsOFMxeO6/view?usp=sharing",
+  },
+];
+
+export const projects = [
+  {
+    title: "spostiAMOci",
+    tagline: "Il LinkedIn della mobilità quotidiana",
+    body:
+      "Piattaforma di mobilità sociale: condividi gli spostamenti con la tua rete di fiducia (gli AMOci, a 1°/2°/3° grado) generando risparmio, relazioni, meno traffico e meno CO₂. Mappe reali, chat realtime, bilancia della reciprocità, PWA installabile.",
+    tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime"],
+    image: "/portfolio/spostiamoci-poster.jpg",
+    link: "https://spostiamoci.vercel.app",
+    hero: true,
+    status: "Live",
+  },
+  {
+    title: "FitTracker App",
+    tagline: "Il futuro del fitness intelligente",
+    body: "Monitoraggio biometrico e AI personalizzata. Coming soon.",
+    tags: ["Mobile", "AI"],
+    image: "/portfolio/portfolio.png",
+    status: "Coming Soon",
+  },
+  {
+    title: "01 Informatica",
+    body: "Gestione siti web, sviluppo CMS e software gestionale interno all'azienda.",
+    tags: ["CMS", "Web Design", "Java"],
+    image: "/portfolio/logo_01informatica.png",
+    link: "https://www.info01.it/",
+  },
+  {
+    title: "Middleware Logistica",
+    body: "Web app per la gestione dei flussi di magazzino e interfacciamento hardware automatizzato con sistemi ERP (Ciampalini ModulaV2 / MGM). Architettura ibrida con error handling avanzato.",
+    tags: ["React", "ERP", "Hardware"],
+    image: "/portfolio/modula.png",
+    link: "https://github.com/CoppiniFabioProjects/j01modula",
+  },
+  {
+    title: "First Lego League USA",
+    body: "Team leader e coordinamento scientifico per la competizione internazionale di robotica.",
+    tags: ["Robotica", "Team Lead"],
+    image: "/portfolio/CHALLENGE_2.jpg",
+    link: "https://www.youtube.com/watch?v=S2FbYDwy31o",
+  },
+];
+
+export const beneficenza = {
+  title: "DigitaLions",
+  subtitle: "Tecnologia al servizio del bene",
+  body:
+    "Piattaforma per il Lions Club — Distretto 108 LA (Toscana): uno strumento digitale per organizzare, misurare e valorizzare il servizio alla comunità. Evoluzione del progetto ServiceScore, oggi con dominio proprio.",
+  link: "https://digitalions108la.it",
+  linkLabel: "Visita DigitaLions",
+  image: "/portfolio/benesseredigitale.png",
+};
+
+export const interests = [
+  "Leopardi", "Scacchi", "Oscar Wilde", "Pavarotti",
+  "Fromm", "Bel Canto", "Padel", "Gaming", "Linux",
+];
