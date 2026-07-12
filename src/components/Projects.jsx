@@ -1,57 +1,100 @@
-import { ArrowUpRight, Sparkles } from "lucide-react";
-import { Reveal, SectionHeader, Spotlight } from "./primitives";
-import { projects } from "../data/content";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import { Reveal, SectionHeader, Spotlight, AnimatedLines } from "./primitives";
+import { flagship, projects } from "../data/content";
+
+const ACCENT = {
+  garuda: { text: "text-garuda", border: "border-garuda/40", bg: "bg-garuda/15", dot: "bg-garuda" },
+  lions: { text: "text-lions-gold", border: "border-lions-gold/40", bg: "bg-lions-gold/15", dot: "bg-lions-gold" },
+  purple: { text: "text-purple-glow", border: "border-purple/40", bg: "bg-purple/15", dot: "bg-purple" },
+};
+
+function Flagship({ p, i }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
+  const a = ACCENT[p.accent] || ACCENT.purple;
+  const reverse = i % 2 === 1;
+
+  return (
+    <div ref={ref} className="group grid lg:grid-cols-12 gap-8 lg:gap-12 items-center py-10">
+      {/* Image */}
+      <div className={`lg:col-span-7 ${reverse ? "lg:order-2" : ""}`}>
+        <Spotlight className="relative overflow-hidden rounded-3xl aspect-[16/10] glass">
+          <motion.img
+            style={{ y: imgY, scale: 1.15 }}
+            src={p.image}
+            alt={p.title}
+            className="absolute inset-0 w-full h-full object-cover duotone"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
+          <span className={`absolute top-5 left-5 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest border ${a.border} ${a.bg} ${a.text} px-3 py-1 rounded-full backdrop-blur-md`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${a.dot} animate-pulse`} /> {p.status}
+          </span>
+        </Spotlight>
+      </div>
+
+      {/* Copy */}
+      <div className={`lg:col-span-5 ${reverse ? "lg:order-1" : ""}`}>
+        <div className="flex items-center gap-3 mb-5">
+          <span className="section-index">.{p.index}</span>
+          <span className="kicker">Progetto di punta</span>
+        </div>
+        <h3 className="display-serif text-white text-5xl md:text-6xl mb-4">
+          <AnimatedLines lines={[p.title]} />
+        </h3>
+        <p className={`display-serif italic text-xl md:text-2xl ${a.text} mb-5`}>{p.tagline}</p>
+        <p className="text-mist leading-relaxed mb-6">{p.body}</p>
+        <div className="flex flex-wrap gap-2 mb-8">
+          {p.tags.map((t) => (
+            <span key={t} className="text-[11px] font-mono text-mist border border-white/10 rounded-full px-3 py-1">{t}</span>
+          ))}
+        </div>
+        <a
+          href={p.link}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest"
+        >
+          {p.linkLabel} <ArrowUpRight className="w-4 h-4" />
+        </a>
+      </div>
+    </div>
+  );
+}
 
 export default function Projects() {
-  const hero = projects.find((p) => p.hero);
-  const rest = projects.filter((p) => !p.hero);
-
   return (
     <section id="projects" className="relative py-28 overflow-hidden">
       <div className="blob bg-purple w-[34rem] h-[34rem] -left-40 top-1/3 opacity-20" />
       <div className="container mx-auto px-6 relative">
-        <SectionHeader index="05" eyebrow="Lavori" title="Progetti" sub="Ciò che ho costruito, dal gestionale al robotico." />
+        <SectionHeader index="05" eyebrow="Lavori" title="Progetti" sub="Due progetti di punta, e tutto il resto che ho costruito." />
 
-        {/* Hero project */}
-        {hero && (
-          <Reveal>
-            <Spotlight className="group relative glass card-hover rounded-3xl overflow-hidden mb-8">
-              <div className="grid lg:grid-cols-2">
-                <div className="relative h-64 lg:h-auto overflow-hidden">
-                  <img src={hero.image} alt={hero.title} className="w-full h-full object-cover opacity-50 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-ink lg:bg-gradient-to-l" />
-                </div>
-                <div className="p-8 md:p-12 flex flex-col justify-center">
-                  {hero.status && (
-                    <span className={`self-start inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest border px-3 py-1 rounded-full mb-5 ${hero.status === "Live" ? "bg-garuda/15 text-garuda border-garuda/30" : "bg-purple/15 text-purple-glow border-purple/30"}`}>
-                      {hero.status === "Live" ? <span className="w-1.5 h-1.5 rounded-full bg-garuda animate-pulse" /> : <Sparkles className="w-3 h-3" />} {hero.status}
-                    </span>
-                  )}
-                  <h3 className="font-display text-3xl md:text-4xl text-white mb-3">{hero.title}</h3>
-                  <p className="text-lg text-purple-glow/90 font-display italic mb-3">{hero.tagline}</p>
-                  <p className="text-mist leading-relaxed mb-6">{hero.body}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {hero.tags.map((t) => (
-                      <span key={t} className="text-xs font-mono text-mist border border-white/10 rounded-full px-3 py-1">{t}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </Spotlight>
-          </Reveal>
-        )}
+        {/* Flagship duo */}
+        <div className="space-y-8 mb-20">
+          {flagship.map((p, i) => (
+            <Flagship key={p.title} p={p} i={i} />
+          ))}
+        </div>
 
-        {/* Grid */}
+        {/* Altri progetti */}
+        <Reveal>
+          <div className="flex items-center gap-4 mb-8">
+            <span className="kicker">Altri lavori</span>
+            <span className="flex-1 h-px bg-white/10" />
+          </div>
+        </Reveal>
+
         <div className="grid md:grid-cols-3 gap-6">
-          {rest.map((p, i) => (
+          {projects.map((p, i) => (
             <Reveal key={p.title} delay={i * 0.08}>
               <Spotlight className="group glass card-hover rounded-3xl overflow-hidden h-full flex flex-col">
                 <div className="relative h-40 overflow-hidden bg-ink-2 grid place-items-center">
-                  <img src={p.image} alt={p.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-85 group-hover:scale-105 transition-all duration-700" />
+                  <img src={p.image} alt={p.title} className="w-full h-full object-cover duotone" />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink to-transparent" />
                   {p.status && (
-                    <span className={`absolute top-3 right-3 inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest border px-2.5 py-1 rounded-full backdrop-blur-md ${p.status === "Live" ? "bg-garuda/15 text-garuda border-garuda/30" : "bg-white/10 text-mist border-white/20"}`}>
-                      {p.status === "Live" && <span className="w-1.5 h-1.5 rounded-full bg-garuda animate-pulse" />}
+                    <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest border bg-white/10 text-mist border-white/20 px-2.5 py-1 rounded-full backdrop-blur-md">
                       {p.status}
                     </span>
                   )}

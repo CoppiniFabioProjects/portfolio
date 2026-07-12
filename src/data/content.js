@@ -22,9 +22,20 @@ export const nav = [
   { id: "linux", label: "Linux" },
   { id: "experience", label: "Timeline" },
   { id: "projects", label: "Progetti" },
-  { id: "beneficenza", label: "Beneficenza" },
   { id: "contact", label: "Contatti" },
 ];
+
+// Manifesto — righe rivelate allo scroll (sezione pinnata stile Longbow)
+export const manifesto = {
+  kicker: "Celeritas · Levitas",
+  lines: [
+    "Non chiedo",
+    "più potenza.",
+    "Tolgo peso.",
+  ],
+  body:
+    "Come le auto che ammiro, credo nella leggerezza: meno complessità, più reattività. Codice che non distrae, che unisce la precisione dell'algoritmo alla bellezza della cultura umana.",
+};
 
 export const vetrina = {
   main: {
@@ -150,18 +161,37 @@ export const timeline = [
   },
 ];
 
-export const projects = [
+// I due progetti di punta — blocchi cinematici full-bleed
+export const flagship = [
   {
+    index: "01",
     title: "spostiAMOci",
     tagline: "Il LinkedIn della mobilità quotidiana",
     body:
-      "Piattaforma di mobilità sociale: condividi gli spostamenti con la tua rete di fiducia (gli AMOci, a 1°/2°/3° grado) generando risparmio, relazioni, meno traffico e meno CO₂. Mappe reali, chat realtime, bilancia della reciprocità, PWA installabile.",
-    tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime"],
+      "Piattaforma di mobilità sociale: condividi gli spostamenti con la tua rete di fiducia (gli AMOci, a 1°/2°/3° grado) generando risparmio, relazioni, meno traffico e meno CO₂. Mappe e rotte reali, chat realtime, bilancia della reciprocità, PWA installabile.",
+    tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime", "Three.js"],
     image: "/portfolio/spostiamoci-poster.jpg",
     link: "https://spostiamoci.vercel.app",
-    hero: true,
+    linkLabel: "Apri l'app",
     status: "Live",
+    accent: "garuda",
   },
+  {
+    index: "02",
+    title: "DigitaLions",
+    tagline: "Tecnologia al servizio del bene",
+    body:
+      "Piattaforma per il Lions Club — Distretto 108 LA (Toscana): organizza, misura e valorizza il servizio alla comunità. Evoluzione del progetto ServiceScore, oggi con dominio proprio.",
+    tags: ["React", "Supabase", "Dashboard", "Lions 108 LA"],
+    image: "/portfolio/benesseredigitale.png",
+    link: "https://digitalions108la.it",
+    linkLabel: "Visita DigitaLions",
+    status: "Live",
+    accent: "lions",
+  },
+];
+
+export const projects = [
   {
     title: "FitTracker App",
     tagline: "Il futuro del fitness intelligente",
@@ -192,16 +222,6 @@ export const projects = [
     link: "https://www.youtube.com/watch?v=S2FbYDwy31o",
   },
 ];
-
-export const beneficenza = {
-  title: "DigitaLions",
-  subtitle: "Tecnologia al servizio del bene",
-  body:
-    "Piattaforma per il Lions Club — Distretto 108 LA (Toscana): uno strumento digitale per organizzare, misurare e valorizzare il servizio alla comunità. Evoluzione del progetto ServiceScore, oggi con dominio proprio.",
-  link: "https://digitalions108la.it",
-  linkLabel: "Visita DigitaLions",
-  image: "/portfolio/benesseredigitale.png",
-};
 
 export const interests = [
   "Leopardi", "Scacchi", "Oscar Wilde", "Pavarotti",

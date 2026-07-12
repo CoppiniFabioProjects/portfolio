@@ -102,6 +102,55 @@ export function SectionHeader({ eyebrow, title, sub, align = "left", index }) {
   );
 }
 
+/* Masked line reveal — each line slides up from behind a clip, staggered on scroll */
+export function AnimatedLines({ lines, className = "", delay = 0, stagger = 0.12 }) {
+  return (
+    <span className="block">
+      {lines.map((line, i) => (
+        <span key={i} className="line-mask">
+          <motion.span
+            className={`block ${className}`}
+            initial={{ y: "110%" }}
+            whileInView={{ y: "0%" }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: delay + i * stagger }}
+          >
+            {line}
+          </motion.span>
+        </span>
+      ))}
+    </span>
+  );
+}
+
+/* Word-by-word reveal — the "guided reading" effect */
+export function WordReveal({ text, className = "", stagger = 0.045 }) {
+  const words = text.split(" ");
+  return (
+    <motion.span
+      className={className}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ staggerChildren: stagger }}
+    >
+      {words.map((w, i) => (
+        <span key={i} className="inline-block overflow-hidden align-bottom">
+          <motion.span
+            className="inline-block"
+            variants={{
+              hidden: { y: "100%", opacity: 0 },
+              show: { y: "0%", opacity: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+            }}
+          >
+            {w}&nbsp;
+          </motion.span>
+        </span>
+      ))}
+    </motion.span>
+  );
+}
+
 /* Spotlight wrapper — tracks cursor for the radial glow */
 export function Spotlight({ children, className = "" }) {
   const onMove = (e) => {

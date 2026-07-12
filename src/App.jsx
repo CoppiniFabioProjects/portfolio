@@ -3,13 +3,14 @@ import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { useSmoothScroll } from "./components/primitives";
 import Nav from "./components/Nav";
+import ScrollGuide from "./components/ScrollGuide";
 import Hero from "./components/Hero";
+import Manifesto from "./components/Manifesto";
 import Vetrina from "./components/Vetrina";
 import Tech from "./components/Tech";
 import Linux from "./components/Linux";
 import Timeline from "./components/Timeline";
 import Projects from "./components/Projects";
-import Beneficenza from "./components/Beneficenza";
 import Contact from "./components/Contact";
 
 function ScrollProgress() {
@@ -55,14 +56,15 @@ export default function App() {
       <div className="grain" />
       <ScrollProgress />
       <Nav />
+      <ScrollGuide />
       <main>
         <Hero />
+        <Manifesto />
         <Vetrina />
         <Tech />
         <Linux />
         <Timeline />
         <Projects />
-        <Beneficenza />
       </main>
       <Contact />
       <BackToTop />
