@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
 // Intro cinematografico: il video dell'aquila Garuda plana verso lo schermo e apre la hero.
-// Se il video non parte (autoplay bloccato/errore) usa il fallback in CSS.
-// Una volta per sessione, skip al click, rispetta prefers-reduced-motion.
+// Alla fine l'overlay si dissolve (crossfade) sulla hero: nessuno stacco netto.
+// Se il video non parte usa il fallback CSS. Una volta per sessione, skip al click.
 export default function Intro() {
   const videoRef = useRef(null);
   const [show, setShow] = useState(() => {
@@ -11,6 +11,7 @@ export default function Intro() {
     return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   });
   const [fallback, setFallback] = useState(false);
+  const [exiting, setExiting] = useState(false); // avvia la dissolvenza
 
   useEffect(() => {
     if (!show) return;
@@ -19,30 +20,42 @@ export default function Intro() {
     const prev = html.style.overflow;
     html.style.overflow = "hidden";
     window.scrollTo(0, 0);
-    // prova a far partire il video; se fallisce → fallback CSS
     const v = videoRef.current;
     if (v) {
       v.muted = true;
       const p = v.play();
       if (p && p.catch) p.catch(() => setFallback(true));
     }
-    // rete di sicurezza: se qualcosa si blocca, chiudi dopo 9s
-    const t = setTimeout(() => setShow(false), 9000);
+    // rete di sicurezza: se il video si blocca, esci dopo 9s
+    const t = setTimeout(() => setExiting(true), 9000);
     return () => { clearTimeout(t); html.style.overflow = prev; };
   }, [show]);
 
-  // durata del fallback CSS (2.4s)
+  // fallback CSS: dopo 2.4s avvia la dissolvenza
   useEffect(() => {
     if (!fallback) return;
-    const t = setTimeout(() => setShow(false), 2600);
+    const t = setTimeout(() => setExiting(true), 2400);
     return () => clearTimeout(t);
   }, [fallback]);
+
+  // durante la dissolvenza sblocca lo scroll, poi smonta
+  useEffect(() => {
+    if (!exiting) return;
+    document.documentElement.style.overflow = "";
+    const t = setTimeout(() => setShow(false), 950);
+    return () => clearTimeout(t);
+  }, [exiting]);
 
   if (!show) return null;
 
   return (
     <div
-      onClick={() => setShow(false)}
+      onClick={() => setExiting(true)}
+      style={{
+        opacity: exiting ? 0 : 1,
+        transition: "opacity 0.9s ease-in-out",
+        pointerEvents: exiting ? "none" : "auto",
+      }}
       className={`fixed inset-0 z-[300] grid place-items-center overflow-hidden bg-ink cursor-pointer ${fallback ? "intro-overlay" : ""}`}
       aria-hidden="true"
     >
@@ -54,7 +67,7 @@ export default function Intro() {
           muted
           playsInline
           preload="auto"
-          onEnded={() => setShow(false)}
+          onEnded={() => setExiting(true)}
           onError={() => setFallback(true)}
           className="w-full h-full object-cover"
         />
@@ -72,10 +85,11 @@ export default function Intro() {
         </>
       )}
 
-      {/* suggerimento skip */}
-      <span className="absolute bottom-6 right-6 text-[11px] font-mono text-mist/50 pointer-events-none">
-        clicca per saltare
-      </span>
+      {!exiting && (
+        <span className="absolute bottom-6 right-6 text-[11px] font-mono text-mist/50 pointer-events-none">
+          clicca per saltare
+        </span>
+      )}
     </div>
   );
 }
