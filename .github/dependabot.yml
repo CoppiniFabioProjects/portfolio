@@ -1,0 +1,17 @@
+version: 2
+updates:
+  # Dipendenze npm — aggiornamenti di sicurezza e versione
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+
+  # Aggiornamenti delle GitHub Actions usate nei workflow
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

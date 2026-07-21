@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Play, RotateCcw, Trophy, Gamepad2, Volume2, VolumeX, Send, Loader2, Medal } from "lucide-react";
 import { SectionHeader } from "./primitives";
-import { supabase, hasLeaderboard } from "../lib/supabase";
+import { getSupabase, hasLeaderboard } from "../lib/supabase";
 
 // Dimensioni logiche del campo di gioco (il canvas viene scalato al contenitore)
 const W = 760;
@@ -39,8 +39,9 @@ export default function Game() {
   const [submitted, setSubmitted] = useState(false);
 
   const fetchTop = useCallback(async () => {
-    if (!hasLeaderboard) return;
-    const { data } = await supabase
+    const sb = await getSupabase();
+    if (!sb) return;
+    const { data } = await sb
       .from("scores")
       .select("name, score")
       .order("score", { ascending: false })
@@ -58,7 +59,8 @@ export default function Game() {
     if (!hasLeaderboard || submitting || submitted) return;
     setSubmitting(true);
     localStorage.setItem("garuda-name", name);
-    const { error } = await supabase.from("scores").insert({ name, score });
+    const sb = await getSupabase();
+    const { error } = sb ? await sb.from("scores").insert({ name, score }) : { error: true };
     setSubmitting(false);
     if (!error) { setSubmitted(true); fetchTop(); }
   }, [pname, score, submitting, submitted, fetchTop]);
