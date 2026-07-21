@@ -43,7 +43,7 @@ export const vetrina = {
     title: "Informatica Umanistica",
     subtitle: "Università di Pisa",
     body:
-      "Tesi in Linguistica Computazionale (NLP) sui testi delle medaglie d'oro. Un percorso che unisce la precisione degli algoritmi alla bellezza della cultura umana.",
+      "Tesi in Linguistica Computazionale: analisi NLP dei testi delle medaglie d'oro, sviluppata in Python con NLTK — tokenizzazione, POS tagging e named entity recognition. Il percorso dove gli algoritmi incontrano la lingua e la cultura umana.",
     stats: [
       { value: "NLP", label: "Tesi" },
       { value: "98", label: "Voto" },
@@ -109,10 +109,22 @@ export const tech = [
     items: ["Vercel", "Docker", "GitHub Actions", "CI/CD", "Git & GitHub", "Linux", "Nginx", "Cloudflare"],
   },
   {
-    title: "AI-Native Dev",
-    icon: "Sparkles",
+    title: "NLP & Linguistica Computazionale",
+    icon: "ScrollText",
     accent: "garuda",
-    items: ["Cursor IDE", "Claude Code", "Prompt Engineering", "RAG", "AI-Assisted Workflow", "AI Debugging"],
+    items: ["Python", "NLTK", "spaCy", "Tokenizzazione", "POS Tagging", "Named Entity Recognition", "WordNet", "Corpora"],
+  },
+  {
+    title: "Codifica di Testi & Markup",
+    icon: "Boxes",
+    accent: "purple",
+    items: ["XML", "XSLT", "XPath", "TEI", "Codifica di testi", "Metadati semantici", "RegEx", "Schema / DTD"],
+  },
+  {
+    title: "AI, Design & Tooling",
+    icon: "Palette",
+    accent: "garuda",
+    items: ["Cursor IDE", "Claude Code", "Higgsfield", "Prompt Engineering", "Figma", "Canva Pro", "Mermaid", "Excalidraw", "OpenGraph", "SEO"],
   },
 ];
 
@@ -151,7 +163,7 @@ export const timeline = [
     period: "2018 — 2023",
     org: "Università di Pisa",
     role: "Laurea in Informatica Umanistica",
-    body: "Voto 98/110. Tesi con focus su Linguistica Computazionale (NLP).",
+    body: "Voto 98/110. Tesi in Linguistica Computazionale: analisi NLP in Python/NLTK dei testi delle medaglie d'oro. Codifica di testi con XML/XSLT/TEI.",
   },
   {
     period: "2013 — 2018",

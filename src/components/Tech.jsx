@@ -13,7 +13,7 @@ export default function Tech() {
           sub="Uno stack moderno, AI-native, dal frontend al cloud."
         />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {tech.map((group, i) => (
             <Reveal key={group.title} delay={i * 0.08}>
               <Spotlight className="glass card-hover rounded-3xl p-6 h-full">

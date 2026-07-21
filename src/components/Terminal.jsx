@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { profile, flagship, projects, timeline, tech } from "../data/content";
+import { profile, flagship, projects, timeline, tech, vetrina } from "../data/content";
 
 const openable = [...flagship, ...projects].filter((p) => p.link);
 
@@ -28,6 +28,7 @@ const COMMANDS = {
         ["projects", "i miei progetti"],
         ["apri <n>", "apri un progetto"],
         ["experience", "il mio percorso"],
+        ["tesi", "la tesi NLP 🎓"],
         ["neofetch", "il mio sistema"],
         ["contact", "come contattarmi"],
         ["social", "LinkedIn & GitHub"],
@@ -93,6 +94,14 @@ const COMMANDS = {
     <span key="s2" className="text-mist">GitHub: <L href={profile.github}>CoppiniFabioProjects</L></span>,
   ],
   cv: () => [<span key="cv" className="text-mist">📄 <L href="/portfolio/cv-fabio-coppini.pdf">Scarica il CV in PDF</L></span>],
+  tesi: () => [
+    <span key="t1" className="text-purple-glow">🎓 Tesi — Linguistica Computazionale (NLP)</span>,
+    <span key="t2" className="text-mist">Analisi dei testi delle medaglie d'oro in <span className="text-white">Python + NLTK</span>: tokenizzazione, POS tagging, named entity recognition.</span>,
+    <span key="t3" className="text-mist">Laurea in Informatica Umanistica @ Università di Pisa · <span className="text-white">98/110</span></span>,
+    <span key="t4" className="text-mist">→ <L href={vetrina.main.link.href}>{vetrina.main.link.label}</L></span>,
+  ],
+  nlp: () => COMMANDS.tesi(),
+  thesis: () => COMMANDS.tesi(),
   padel: () => [<span key="pd" className="text-garuda-glow">🎾 Livello: agonistico. Importante quanto il codice. Non giudicare. 😎</span>],
   assumimi: () => [<span key="hire" className="text-purple-glow">Ottima scelta. 😏 Scrivimi qui → <L href={`mailto:${profile.email}`}>{profile.email}</L></span>],
   hire: () => COMMANDS.assumimi(),
