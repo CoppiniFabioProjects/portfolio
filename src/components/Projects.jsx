@@ -25,7 +25,9 @@ function Flagship({ p, i }) {
           <motion.img
             style={{ y: imgY, scale: 1.15 }}
             src={p.image}
-            alt={p.title}
+            alt={`Anteprima del progetto ${p.title}`}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover duotone"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
@@ -91,7 +93,7 @@ export default function Projects() {
             <Reveal key={p.title} delay={i * 0.08}>
               <Spotlight className="group glass card-hover rounded-3xl overflow-hidden h-full flex flex-col">
                 <div className="relative h-40 overflow-hidden bg-ink-2 grid place-items-center">
-                  <img src={p.image} alt={p.title} className="w-full h-full object-cover duotone" />
+                  <img src={p.image} alt={`Anteprima del progetto ${p.title}`} loading="lazy" decoding="async" className="w-full h-full object-cover duotone" />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink to-transparent" />
                   {p.status && (
                     <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest border bg-white/10 text-mist border-white/20 px-2.5 py-1 rounded-full backdrop-blur-md">

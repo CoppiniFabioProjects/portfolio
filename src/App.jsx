@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useSpring, AnimatePresence, MotionConfig } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { useSmoothScroll } from "./components/primitives";
 import Nav from "./components/Nav";
@@ -53,7 +53,8 @@ function BackToTop() {
 export default function App() {
   useSmoothScroll();
   return (
-    <>
+    <MotionConfig reducedMotion="user">
+      <a href="#hero" className="skip-link">Salta al contenuto</a>
       <div className="grain" />
       <Cursor />
       <ScrollProgress />
@@ -70,6 +71,6 @@ export default function App() {
       </main>
       <Contact />
       <BackToTop />
-    </>
+    </MotionConfig>
   );
 }

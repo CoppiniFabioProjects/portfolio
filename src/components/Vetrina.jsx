@@ -64,6 +64,8 @@ export default function Vetrina() {
                   <img
                     src={c.image}
                     alt={c.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
