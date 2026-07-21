@@ -15,6 +15,7 @@ import Projects from "./components/Projects";
 import Game from "./components/Game";
 import Contact from "./components/Contact";
 import EasterEggs from "./components/EasterEggs";
+import Intro from "./components/Intro";
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -56,6 +57,7 @@ export default function App() {
   useSmoothScroll();
   return (
     <MotionConfig reducedMotion="user">
+      <Intro />
       <a href="#hero" className="skip-link">Salta al contenuto</a>
       <div className="grain" />
       <Cursor />

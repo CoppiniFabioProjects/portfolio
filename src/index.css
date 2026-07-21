@@ -267,6 +267,37 @@ html.lenis body {
 }
 
 /* ============================================================
+   INTRO — l'aquila plana e apre la hero
+   ============================================================ */
+@keyframes introEagle {
+  0%   { transform: scale(0.12) translateY(-30px); opacity: 0; filter: blur(10px); }
+  18%  { opacity: 1; filter: blur(0); }
+  45%  { transform: scale(0.9) translateY(0); opacity: 1; filter: blur(0); }
+  80%  { transform: scale(2.4) translateY(10px); opacity: 1; filter: blur(0); }
+  100% { transform: scale(7) translateY(46px); opacity: 0; filter: blur(8px); }
+}
+@keyframes introGlow {
+  0%   { transform: scale(0); opacity: 0; }
+  55%  { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+@keyframes introSign {
+  0%, 100% { opacity: 0; letter-spacing: 0.5em; }
+  35%, 70% { opacity: 1; letter-spacing: 0.55em; }
+}
+@keyframes introBg {
+  0%, 80% { opacity: 1; }
+  100%    { opacity: 0; }
+}
+.intro-overlay { animation: introBg 2.4s ease-in forwards; }
+.intro-eagle   { animation: introEagle 2.4s cubic-bezier(0.5, 0, 0.4, 1) forwards; will-change: transform, opacity; }
+.intro-glow    { animation: introGlow 2.4s ease-in forwards; will-change: transform, opacity; }
+.intro-sign    { animation: introSign 2.4s ease-in-out forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .intro-overlay, .intro-eagle, .intro-glow, .intro-sign { animation: none !important; }
+}
+
+/* ============================================================
    EASTER EGG — pioggia di aquile (Konami)
    ============================================================ */
 @keyframes eggfall {
