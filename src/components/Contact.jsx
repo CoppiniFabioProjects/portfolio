@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Linkedin, Github } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Github, Download } from "lucide-react";
 import { Reveal } from "./primitives";
 import { profile, interests } from "../data/content";
 
@@ -42,7 +42,7 @@ export default function Contact() {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center mb-8">
             <a href={`mailto:${profile.email}`} className="btn-primary inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full text-sm font-bold">
               <Mail className="w-4 h-4" /> {profile.email}
             </a>
@@ -50,6 +50,13 @@ export default function Contact() {
               <Phone className="w-4 h-4" /> {profile.phone}
             </a>
           </div>
+          <a
+            href="/portfolio/cv-fabio-coppini.pdf"
+            download="CV-Fabio-Coppini.pdf"
+            className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white mb-16"
+          >
+            <Download className="w-4 h-4" /> Scarica il CV (PDF)
+          </a>
         </Reveal>
 
         <Reveal delay={0.2}>
