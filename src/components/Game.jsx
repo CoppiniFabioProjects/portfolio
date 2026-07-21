@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Play, RotateCcw, Trophy, Gamepad2 } from "lucide-react";
+import { Play, RotateCcw, Trophy, Gamepad2, Volume2, VolumeX } from "lucide-react";
 import { SectionHeader } from "./primitives";
 
 // Dimensioni logiche del campo di gioco (il canvas viene scalato al contenitore)
@@ -27,6 +27,47 @@ export default function Game() {
   const [status, setStatus] = useState("idle"); // idle | playing | over
   const [score, setScore] = useState(0);
   const [high, setHigh] = useState(0);
+  const [muted, setMuted] = useState(false);
+  const mutedRef = useRef(false);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    const m = localStorage.getItem("garuda-muted") === "1";
+    setMuted(m); mutedRef.current = m;
+  }, []);
+
+  const toggleMute = useCallback((e) => {
+    e?.stopPropagation();
+    setMuted((m) => {
+      const nm = !m;
+      mutedRef.current = nm;
+      localStorage.setItem("garuda-muted", nm ? "1" : "0");
+      return nm;
+    });
+  }, []);
+
+  // effetti sonori sintetizzati (WebAudio)
+  const sfx = useCallback((type) => {
+    if (mutedRef.current) return;
+    try {
+      let ctx = audioRef.current;
+      if (!ctx) { ctx = new (window.AudioContext || window.webkitAudioContext)(); audioRef.current = ctx; }
+      if (ctx.state === "suspended") ctx.resume();
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      const t = ctx.currentTime;
+      if (type === "flap") {
+        o.type = "square"; o.frequency.setValueAtTime(480, t); o.frequency.exponentialRampToValueAtTime(640, t + 0.05);
+        g.gain.setValueAtTime(0.035, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.09); o.start(t); o.stop(t + 0.1);
+      } else if (type === "coin") {
+        o.type = "sine"; o.frequency.setValueAtTime(880, t); o.frequency.exponentialRampToValueAtTime(1320, t + 0.1);
+        g.gain.setValueAtTime(0.05, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.15); o.start(t); o.stop(t + 0.16);
+      } else if (type === "hit") {
+        o.type = "sawtooth"; o.frequency.setValueAtTime(200, t); o.frequency.exponentialRampToValueAtTime(70, t + 0.3);
+        g.gain.setValueAtTime(0.06, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.32); o.start(t); o.stop(t + 0.33);
+      }
+    } catch { /* audio non disponibile */ }
+  }, []);
 
   // record salvato in locale
   useEffect(() => {
@@ -58,8 +99,8 @@ export default function Game() {
   const flap = useCallback(() => {
     const s = stateRef.current;
     if (!s) return;
-    if (status === "playing") s.vel = FLAP;
-  }, [status]);
+    if (status === "playing") { s.vel = FLAP; sfx("flap"); }
+  }, [status, sfx]);
 
   const start = useCallback(() => {
     resetState();
@@ -161,6 +202,7 @@ export default function Game() {
                 c.token.got = true;
                 s.score += 3;
                 setScore(s.score);
+                sfx("coin");
                 s.pops.push({ x: tx, y: ty, text: "+3 " + c.token.label, life: 1 });
               }
             }
@@ -182,6 +224,7 @@ export default function Game() {
 
       function endLoop() {
         drawScene(ctx, s, "over");
+        sfx("hit");
         endGame();
         rafRef.current = requestAnimationFrame(loop);
       }
@@ -292,8 +335,18 @@ export default function Game() {
               <span className="text-purple-glow font-bold text-lg">{score}</span>
               <span className="text-mist/60 text-xs">punti</span>
             </div>
-            <div className="absolute top-4 right-5 z-10 flex items-center gap-1.5 font-mono text-xs text-mist">
-              <Trophy className="w-3.5 h-3.5 text-garuda" /> {high}
+            <div className="absolute top-3 right-4 z-20 flex items-center gap-3">
+              <button
+                onClick={toggleMute}
+                onMouseDown={(e) => e.stopPropagation()}
+                aria-label={muted ? "Attiva audio" : "Disattiva audio"}
+                className="w-8 h-8 grid place-items-center rounded-lg glass text-mist hover:text-white transition-colors"
+              >
+                {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              </button>
+              <span className="flex items-center gap-1.5 font-mono text-xs text-mist">
+                <Trophy className="w-3.5 h-3.5 text-garuda" /> {high}
+              </span>
             </div>
 
             {/* Overlay idle / game over */}
