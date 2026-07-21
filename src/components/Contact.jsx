@@ -32,12 +32,12 @@ export default function Contact() {
       <div className="container mx-auto px-6 py-16 md:py-24 relative z-10 text-center">
         <Reveal>
           <h2 className="font-display text-4xl md:text-7xl text-white mb-4">
-            Creiamo qualcosa di <span className="text-gradient italic">unico</span>.
+            Io creo sempre qualcosa di <span className="text-gradient italic">unico</span>.
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="text-mist max-w-xl mx-auto mb-12">
-            Aperto a collaborazioni, progetti e nuove sfide. Scrivimi o chiamami.
+            Il futuro lo afferro con i miei artigli. Scrivimi o chiamami.
           </p>
         </Reveal>
 
