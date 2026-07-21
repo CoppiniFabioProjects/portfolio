@@ -28,21 +28,21 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* Ritratto — sfuma nel fondo scuro, solo desktop */}
+      {/* Ritratto — sfuma nel fondo scuro (desktop e mobile) */}
       <motion.div
         style={{ y: garudaY }}
-        className="hidden lg:block absolute right-0 bottom-0 top-0 w-[46%] pointer-events-none z-0 select-none"
+        className="block absolute right-0 bottom-0 top-0 w-[85%] sm:w-[62%] lg:w-[46%] pointer-events-none z-0 select-none"
       >
-        <div className="absolute right-[6%] bottom-[16%] w-[26rem] h-[26rem] rounded-full bg-purple/25 blur-3xl" />
+        <div className="absolute right-[6%] bottom-[16%] w-[20rem] h-[20rem] lg:w-[26rem] lg:h-[26rem] rounded-full bg-purple/25 blur-3xl" />
         <img
           src="/portfolio/fabio-portrait.webp"
           alt=""
           aria-hidden="true"
-          className="absolute right-0 bottom-0 h-[86vh] w-auto object-contain object-bottom opacity-90
+          className="absolute right-0 bottom-0 h-[44vh] sm:h-[58vh] lg:h-[86vh] w-auto object-contain object-bottom opacity-80 lg:opacity-90
             [filter:grayscale(0.25)_contrast(1.02)]
-            [-webkit-mask-image:linear-gradient(to_bottom,#000_74%,transparent_98%),linear-gradient(to_left,#000_60%,transparent_100%)]
+            [-webkit-mask-image:linear-gradient(to_bottom,#000_74%,transparent_98%),linear-gradient(to_left,#000_55%,transparent_100%)]
             [-webkit-mask-composite:source-in] [mask-composite:intersect]
-            [mask-image:linear-gradient(to_bottom,#000_74%,transparent_98%),linear-gradient(to_left,#000_60%,transparent_100%)]"
+            [mask-image:linear-gradient(to_bottom,#000_74%,transparent_98%),linear-gradient(to_left,#000_55%,transparent_100%)]"
         />
       </motion.div>
 

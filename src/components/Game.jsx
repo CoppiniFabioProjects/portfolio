@@ -374,6 +374,7 @@ export default function Game() {
               <button
                 onClick={toggleMute}
                 onMouseDown={(e) => e.stopPropagation()}
+                onTouchStart={(e) => e.stopPropagation()}
                 aria-label={muted ? "Attiva audio" : "Disattiva audio"}
                 className="w-8 h-8 grid place-items-center rounded-lg glass text-mist hover:text-white transition-colors"
               >
@@ -414,6 +415,7 @@ export default function Game() {
                         <div
                           className="flex items-center gap-2 mb-4 justify-center"
                           onMouseDown={(e) => e.stopPropagation()}
+                          onTouchStart={(e) => e.stopPropagation()}
                           onClick={(e) => e.stopPropagation()}
                         >
                           <input
