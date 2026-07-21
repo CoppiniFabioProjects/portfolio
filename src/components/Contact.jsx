@@ -37,7 +37,7 @@ export default function Contact() {
         </Reveal>
         <Reveal delay={0.1}>
           <p className="text-mist max-w-xl mx-auto mb-12">
-            Il futuro lo afferro con i miei artigli. Scrivimi o chiamami.
+            Il futuro lo afferro con i miei artigli.
           </p>
         </Reveal>
 
