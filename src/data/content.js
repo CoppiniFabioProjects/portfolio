@@ -94,25 +94,25 @@ export const tech = [
     title: "Frontend",
     icon: "Layout",
     accent: "purple",
-    items: ["React 19", "Tailwind CSS v4", "Vite", "Recharts", "jsPDF", "PWA / Service Workers"],
+    items: ["React 19", "Next.js 15", "TypeScript", "Tailwind CSS v4", "Vite", "Framer Motion", "TanStack Query", "PWA"],
   },
   {
-    title: "Backend & Cloud",
+    title: "Backend & Database",
     icon: "Database",
     accent: "garuda",
-    items: ["Supabase (PostgreSQL)", "Auth & RLS Policies", "Storage Buckets", "Vercel Deploy", "Git & GitHub", "REST APIs"],
+    items: ["Node.js", "Supabase", "PostgreSQL", "Prisma / Drizzle", "Server Actions", "REST APIs", "Auth & RLS", "Redis"],
+  },
+  {
+    title: "DevOps & Cloud",
+    icon: "Cloud",
+    accent: "purple",
+    items: ["Vercel", "Docker", "GitHub Actions", "CI/CD", "Git & GitHub", "Linux", "Nginx", "Cloudflare"],
   },
   {
     title: "AI-Native Dev",
     icon: "Sparkles",
-    accent: "purple",
-    items: ["Cursor IDE", "Claude Code", "Qwen Models", "Prompt Engineering", "AI-Assisted Workflow", "AI Debugging"],
-  },
-  {
-    title: "Concetti",
-    icon: "Boxes",
     accent: "garuda",
-    items: ["RBAC", "Dashboard UI/UX", "Data Visualization", "Responsive Design", "Component Architecture", "State Management"],
+    items: ["Cursor IDE", "Claude Code", "Prompt Engineering", "RAG", "AI-Assisted Workflow", "AI Debugging"],
   },
 ];
 

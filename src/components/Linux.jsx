@@ -1,5 +1,6 @@
 import { Reveal, SectionHeader, Spotlight } from "./primitives";
 import Icon from "./Icon";
+import Terminal from "./Terminal";
 import { linux } from "../data/content";
 
 export default function Linux() {
@@ -14,24 +15,14 @@ export default function Linux() {
           sub="Arch-based, tiling, terminale-first. L'ambiente dove tutto prende forma."
         />
 
-        {/* Terminal mockup */}
+        {/* Terminale interattivo */}
         <Reveal>
-          <Spotlight className="glass rounded-2xl overflow-hidden mb-10 max-w-3xl">
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-white/[0.02]">
-              <span className="w-3 h-3 rounded-full bg-lions-red/80" />
-              <span className="w-3 h-3 rounded-full bg-lions-gold/80" />
-              <span className="w-3 h-3 rounded-full bg-garuda/80" />
-              <span className="ml-3 text-xs font-mono text-mist">fabio@garuda ~ zsh</span>
-            </div>
-            <div className="p-5 font-mono text-sm leading-relaxed">
-              <p><span className="text-garuda">➜</span> <span className="text-purple-glow">~</span> neofetch</p>
-              <p className="text-mist mt-1">OS: <span className="text-white">Garuda Linux (Arch)</span></p>
-              <p className="text-mist">WM: <span className="text-white">Hyprland (Wayland)</span></p>
-              <p className="text-mist">Shell: <span className="text-white">zsh + oh-my-zsh</span></p>
-              <p className="text-mist">Editor: <span className="text-white">Cursor / Claude Code</span></p>
-              <p className="mt-1"><span className="text-garuda">➜</span> <span className="text-purple-glow">~</span> <span className="animate-pulse">▋</span></p>
-            </div>
-          </Spotlight>
+          <div className="mb-4">
+            <Terminal />
+          </div>
+          <p className="text-xs text-mist/50 font-mono mb-10">
+            ↑ Terminale vero: prova <span className="text-garuda">whoami</span>, <span className="text-garuda">projects</span>, <span className="text-garuda">skills</span> o <span className="text-garuda">help</span>
+          </p>
         </Reveal>
 
         <div className="grid sm:grid-cols-2 gap-6">

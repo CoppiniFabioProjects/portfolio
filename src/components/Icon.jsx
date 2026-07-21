@@ -2,12 +2,12 @@
 // così Vite fa tree-shaking e non include l'intera libreria lucide.
 import {
   Trophy, Bot, Sprout, Layout, Database, Sparkles, Boxes,
-  Terminal, Container, Cpu, Users, Circle,
+  Terminal, Container, Cpu, Users, Circle, Cloud,
 } from "lucide-react";
 
 const MAP = {
   Trophy, Bot, Sprout, Layout, Database, Sparkles, Boxes,
-  Terminal, Container, Cpu, Users,
+  Terminal, Container, Cpu, Users, Cloud,
 };
 
 export default function Icon({ name, className }) {
