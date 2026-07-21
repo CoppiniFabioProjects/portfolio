@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Play, RotateCcw, Trophy, Gamepad2, Volume2, VolumeX } from "lucide-react";
+import { Play, RotateCcw, Trophy, Gamepad2, Volume2, VolumeX, Send, Loader2, Medal } from "lucide-react";
 import { SectionHeader } from "./primitives";
+import { supabase, hasLeaderboard } from "../lib/supabase";
 
 // Dimensioni logiche del campo di gioco (il canvas viene scalato al contenitore)
 const W = 760;
@@ -30,6 +31,37 @@ export default function Game() {
   const [muted, setMuted] = useState(false);
   const mutedRef = useRef(false);
   const audioRef = useRef(null);
+
+  // classifica online (Supabase)
+  const [board, setBoard] = useState([]);
+  const [pname, setPname] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const fetchTop = useCallback(async () => {
+    if (!hasLeaderboard) return;
+    const { data } = await supabase
+      .from("scores")
+      .select("name, score")
+      .order("score", { ascending: false })
+      .limit(10);
+    if (data) setBoard(data);
+  }, []);
+
+  useEffect(() => {
+    setPname(localStorage.getItem("garuda-name") || "");
+    fetchTop();
+  }, [fetchTop]);
+
+  const submitScore = useCallback(async () => {
+    const name = pname.trim().slice(0, 20) || "Anonimo";
+    if (!hasLeaderboard || submitting || submitted) return;
+    setSubmitting(true);
+    localStorage.setItem("garuda-name", name);
+    const { error } = await supabase.from("scores").insert({ name, score });
+    setSubmitting(false);
+    if (!error) { setSubmitted(true); fetchTop(); }
+  }, [pname, score, submitting, submitted, fetchTop]);
 
   useEffect(() => {
     const m = localStorage.getItem("garuda-muted") === "1";
@@ -104,6 +136,7 @@ export default function Game() {
 
   const start = useCallback(() => {
     resetState();
+    setSubmitted(false);
     setStatus("playing");
     stateRef.current.vel = FLAP;
     wrapRef.current?.focus();
@@ -370,10 +403,41 @@ export default function Game() {
                         {score > 0 && score >= high ? "Nuovo record! 🎉" : "Game Over"}
                       </h3>
                       <p className="text-mist mb-1">Punteggio: <span className="text-purple-glow font-bold">{score}</span></p>
-                      <p className="text-xs text-mist/70 mb-5 flex items-center justify-center gap-1.5">
+                      <p className="text-xs text-mist/70 mb-4 flex items-center justify-center gap-1.5">
                         <Trophy className="w-3.5 h-3.5 text-garuda" /> Record: {high}
                       </p>
-                      <span className="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest">
+
+                      {/* Invio in classifica */}
+                      {hasLeaderboard && score > 0 && !submitted && (
+                        <div
+                          className="flex items-center gap-2 mb-4 justify-center"
+                          onMouseDown={(e) => e.stopPropagation()}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <input
+                            value={pname}
+                            onChange={(e) => setPname(e.target.value)}
+                            onKeyDown={(e) => { e.stopPropagation(); if (e.key === "Enter") submitScore(); }}
+                            maxLength={20}
+                            placeholder="Il tuo nome"
+                            aria-label="Il tuo nome per la classifica"
+                            className="w-36 bg-white/10 border border-white/15 rounded-full px-4 py-2 text-sm text-white outline-none focus:border-purple-glow"
+                          />
+                          <button
+                            onClick={submitScore}
+                            disabled={submitting}
+                            className="btn-primary inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold disabled:opacity-60"
+                          >
+                            {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                            Salva
+                          </button>
+                        </div>
+                      )}
+                      {hasLeaderboard && submitted && (
+                        <p className="text-garuda text-sm mb-4">✓ Punteggio salvato in classifica!</p>
+                      )}
+
+                      <span className="btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest text-white">
                         <RotateCcw className="w-4 h-4" /> Riprova
                       </span>
                     </>
@@ -385,6 +449,28 @@ export default function Game() {
           <p className="text-center text-xs text-mist/50 mt-4 font-mono">
             +1 per ogni colonna · +3 per ogni tecnologia raccolta
           </p>
+
+          {/* Classifica online */}
+          {hasLeaderboard && board.length > 0 && (
+            <div className="mt-6 glass rounded-2xl p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <Medal className="w-4 h-4 text-garuda" />
+                <h3 className="font-display text-white text-lg">Classifica</h3>
+                <span className="ml-auto text-[10px] font-mono text-mist/50">live · Supabase</span>
+              </div>
+              <ol className="space-y-1">
+                {board.map((r, i) => (
+                  <li key={i} className="flex items-center gap-3 text-sm py-1.5 border-b border-white/5 last:border-0">
+                    <span className={`w-6 font-mono ${i === 0 ? "text-lions-gold" : i === 1 ? "text-mist" : i === 2 ? "text-lions-red/80" : "text-mist/50"}`}>
+                      {i + 1}°
+                    </span>
+                    <span className="text-white/90 truncate flex-1">{r.name}</span>
+                    <span className="font-mono text-purple-glow font-bold">{r.score}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
         </div>
       </div>
     </section>
