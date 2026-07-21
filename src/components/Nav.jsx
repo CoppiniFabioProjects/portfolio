@@ -99,7 +99,7 @@ export default function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="md:hidden fixed inset-0 z-[70] flex flex-col bg-ink/95 backdrop-blur-2xl overflow-hidden"
+            className="md:hidden fixed inset-0 z-[70] flex flex-col bg-ink overflow-hidden"
             initial={{ clipPath: "circle(0% at 88% 6%)" }}
             animate={{ clipPath: "circle(150% at 88% 6%)" }}
             exit={{ clipPath: "circle(0% at 88% 6%)", transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }}
