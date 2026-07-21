@@ -1,0 +1,16 @@
+{
+  "name": "Fabio Coppini — Informatico Umanista",
+  "short_name": "F. Coppini",
+  "description": "Portfolio di Fabio Coppini. Sviluppo software, robotica educativa, cultura e tecnologia.",
+  "start_url": "/portfolio/",
+  "scope": "/portfolio/",
+  "display": "standalone",
+  "background_color": "#050509",
+  "theme_color": "#050509",
+  "lang": "it",
+  "icons": [
+    { "src": "/portfolio/garuda.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/portfolio/garuda.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/portfolio/og-image.png", "sizes": "1200x630", "type": "image/png", "purpose": "any" }
+  ]
+}
