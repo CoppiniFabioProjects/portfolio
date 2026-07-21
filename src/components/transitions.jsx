@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   motion, useScroll, useVelocity, useTransform, useSpring,
   useMotionValue, useAnimationFrame, useReducedMotion,
@@ -8,6 +8,19 @@ const wrap = (min, max, v) => {
   const r = max - min;
   return ((((v - min) % r) + r) % r) + min;
 };
+
+// true su smartphone — per alleggerire le animazioni (niente filtri costosi)
+function useIsMobile() {
+  const [m, setM] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const on = () => setM(mq.matches);
+    on();
+    mq.addEventListener?.("change", on);
+    return () => mq.removeEventListener?.("change", on);
+  }, []);
+  return m;
+}
 
 /* 1) TESTO CINETICO — sfreccia in orizzontale reagendo alla velocità di scroll */
 export function KineticText({ text = "GARUDA", baseVelocity = 2 }) {
@@ -30,12 +43,12 @@ export function KineticText({ text = "GARUDA", baseVelocity = 2 }) {
   });
 
   return (
-    <div className="relative py-7 md:py-11 overflow-hidden border-y border-white/5 select-none">
+    <div className="relative py-6 md:py-11 overflow-hidden border-y border-white/5 select-none">
       <motion.div className="flex whitespace-nowrap will-change-transform" style={reduce ? undefined : { x }}>
         {Array.from({ length: 6 }).map((_, i) => (
           <span
             key={i}
-            className="mr-10 font-sans font-bold uppercase tracking-tight text-5xl md:text-7xl text-transparent [-webkit-text-stroke:1px_rgba(168,85,247,0.4)]"
+            className="mr-8 md:mr-10 font-sans font-bold uppercase tracking-tight text-4xl sm:text-6xl md:text-7xl text-transparent [-webkit-text-stroke:1px_rgba(168,85,247,0.4)]"
           >
             {text} <span className="text-garuda/40">✦</span>
           </span>
@@ -54,13 +67,15 @@ export function EagleFly() {
   const rotate = useTransform(scrollYProgress, [0, 0.5, 1], [-7, 7, -4]);
   const opacity = useTransform(scrollYProgress, [0, 0.05, 0.95, 1], [0, 0.14, 0.14, 0]);
   if (reduce) return null;
+  // Solo trasformazioni (movimento/opacità) = leggere su mobile.
+  // I filtri (blur/ombra) sono costosi durante lo scroll: solo da desktop.
   return (
     <motion.img
       src="/portfolio/garuda.png"
       alt=""
       aria-hidden="true"
       style={{ x, y, rotate, opacity }}
-      className="fixed top-0 left-0 w-24 md:w-32 z-0 pointer-events-none blur-[1px] drop-shadow-[0_0_30px_rgba(168,85,247,0.4)]"
+      className="fixed top-0 left-0 w-20 md:w-32 z-0 pointer-events-none will-change-transform md:blur-[1px] md:drop-shadow-[0_0_30px_rgba(168,85,247,0.4)]"
     />
   );
 }
@@ -87,15 +102,18 @@ export function Curtain({ children, className = "" }) {
 /* 4) ZOOM CINEMATOGRAFICO — la sezione entra con scala + sfocatura */
 export function ZoomReveal({ children }) {
   const reduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "start 40%"] });
-  const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
+  const scale = useTransform(scrollYProgress, [0, 1], [isMobile ? 0.95 : 0.9, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [isMobile ? 0.5 : 0.3, 1]);
   const blur = useTransform(scrollYProgress, [0, 1], [9, 0]);
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
   if (reduce) return <>{children}</>;
+  // su mobile niente sfocatura (costosa): solo scala + opacità
+  const style = isMobile ? { scale, opacity } : { scale, opacity, filter };
   return (
-    <motion.div ref={ref} style={{ scale, opacity, filter }} className="origin-center will-change-transform">
+    <motion.div ref={ref} style={style} className="origin-center will-change-transform">
       {children}
     </motion.div>
   );
