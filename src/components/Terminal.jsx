@@ -107,6 +107,28 @@ const COMMANDS = {
   hire: () => COMMANDS.assumimi(),
   ls: () => [<span key="ls" className="text-mist">progetti/  skills.json  cv.pdf  garuda.png  <span className="text-purple-glow/70">padel.secret</span></span>],
   sudo: () => [<span key="su" className="text-lions-red">Nice try. 😏 Non ti serve sudo per assumermi — basta un'email.</span>],
+  // --- easter egg nascosti (non in help) ---
+  matrix: () => [<span key="mx" className="text-garuda-glow">01001100 01101001 01100010 01100101 01110010 — wake up, Neo. 🕶️ Sei nella Matrix di Fabio.</span>],
+  coffee: () => [
+    <span key="cf1" className="text-mist">      ( (</span>,
+    <span key="cf2" className="text-mist">       ) )</span>,
+    <span key="cf3" className="text-mist">    ........</span>,
+    <span key="cf4" className="text-mist">    |      |]  ☕ Il carburante di ogni deploy.</span>,
+    <span key="cf5" className="text-mist">    \\      /</span>,
+    <span key="cf6" className="text-mist">     `----'</span>,
+  ],
+  fortune: () => {
+    const q = [
+      "«Non chiedo più potenza. Tolgo peso.» — Colin Chapman",
+      "«L'unico modo per liberarsi di una tentazione è cedervi.» — Oscar Wilde",
+      "«E il naufragar m'è dolce in questo mare.» — Leopardi",
+      "«Talk is cheap. Show me the code.» — Linus Torvalds",
+      "«Prima risolvi il problema. Poi scrivi il codice.» — John Johnson",
+    ];
+    return [<span key="fr" className="text-purple-glow italic">{q[Math.floor(Math.random() * q.length)]}</span>];
+  },
+  konami: () => [<span key="kn" className="text-garuda">Suggerimento: ↑ ↑ ↓ ↓ ← → ← → B A … prova sulla pagina. 🦅</span>],
+  "42": () => [<span key="42" className="text-mist">La risposta a tutto. Ma qual era la domanda? 🤔</span>],
 };
 
 export default function Terminal() {

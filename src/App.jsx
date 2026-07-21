@@ -14,6 +14,7 @@ import Timeline from "./components/Timeline";
 import Projects from "./components/Projects";
 import Game from "./components/Game";
 import Contact from "./components/Contact";
+import EasterEggs from "./components/EasterEggs";
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -73,6 +74,7 @@ export default function App() {
       </main>
       <Contact />
       <BackToTop />
+      <EasterEggs />
     </MotionConfig>
   );
 }
