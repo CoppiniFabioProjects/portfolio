@@ -22,6 +22,7 @@ export const nav = [
   { id: "linux", label: "Linux" },
   { id: "experience", label: "Timeline" },
   { id: "projects", label: "Progetti" },
+  { id: "gioca", label: "Gioca" },
   { id: "contact", label: "Contatti" },
 ];
 

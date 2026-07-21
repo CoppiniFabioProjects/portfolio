@@ -12,6 +12,7 @@ import Tech from "./components/Tech";
 import Linux from "./components/Linux";
 import Timeline from "./components/Timeline";
 import Projects from "./components/Projects";
+import Game from "./components/Game";
 import Contact from "./components/Contact";
 
 function ScrollProgress() {
@@ -68,6 +69,7 @@ export default function App() {
         <Linux />
         <Timeline />
         <Projects />
+        <Game />
       </main>
       <Contact />
       <BackToTop />
