@@ -32,6 +32,32 @@ export default function Nav() {
     return () => observer.disconnect();
   }, []);
 
+  // fruscio d'ali all'apertura del menu (WebAudio, rispetta il mute del gioco)
+  const playWhoosh = () => {
+    try {
+      if (localStorage.getItem("garuda-muted") === "1") return;
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const dur = 0.55;
+      const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * dur), ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 1.6);
+      const src = ctx.createBufferSource(); src.buffer = buf;
+      const filter = ctx.createBiquadFilter();
+      filter.type = "bandpass"; filter.Q.value = 0.7;
+      filter.frequency.setValueAtTime(280, ctx.currentTime);
+      filter.frequency.exponentialRampToValueAtTime(1900, ctx.currentTime + 0.4);
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.11, ctx.currentTime + 0.06);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+      src.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+      src.start(); src.stop(ctx.currentTime + dur);
+      setTimeout(() => ctx.close(), 800);
+    } catch { /* audio non disponibile */ }
+  };
+
+  const openMenu = () => { setOpen(true); playWhoosh(); };
+
   // blocca lo scroll quando il menu full-screen è aperto
   useEffect(() => {
     const html = document.documentElement;
@@ -86,7 +112,7 @@ export default function Nav() {
           </a>
 
           <button
-            onClick={() => setOpen(true)}
+            onClick={openMenu}
             className="md:hidden w-11 h-11 grid place-items-center rounded-xl glass text-white active:scale-95 transition-transform"
             aria-label="Apri il menu"
           >

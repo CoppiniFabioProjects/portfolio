@@ -4,8 +4,10 @@ import { SectionHeader } from "./primitives";
 import { getSupabase, hasLeaderboard } from "../lib/supabase";
 
 // Dimensioni logiche del campo di gioco (il canvas viene scalato al contenitore)
+// L'altezza H è responsiva (più alta su mobile per una board più grande e comoda).
 const W = 760;
-const H = 460;
+const H_DESKTOP = 460;
+const H_MOBILE = 660;
 const GRAVITY = 0.52;
 const FLAP = -8.4;
 const SPEED = 3.0;
@@ -31,6 +33,17 @@ export default function Game() {
   const [muted, setMuted] = useState(false);
   const mutedRef = useRef(false);
   const audioRef = useRef(null);
+
+  // board più alta su mobile (senza distorsione: l'aspect del contenitore segue H)
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const on = () => setIsMobile(mq.matches);
+    on();
+    mq.addEventListener?.("change", on);
+    return () => mq.removeEventListener?.("change", on);
+  }, []);
+  const H = isMobile ? H_MOBILE : H_DESKTOP;
 
   // classifica online (Supabase)
   const [board, setBoard] = useState([]);
@@ -128,7 +141,7 @@ export default function Game() {
       last: 0,
     };
     setScore(0);
-  }, []);
+  }, [H]);
 
   const flap = useCallback(() => {
     const s = stateRef.current;
@@ -271,7 +284,7 @@ export default function Game() {
       cancelAnimationFrame(rafRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, endGame]);
+  }, [status, endGame, H]);
 
   const drawScene = (ctx, s, st) => {
     // colonne

@@ -57,9 +57,9 @@ export default function Hero() {
       {/* Giant name */}
       <motion.div style={{ y: titleY, opacity: fade }} className="container mx-auto px-6 relative z-10">
         <h1 className="display-xl text-white">
-          <AnimatedLines lines={["Fabio"]} />
+          <AnimatedLines lines={["Fabio"]} immediate />
           <span className="block text-outline">
-            <AnimatedLines lines={["Coppini"]} delay={0.12} />
+            <AnimatedLines lines={["Coppini"]} delay={0.12} immediate />
           </span>
         </h1>
 

@@ -63,6 +63,7 @@ export default function Intro() {
         <video
           ref={videoRef}
           src="/portfolio/intro-garuda.mp4"
+          poster="/portfolio/intro-poster.jpg"
           autoPlay
           muted
           playsInline

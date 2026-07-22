@@ -102,8 +102,13 @@ export function SectionHeader({ eyebrow, title, sub, align = "left", index }) {
   );
 }
 
-/* Masked line reveal — each line slides up from behind a clip, staggered on scroll */
-export function AnimatedLines({ lines, className = "", delay = 0, stagger = 0.12 }) {
+/* Masked line reveal — each line slides up from behind a clip, staggered on scroll.
+   `immediate` = anima al montaggio (per contenuti above-the-fold come la hero):
+   così il testo compare sempre, senza dipendere dal trigger di scroll. */
+export function AnimatedLines({ lines, className = "", delay = 0, stagger = 0.12, immediate = false }) {
+  const trigger = immediate
+    ? { animate: { y: "0%" } }
+    : { whileInView: { y: "0%" }, viewport: { once: true, margin: "-60px" } };
   return (
     <span className="block">
       {lines.map((line, i) => (
@@ -111,8 +116,7 @@ export function AnimatedLines({ lines, className = "", delay = 0, stagger = 0.12
           <motion.span
             className={`block ${className}`}
             initial={{ y: "110%" }}
-            whileInView={{ y: "0%" }}
-            viewport={{ once: true, margin: "-60px" }}
+            {...trigger}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: delay + i * stagger }}
           >
             {line}

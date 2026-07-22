@@ -1,6 +1,9 @@
-import { Mail, Phone, MapPin, Linkedin, Github, Download } from "lucide-react";
+import { useState } from "react";
+import { Mail, Phone, MapPin, Linkedin, Github, Download, Share2, Check } from "lucide-react";
 import { Reveal } from "./primitives";
 import { profile, interests } from "../data/content";
+
+const SITE_URL = "https://coppinifabioprojects.github.io/portfolio/";
 
 function Marquee() {
   const row = [...interests, ...interests];
@@ -20,6 +23,24 @@ function Marquee() {
 
 export default function Contact() {
   const year = new Date().getFullYear();
+  const [copied, setCopied] = useState(false);
+
+  const share = async () => {
+    const data = {
+      title: "Fabio Coppini — Informatico Umanista",
+      text: "Dai un'occhiata al mio portfolio 🦅",
+      url: SITE_URL,
+    };
+    try {
+      if (navigator.share) { await navigator.share(data); return; }
+    } catch { /* l'utente ha annullato */ return; }
+    try {
+      await navigator.clipboard.writeText(SITE_URL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    } catch { /* clipboard non disponibile */ }
+  };
+
   return (
     <footer id="contact" className="relative bg-ink-2 overflow-hidden">
       <Marquee />
@@ -50,13 +71,21 @@ export default function Contact() {
               <Phone className="w-4 h-4" /> {profile.phone}
             </a>
           </div>
-          <a
-            href="/portfolio/cv-fabio-coppini.pdf"
-            download="CV-Fabio-Coppini.pdf"
-            className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white mb-16"
-          >
-            <Download className="w-4 h-4" /> Scarica il CV (PDF)
-          </a>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-16">
+            <a
+              href="/portfolio/cv-fabio-coppini.pdf"
+              download="CV-Fabio-Coppini.pdf"
+              className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white"
+            >
+              <Download className="w-4 h-4" /> Scarica il CV (PDF)
+            </a>
+            <button
+              onClick={share}
+              className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white"
+            >
+              {copied ? <><Check className="w-4 h-4 text-garuda" /> Link copiato!</> : <><Share2 className="w-4 h-4" /> Condividi</>}
+            </button>
+          </div>
         </Reveal>
 
         <Reveal delay={0.2}>
