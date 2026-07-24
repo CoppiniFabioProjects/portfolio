@@ -48,6 +48,16 @@ function Flagship({ p, i }) {
         </h3>
         <p className={`display-serif italic text-xl md:text-2xl ${a.text} mb-5`}>{p.tagline}</p>
         <p className="text-mist leading-relaxed mb-6">{p.body}</p>
+        {p.metrics && (
+          <div className="flex flex-wrap gap-x-8 gap-y-4 mb-7 border-y border-white/10 py-5">
+            {p.metrics.map((m) => (
+              <div key={m.label}>
+                <div className={`font-display text-2xl md:text-3xl leading-none ${a.text}`}>{m.value}</div>
+                <div className="mt-1 text-[11px] uppercase tracking-widest text-mist">{m.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
         <div className="flex flex-wrap gap-2 mb-8">
           {p.tags.map((t) => (
             <span key={t} className="text-[11px] font-mono text-mist border border-white/10 rounded-full px-3 py-1">{t}</span>

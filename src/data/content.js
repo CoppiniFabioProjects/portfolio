@@ -194,8 +194,13 @@ export const flagship = [
     title: "DigitaLions",
     tagline: "Tecnologia al servizio del bene",
     body:
-      "Piattaforma per il Lions Club — Distretto 108 LA (Toscana): organizza, misura e valorizza il servizio alla comunità. Evoluzione del progetto ServiceScore, oggi con dominio proprio.",
-    tags: ["React", "Supabase", "Dashboard", "Lions 108 LA"],
+      "Gestionale enterprise per il Lions Club — Distretto 108 LA (Toscana). Ogni socio accede col proprio numero di matricola e registra le attività di servizio; senior e presidenti di distretto le revisionano e validano in una gerarchia di ruoli e permessi. Dashboard e statistiche trasformano migliaia di ore di volontariato in dati misurabili. Evoluzione del progetto ServiceScore, oggi con dominio proprio.",
+    metrics: [
+      { value: "3.000", label: "Soci" },
+      { value: "7.000+", label: "Attività gestite" },
+      { value: "108 LA", label: "Distretto Toscana" },
+    ],
+    tags: ["React", "Supabase", "Auth & RLS", "Dashboard", "Multi-ruolo"],
     image: "/portfolio/digitalions.jpg",
     link: "https://digitalions108la.it",
     linkLabel: "Visita DigitaLions",
