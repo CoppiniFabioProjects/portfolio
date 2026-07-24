@@ -181,8 +181,13 @@ export const flagship = [
     title: "spostiAMOci",
     tagline: "Il LinkedIn della mobilità quotidiana",
     body:
-      "Il carpooling tra sconosciuti non decolla: manca la fiducia. spostiAMOci lo risolve facendoti condividere gli spostamenti solo con la tua rete — gli «AMOci», a 1°, 2° e 3° grado di conoscenza. Rotte reali su mappa (PostGIS), chat in tempo reale e una «bilancia della reciprocità» che mantiene equo lo scambio. Risultato: meno traffico, meno CO₂ e relazioni che si rafforzano a ogni viaggio. PWA installabile su qualsiasi telefono.",
-    tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime", "Three.js"],
+      "Il carpooling tra sconosciuti non decolla: manca la fiducia. spostiAMOci lo risolve facendoti viaggiare solo con la tua rete — gli «AMOci», a 1°, 2° e 3° grado. C'è SAMO, l'assistente che sorteggia con giustizia chi guida, divide le spese in automatico e trova i compagni giusti su rotte reali (PostGIS) con chat in tempo reale. Meno traffico, meno CO₂ e relazioni che si rafforzano a ogni viaggio. PWA installabile, login in un tocco.",
+    metrics: [
+      { value: "33", label: "Early-amoci in rete" },
+      { value: "fino a 103€", label: "Risparmio mensile / utente" },
+      { value: "−69 kg", label: "CO₂ al mese / utente" },
+    ],
+    tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime", "PWA"],
     image: "/portfolio/spostiamoci-poster.jpg",
     link: "https://spostiamoci.vercel.app",
     linkLabel: "Apri l'app",
