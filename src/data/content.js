@@ -181,7 +181,7 @@ export const flagship = [
     title: "spostiAMOci",
     tagline: "Il LinkedIn della mobilità quotidiana",
     body:
-      "Piattaforma di mobilità sociale: condividi gli spostamenti con la tua rete di fiducia (gli AMOci, a 1°/2°/3° grado) generando risparmio, relazioni, meno traffico e meno CO₂. Mappe e rotte reali, chat realtime, bilancia della reciprocità, PWA installabile.",
+      "Il carpooling tra sconosciuti non decolla: manca la fiducia. spostiAMOci lo risolve facendoti condividere gli spostamenti solo con la tua rete — gli «AMOci», a 1°, 2° e 3° grado di conoscenza. Rotte reali su mappa (PostGIS), chat in tempo reale e una «bilancia della reciprocità» che mantiene equo lo scambio. Risultato: meno traffico, meno CO₂ e relazioni che si rafforzano a ogni viaggio. PWA installabile su qualsiasi telefono.",
     tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime", "Three.js"],
     image: "/portfolio/spostiamoci-poster.jpg",
     link: "https://spostiamoci.vercel.app",
