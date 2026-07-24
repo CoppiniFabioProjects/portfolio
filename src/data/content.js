@@ -142,8 +142,8 @@ export const timeline = [
   {
     period: "Mag 2025 — oggi",
     org: "01Informatica",
-    role: "Apprendista Programmatore & Sbottinatore Tuttofare",
-    body: "Sviluppo software, supporto tecnico e risoluzione di problemi IT. Mentorship di Michele.",
+    role: "Sviluppatore Full-Stack (Apprendista)",
+    body: "Sviluppo software full-stack, gestione siti e gestionale interno, supporto tecnico e problem solving IT. Mentorship di Michele.",
     current: true,
   },
   {
