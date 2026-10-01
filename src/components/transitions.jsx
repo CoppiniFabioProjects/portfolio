@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import {
   motion, useScroll, useVelocity, useTransform, useSpring,
   useMotionValue, useAnimationFrame, useReducedMotion,
@@ -8,19 +8,6 @@ const wrap = (min, max, v) => {
   const r = max - min;
   return ((((v - min) % r) + r) % r) + min;
 };
-
-// true su smartphone — per alleggerire le animazioni (niente filtri costosi)
-function useIsMobile() {
-  const [m, setM] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    const on = () => setM(mq.matches);
-    on();
-    mq.addEventListener?.("change", on);
-    return () => mq.removeEventListener?.("change", on);
-  }, []);
-  return m;
-}
 
 /* 1) TESTO CINETICO — sfreccia in orizzontale reagendo alla velocità di scroll */
 export function KineticText({ text = "GARUDA", baseVelocity = 2 }) {
@@ -58,40 +45,29 @@ export function KineticText({ text = "GARUDA", baseVelocity = 2 }) {
   );
 }
 
-/* 2) SIPARIO — un pannello viola/teal si ritrae rivelando la sezione */
-export function Curtain({ children, className = "" }) {
+/* 2) SECTION REVEAL — la sezione sale e si rivela con un movimento fluido
+   e moderno (ease-out lungo, leggero "settle" di scala). Nessun pannello,
+   nessuno zoom brusco: si attiva una volta sola quando entra nel viewport. */
+const sectionReveal = {
+  hidden: { opacity: 0, y: 64, scale: 0.985 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 1.05, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+export function SectionReveal({ children, className = "", amount = 0.18 }) {
   const reduce = useReducedMotion();
+  if (reduce) return <div className={className}>{children}</div>;
   return (
-    <div className={`relative ${className}`}>
-      {children}
-      {!reduce && (
-        <motion.div
-          className="absolute inset-0 z-20 origin-top bg-gradient-to-b from-purple via-purple-dark to-garuda pointer-events-none"
-          initial={{ scaleY: 1 }}
-          whileInView={{ scaleY: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.95, ease: [0.83, 0, 0.17, 1] }}
-        />
-      )}
-    </div>
-  );
-}
-
-/* 3) ZOOM CINEMATOGRAFICO — la sezione entra con scala + sfocatura */
-export function ZoomReveal({ children }) {
-  const reduce = useReducedMotion();
-  const isMobile = useIsMobile();
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "start 40%"] });
-  const scale = useTransform(scrollYProgress, [0, 1], [isMobile ? 0.95 : 0.9, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [isMobile ? 0.5 : 0.3, 1]);
-  const blur = useTransform(scrollYProgress, [0, 1], [9, 0]);
-  const filter = useTransform(blur, (b) => `blur(${b}px)`);
-  if (reduce) return <>{children}</>;
-  // su mobile niente sfocatura (costosa): solo scala + opacità
-  const style = isMobile ? { scale, opacity } : { scale, opacity, filter };
-  return (
-    <motion.div ref={ref} style={style} className="origin-center will-change-transform">
+    <motion.div
+      className={`will-change-transform ${className}`}
+      variants={sectionReveal}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount }}
+    >
       {children}
     </motion.div>
   );

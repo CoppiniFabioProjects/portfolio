@@ -16,7 +16,7 @@ import Game from "./components/Game";
 import Contact from "./components/Contact";
 import EasterEggs from "./components/EasterEggs";
 import Intro from "./components/Intro";
-import { KineticText, Curtain, ZoomReveal } from "./components/transitions";
+import { KineticText, SectionReveal } from "./components/transitions";
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -78,12 +78,12 @@ export default function App() {
         <Manifesto />
         <Vetrina />
         <KineticText text="FULL-STACK · NLP · LINUX · ROBOTICA" baseVelocity={2} />
-        <ZoomReveal>
+        <SectionReveal>
           <Tech />
-        </ZoomReveal>
-        <Curtain>
+        </SectionReveal>
+        <SectionReveal>
           <Linux />
-        </Curtain>
+        </SectionReveal>
         <Timeline />
         <KineticText text="GARUDA" baseVelocity={-2.4} />
         <Projects />
