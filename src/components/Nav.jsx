@@ -76,7 +76,7 @@ export default function Nav() {
       >
         <nav
           className={`w-full max-w-5xl flex items-center justify-between rounded-2xl px-5 py-3 transition-all duration-500 ${
-            scrolled ? "glass shadow-2xl shadow-black/40" : "bg-transparent"
+            scrolled ? "glass-violet shadow-2xl shadow-black/40" : "bg-transparent"
           }`}
         >
           <a href="#hero" className="group flex items-center gap-2">

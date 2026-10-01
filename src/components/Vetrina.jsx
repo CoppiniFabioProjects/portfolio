@@ -16,7 +16,7 @@ export default function Vetrina() {
 
         {/* Main card */}
         <Reveal>
-          <Spotlight className="glass card-hover rounded-3xl p-8 md:p-12 mb-8">
+          <Spotlight className="glass-violet card-hover rounded-3xl p-8 md:p-12 mb-8">
             <div className="grid lg:grid-cols-2 gap-10 items-center">
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
