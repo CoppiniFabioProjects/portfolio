@@ -39,16 +39,20 @@ function BackToTop() {
   return (
     <AnimatePresence>
       {show && (
-        <motion.button
+        <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.5 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 z-50 w-12 h-12 grid place-items-center rounded-full btn-primary"
-          aria-label="Torna su"
+          className="fixed bottom-6 right-6 z-50"
         >
-          <ArrowUp className="w-5 h-5" />
-        </motion.button>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="w-12 h-12 grid place-items-center rounded-full btn-primary"
+            aria-label="Torna su"
+          >
+            <ArrowUp className="w-5 h-5" />
+          </button>
+        </motion.div>
       )}
     </AnimatePresence>
   );
