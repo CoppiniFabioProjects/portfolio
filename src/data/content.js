@@ -142,9 +142,9 @@ export const linux = {
 export const timeline = [
   {
     period: "2025 — oggi",
-    org: "spostiAMOci",
+    org: "spostiamoci",
     role: "Co-founder & Full-Stack Developer",
-    body: "Ideazione e sviluppo full-stack della piattaforma di mobilità sociale di fiducia: Next.js, React, Supabase, PostGIS. Dall'architettura al prodotto installabile (PWA), con SAMO, l'assistente che rende equi i viaggi.",
+    body: "Ideazione e sviluppo full-stack della piattaforma di mobilità sociale di fiducia: Next.js, React, Supabase, PostGIS. Dall'architettura al prodotto installabile (PWA), con samo, l'assistente che rende equi i viaggi.",
     link: "https://spostiamoci.vercel.app",
     linkLabel: "Apri l'app",
     current: true,
@@ -188,10 +188,10 @@ export const timeline = [
 export const flagship = [
   {
     index: "01",
-    title: "spostiAMOci",
+    title: "spostiamoci",
     tagline: "Il LinkedIn della mobilità quotidiana",
     body:
-      "Il carpooling tra sconosciuti non decolla: manca la fiducia. spostiAMOci lo risolve facendoti viaggiare solo con la tua rete — gli «AMOci», a 1°, 2° e 3° grado. C'è SAMO, l'assistente che sorteggia con giustizia chi guida, divide le spese in automatico e trova i compagni giusti su rotte reali (PostGIS) con chat in tempo reale. Meno traffico, meno CO₂ e relazioni che si rafforzano a ogni viaggio. PWA installabile, login in un tocco.",
+      "Il carpooling tra sconosciuti non decolla: manca la fiducia. spostiamoci lo risolve facendoti viaggiare solo con la tua rete — gli «amoci», a 1°, 2° e 3° grado. C'è samo, l'assistente che sorteggia con giustizia chi guida, divide le spese in automatico e trova i compagni giusti su rotte reali (PostGIS) con chat in tempo reale. Meno traffico, meno CO₂ e relazioni che si rafforzano a ogni viaggio. PWA installabile, login in un tocco.",
     metrics: [
       { value: "33", label: "Early-amoci in rete" },
       { value: "fino a 103€", label: "Risparmio mensile / utente" },
