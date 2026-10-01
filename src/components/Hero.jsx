@@ -14,10 +14,6 @@ export default function Hero() {
 
   return (
     <section ref={ref} id="hero" className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-28 pb-16">
-      {/* Ambient */}
-      <div className="blob animate-blob bg-purple w-[40rem] h-[40rem] -top-40 -left-40" />
-      <div className="blob animate-blob bg-garuda w-[30rem] h-[30rem] top-1/3 -right-40" style={{ animationDelay: "4s" }} />
-
       {/* Garuda */}
       <motion.div style={{ y: garudaY, scale: garudaScale }} className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
         <img

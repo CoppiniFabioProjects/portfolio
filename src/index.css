@@ -232,6 +232,35 @@ html.lenis body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Aurora — luce soffusa di sfondo, lenta e profonda (sostituisce i blob) */
+.aurora {
+  position: fixed;
+  inset: -25%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(38% 46% at 22% 24%, rgba(168, 85, 247, 0.20), transparent 68%),
+    radial-gradient(34% 42% at 80% 28%, rgba(45, 212, 191, 0.12), transparent 70%),
+    radial-gradient(44% 48% at 62% 82%, rgba(126, 34, 206, 0.17), transparent 70%);
+  filter: blur(64px) saturate(135%);
+  animation: auroraDrift 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes auroraDrift {
+  0%   { transform: translate3d(-2%, -2%, 0) scale(1.04); }
+  50%  { transform: translate3d(2%, 2%, 0) scale(1.12); }
+  100% { transform: translate3d(3%, -2%, 0) scale(1.06); }
+}
+
+/* Vignetta — profondità cinematografica ai bordi */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  pointer-events: none;
+  background: radial-gradient(135% 125% at 50% 38%, transparent 56%, rgba(5, 5, 9, 0.55) 100%);
+}
+
 .blob {
   position: absolute;
   border-radius: 50%;
@@ -275,7 +304,8 @@ html.lenis body {
 @media (prefers-reduced-motion: reduce) {
   .animate-blob,
   .animate-pulse-slow,
-  .animate-marquee {
+  .animate-marquee,
+  .aurora {
     animation: none !important;
   }
   * {
@@ -368,16 +398,16 @@ html.lenis body {
   font-family: var(--font-sans);
   text-transform: uppercase;
   font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 0.85;
+  letter-spacing: -0.035em;
+  line-height: 0.82;
   font-size: clamp(2.75rem, 13vw, 13rem);
   overflow-wrap: break-word;
 }
 .display-serif {
   font-family: var(--font-display);
   font-weight: 300;
-  line-height: 0.9;
-  letter-spacing: -0.01em;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
 }
 
 /* Outline / stroked text */

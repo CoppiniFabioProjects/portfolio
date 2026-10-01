@@ -64,7 +64,9 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <Intro />
       <a href="#hero" className="skip-link">Salta al contenuto</a>
+      <div className="aurora" />
       <div className="grain" />
+      <div className="vignette" />
       <Cursor />
       <ScrollProgress />
       <EagleFly />
