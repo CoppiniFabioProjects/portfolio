@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, Phone, MapPin, Linkedin, Github, Download, Share2, Check } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Github, Download, Share2, Check, ArrowUpRight } from "lucide-react";
 import { Reveal } from "./primitives";
 import { profile, interests } from "../data/content";
 
@@ -86,6 +86,31 @@ export default function Contact() {
               {copied ? <><Check className="w-4 h-4 text-garuda" /> Link copiato!</> : <><Share2 className="w-4 h-4" /> Condividi</>}
             </button>
           </div>
+        </Reveal>
+
+        <Reveal delay={0.18}>
+          <a
+            href={profile.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            className="group glass card-hover rounded-3xl p-6 md:p-7 mb-16 max-w-2xl mx-auto flex flex-col sm:flex-row items-center gap-5 text-left"
+          >
+            <div className="shrink-0 w-14 h-14 rounded-2xl bg-[#0a66c2]/15 border border-[#0a66c2]/40 grid place-items-center text-[#4aa3ff]">
+              <Linkedin className="w-7 h-7" />
+            </div>
+            <div className="flex-1 text-center sm:text-left">
+              <div className="flex items-center gap-2 justify-center sm:justify-start flex-wrap">
+                <span className="font-display text-xl text-white">Attivo su LinkedIn</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider bg-garuda/15 text-garuda border border-garuda/30 px-2 py-0.5 rounded-full">
+                  {profile.linkedinFollowers} follower
+                </span>
+              </div>
+              <p className="text-sm text-mist mt-1">Scrivo quasi ogni giorno di sviluppo, AI e lavoro reale — casi veri, errori inclusi.</p>
+            </div>
+            <span className="shrink-0 btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest group-hover:gap-3 transition-all">
+              Seguimi <ArrowUpRight className="w-4 h-4" />
+            </span>
+          </a>
         </Reveal>
 
         <Reveal delay={0.2}>

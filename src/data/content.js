@@ -10,6 +10,7 @@ export const profile = {
   email: "coppinifabio99@gmail.com",
   phone: "+39 334 923 5662",
   linkedin: "https://www.linkedin.com/in/coppinifabio/",
+  linkedinFollowers: "7.5k",
   github: "https://github.com/CoppiniFabioProjects/",
   tagline: "Libero come un'aquila.",
   intro:
@@ -139,6 +140,15 @@ export const linux = {
 };
 
 export const timeline = [
+  {
+    period: "2025 — oggi",
+    org: "spostiAMOci",
+    role: "Co-founder & Full-Stack Developer",
+    body: "Ideazione e sviluppo full-stack della piattaforma di mobilità sociale di fiducia: Next.js, React, Supabase, PostGIS. Dall'architettura al prodotto installabile (PWA), con SAMO, l'assistente che rende equi i viaggi.",
+    link: "https://spostiamoci.vercel.app",
+    linkLabel: "Apri l'app",
+    current: true,
+  },
   {
     period: "Mag 2025 — oggi",
     org: "01Informatica",
