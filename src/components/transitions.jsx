@@ -58,29 +58,7 @@ export function KineticText({ text = "GARUDA", baseVelocity = 2 }) {
   );
 }
 
-/* 2) AQUILA IN VOLO — plana attraverso lo schermo seguendo lo scroll (ambient) */
-export function EagleFly() {
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll();
-  const x = useTransform(scrollYProgress, [0, 1], ["-12vw", "104vw"]);
-  const y = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], ["76vh", "16vh", "64vh", "12vh", "48vh"]);
-  const rotate = useTransform(scrollYProgress, [0, 0.5, 1], [-7, 7, -4]);
-  const opacity = useTransform(scrollYProgress, [0, 0.05, 0.95, 1], [0, 0.14, 0.14, 0]);
-  if (reduce) return null;
-  // Solo trasformazioni (movimento/opacità) = leggere su mobile.
-  // I filtri (blur/ombra) sono costosi durante lo scroll: solo da desktop.
-  return (
-    <motion.img
-      src="/portfolio/garuda.png"
-      alt=""
-      aria-hidden="true"
-      style={{ x, y, rotate, opacity }}
-      className="fixed top-0 left-0 w-20 md:w-32 z-0 pointer-events-none will-change-transform md:blur-[1px] md:drop-shadow-[0_0_30px_rgba(168,85,247,0.4)]"
-    />
-  );
-}
-
-/* 3) SIPARIO — un pannello viola/teal si ritrae rivelando la sezione */
+/* 2) SIPARIO — un pannello viola/teal si ritrae rivelando la sezione */
 export function Curtain({ children, className = "" }) {
   const reduce = useReducedMotion();
   return (
@@ -99,7 +77,7 @@ export function Curtain({ children, className = "" }) {
   );
 }
 
-/* 4) ZOOM CINEMATOGRAFICO — la sezione entra con scala + sfocatura */
+/* 3) ZOOM CINEMATOGRAFICO — la sezione entra con scala + sfocatura */
 export function ZoomReveal({ children }) {
   const reduce = useReducedMotion();
   const isMobile = useIsMobile();

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, useScroll, useSpring, AnimatePresence, MotionConfig } from "framer-motion";
 import { ArrowUp } from "lucide-react";
-import { useSmoothScroll } from "./components/primitives";
+import { useSmoothScroll, Magnetic } from "./components/primitives";
 import Nav from "./components/Nav";
 import Cursor from "./components/Cursor";
 import ScrollGuide from "./components/ScrollGuide";
@@ -16,7 +16,7 @@ import Game from "./components/Game";
 import Contact from "./components/Contact";
 import EasterEggs from "./components/EasterEggs";
 import Intro from "./components/Intro";
-import { KineticText, EagleFly, Curtain, ZoomReveal } from "./components/transitions";
+import { KineticText, Curtain, ZoomReveal } from "./components/transitions";
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -45,13 +45,15 @@ function BackToTop() {
           exit={{ opacity: 0, scale: 0.5 }}
           className="fixed bottom-6 right-6 z-50"
         >
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="w-12 h-12 grid place-items-center rounded-full btn-primary"
-            aria-label="Torna su"
-          >
-            <ArrowUp className="w-5 h-5" />
-          </button>
+          <Magnetic strength={0.5}>
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="w-12 h-12 grid place-items-center rounded-full btn-primary"
+              aria-label="Torna su"
+            >
+              <ArrowUp className="w-5 h-5" />
+            </button>
+          </Magnetic>
         </motion.div>
       )}
     </AnimatePresence>
@@ -69,7 +71,6 @@ export default function App() {
       <div className="vignette" />
       <Cursor />
       <ScrollProgress />
-      <EagleFly />
       <Nav />
       <ScrollGuide />
       <main>

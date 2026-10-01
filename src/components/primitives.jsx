@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import Lenis from "lenis";
 
 /* Smooth scroll (Lenis) — respects reduced motion */
@@ -151,6 +151,49 @@ export function WordReveal({ text, className = "", stagger = 0.045 }) {
           </motion.span>
         </span>
       ))}
+    </motion.span>
+  );
+}
+
+/* Magnetic — l'elemento segue leggermente il cursore all'hover (micro-interazione).
+   Si disattiva su touch e con prefers-reduced-motion; su un wrapper inline-block
+   così avvolge CTA/icone senza rompere il layout. */
+export function Magnetic({ children, strength = 0.35, className = "" }) {
+  const ref = useRef(null);
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const x = useSpring(mx, { stiffness: 220, damping: 18, mass: 0.4 });
+  const y = useSpring(my, { stiffness: 220, damping: 18, mass: 0.4 });
+
+  const onMove = (e) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    mx.set((e.clientX - (r.left + r.width / 2)) * strength);
+    my.set((e.clientY - (r.top + r.height / 2)) * strength);
+  };
+  const reset = () => {
+    mx.set(0);
+    my.set(0);
+  };
+
+  useEffect(() => {
+    const noFine = window.matchMedia("(hover: none), (prefers-reduced-motion: reduce)").matches;
+    if (noFine) return;
+    const el = ref.current;
+    if (!el) return;
+    el.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", reset);
+    return () => {
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", reset);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [strength]);
+
+  return (
+    <motion.span ref={ref} style={{ x, y }} className={`inline-block ${className}`}>
+      {children}
     </motion.span>
   );
 }

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import { AnimatedLines } from "./primitives";
+import { AnimatedLines, Magnetic } from "./primitives";
 import { profile } from "../data/content";
 
 export default function Hero() {
@@ -78,12 +78,16 @@ export default function Hero() {
           >
             <p className="display-serif italic text-2xl md:text-3xl text-purple-glow mb-5">“{profile.tagline}”</p>
             <div className="flex flex-col sm:flex-row gap-3 md:justify-end">
-              <a href="#projects" className="btn-primary group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest">
-                Esplora <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
-              </a>
-              <a href="#contact" className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white">
-                Contattami
-              </a>
+              <Magnetic>
+                <a href="#projects" className="btn-primary group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest">
+                  Esplora <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
+                </a>
+              </Magnetic>
+              <Magnetic>
+                <a href="#contact" className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white">
+                  Contattami
+                </a>
+              </Magnetic>
             </div>
           </motion.div>
         </div>
