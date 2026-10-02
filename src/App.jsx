@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion, useScroll, useSpring, AnimatePresence, MotionConfig } from "framer-motion";
+import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { useSmoothScroll, Magnetic } from "./components/primitives";
 import Nav from "./components/Nav";
@@ -17,17 +17,6 @@ import Contact from "./components/Contact";
 import EasterEggs from "./components/EasterEggs";
 import Intro from "./components/Intro";
 import { KineticText, SectionReveal } from "./components/transitions";
-
-function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
-  return (
-    <motion.div
-      style={{ scaleX }}
-      className="fixed top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple via-purple-glow to-garuda origin-left z-[60]"
-    />
-  );
-}
 
 function BackToTop() {
   const [show, setShow] = useState(false);
@@ -70,7 +59,6 @@ export default function App() {
       <div className="grain" />
       <div className="vignette" />
       <Cursor />
-      <ScrollProgress />
       <Nav />
       <ScrollGuide />
       <main>
