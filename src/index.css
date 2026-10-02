@@ -34,6 +34,8 @@
 html {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* niente riquadro nero di tap su mobile (iOS/Android) */
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {

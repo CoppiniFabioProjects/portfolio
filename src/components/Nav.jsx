@@ -75,7 +75,7 @@ export default function Nav() {
         className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 pt-4"
       >
         <nav
-          className={`w-full max-w-5xl flex items-center justify-between rounded-2xl px-5 py-3 transition-all duration-500 ${
+          className={`w-full max-w-5xl flex items-center justify-between rounded-2xl px-5 py-3 transition-all duration-500 select-none ${
             scrolled ? "glass-violet shadow-2xl shadow-black/40" : "bg-transparent"
           }`}
         >
