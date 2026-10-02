@@ -61,7 +61,7 @@ export const vetrina = {
       body:
         "Gioco competitivo e agonistico. Disciplina, strategia e riflessi trasferiti dal campo al codice.",
       link: { href: "https://app.playtomic.io/", label: "Playtomic" },
-      image: "/portfolio/padel.jpg",
+      image: "/portfolio/padel.webp",
       accent: "garuda",
     },
     {
@@ -70,7 +70,7 @@ export const vetrina = {
       body:
         "Con Scienza Ludica APS insegno robotica ed educativa nelle scuole di Prato e Pistoia: Lego Spike, Ozobot e Scratch.",
       link: { href: "https://scienzaludica.org/", label: "Scienza Ludica" },
-      image: "/portfolio/scienzaludica.jpg",
+      image: "/portfolio/scienzaludica.webp",
       accent: "purple",
     },
     {
@@ -79,7 +79,7 @@ export const vetrina = {
       body:
         "Volontariato con attenzione all'innovazione etica, alla sostenibilità e all'uso consapevole del linguaggio.",
       link: { href: "https://www.ventoevertigine.com/", label: "Vento e Vertigine" },
-      image: "/portfolio/ventoevertigine.jpg",
+      image: "/portfolio/ventoevertigine.webp",
       accent: "garuda",
     },
   ],
@@ -198,7 +198,7 @@ export const flagship = [
       { value: "−69 kg", label: "CO₂ al mese / utente" },
     ],
     tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime", "PWA"],
-    image: "/portfolio/spostiamoci-poster.jpg",
+    image: "/portfolio/spostiamoci-poster.webp",
     link: "https://spostiamoci.vercel.app",
     linkLabel: "Apri l'app",
     status: "Live",
@@ -216,7 +216,7 @@ export const flagship = [
       { value: "108 LA", label: "Distretto Toscana" },
     ],
     tags: ["React", "Supabase", "Auth & RLS", "Dashboard", "Multi-ruolo"],
-    image: "/portfolio/digitalions.jpg",
+    image: "/portfolio/digitalions.webp",
     link: "https://digitalions108la.it",
     linkLabel: "Visita DigitaLions",
     status: "Live",
@@ -230,28 +230,28 @@ export const projects = [
     tagline: "Il futuro del fitness intelligente",
     body: "Monitoraggio biometrico e AI personalizzata. Coming soon.",
     tags: ["Mobile", "AI"],
-    image: "/portfolio/portfolio.jpg",
+    image: "/portfolio/portfolio.webp",
     status: "Coming Soon",
   },
   {
     title: "01 Informatica",
     body: "Gestione siti web, sviluppo CMS e software gestionale interno all'azienda.",
     tags: ["CMS", "Web Design", "Java"],
-    image: "/portfolio/logo_01informatica.png",
+    image: "/portfolio/logo_01informatica.webp",
     link: "https://www.info01.it/",
   },
   {
     title: "Middleware Logistica",
     body: "Web app per la gestione dei flussi di magazzino e interfacciamento hardware automatizzato con sistemi ERP (Ciampalini ModulaV2 / MGM). Architettura ibrida con error handling avanzato.",
     tags: ["React", "ERP", "Hardware"],
-    image: "/portfolio/modula.png",
+    image: "/portfolio/modula.webp",
     link: "https://github.com/CoppiniFabioProjects/j01modula",
   },
   {
     title: "First Lego League USA",
     body: "Team leader e coordinamento scientifico per la competizione internazionale di robotica.",
     tags: ["Robotica", "Team Lead"],
-    image: "/portfolio/CHALLENGE_2.jpg",
+    image: "/portfolio/CHALLENGE_2.webp",
     link: "https://www.youtube.com/watch?v=S2FbYDwy31o",
   },
 ];

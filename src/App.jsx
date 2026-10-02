@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { useSmoothScroll, Magnetic } from "./components/primitives";
@@ -12,11 +12,13 @@ import Tech from "./components/Tech";
 import Linux from "./components/Linux";
 import Timeline from "./components/Timeline";
 import Projects from "./components/Projects";
-import Game from "./components/Game";
 import Contact from "./components/Contact";
 import EasterEggs from "./components/EasterEggs";
 import Intro from "./components/Intro";
 import { KineticText, SectionReveal } from "./components/transitions";
+
+// Game: componente pesante e sotto la piega → caricato in chunk separato
+const Game = lazy(() => import("./components/Game"));
 
 function BackToTop() {
   const [show, setShow] = useState(false);
@@ -75,7 +77,9 @@ export default function App() {
         <Timeline />
         <KineticText text="GARUDA" baseVelocity={-2.4} />
         <Projects />
-        <Game />
+        <Suspense fallback={null}>
+          <Game />
+        </Suspense>
       </main>
       <Contact />
       <BackToTop />

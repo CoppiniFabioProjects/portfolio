@@ -415,7 +415,7 @@ html.lenis body {
 /* Outline / stroked text */
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 1px rgba(244, 241, 234, 0.35);
+  -webkit-text-stroke: 1px rgba(244, 241, 234, 0.5);
 }
 
 /* Line-mask reveal: child slides up from behind a clip */

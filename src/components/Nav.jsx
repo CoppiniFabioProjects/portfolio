@@ -138,6 +138,8 @@ export default function Nav() {
               src="/portfolio/garuda.png"
               alt=""
               aria-hidden="true"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 m-auto w-[80vw] max-w-none object-contain opacity-[0.06] pointer-events-none"
             />
 
