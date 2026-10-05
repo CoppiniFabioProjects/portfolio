@@ -13,6 +13,8 @@ export const profile = {
   linkedinFollowers: "7.5k",
   github: "https://github.com/CoppiniFabioProjects/",
   tagline: "Libero come un'aquila.",
+  headline: "Full-Stack Developer",
+  stack: "React · Next.js · Supabase",
   intro:
     "Non sono il classico sviluppatore. Laureato in Informatica Umanistica all'Università di Pisa, opero nell'intersezione rara tra la fredda precisione degli algoritmi e la caotica bellezza della cultura umana.",
 };

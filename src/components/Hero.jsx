@@ -59,6 +59,18 @@ export default function Hero() {
           </span>
         </h1>
 
+        {/* Sottotitolo concreto — brand poetico + keyword cercabili (SEO/GEO) */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-5 md:mt-7 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm md:text-base"
+        >
+          <span className="font-semibold text-white tracking-tight">{profile.headline}</span>
+          <span className="w-1 h-1 rounded-full bg-purple-glow/70" />
+          <span className="font-mono text-mist tracking-tight">{profile.stack}</span>
+        </motion.p>
+
         {/* Editorial bottom row */}
         <div className="mt-10 md:mt-14 grid md:grid-cols-2 gap-8 items-end">
           <motion.p
