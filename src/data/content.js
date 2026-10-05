@@ -244,10 +244,9 @@ export const projects = [
   },
   {
     title: "Middleware Logistica",
-    body: "Web app per la gestione dei flussi di magazzino e interfacciamento hardware automatizzato con sistemi ERP (Ciampalini ModulaV2 / MGM). Architettura ibrida con error handling avanzato.",
+    body: "Web app per la gestione dei flussi di magazzino e interfacciamento hardware automatizzato con sistemi ERP (Ciampalini ModulaV2 / MGM). Architettura ibrida con error handling avanzato. Progetto aziendale (01 Informatica) — codice proprietario.",
     tags: ["React", "ERP", "Hardware"],
     image: "/portfolio/modula.webp",
-    link: "https://github.com/CoppiniFabioProjects/j01modula",
   },
   {
     title: "First Lego League USA",
