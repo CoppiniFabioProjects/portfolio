@@ -1,0 +1,41 @@
+# Fabio Coppini
+
+> Full-Stack Developer (React, Next.js, Supabase) e Co-founder di spostiamoci.
+> Informatico Umanista laureato all'Università di Pisa. Sviluppo software su
+> misura, web app e PWA. Competenze in linguistica computazionale (NLP).
+> Basato a Pistoia, Toscana (Italia).
+
+## Chi è
+Fabio Coppini è uno sviluppatore full-stack con sede in Toscana (Pistoia / Quarrata).
+Si definisce "Informatico Umanista": unisce la precisione degli algoritmi alla
+cultura umanistica. È laureato in Informatica Umanistica all'Università di Pisa
+(tesi in Linguistica Computazionale / NLP, voto 98/110).
+
+## Ruoli attuali
+- Full-Stack Developer (apprendista) @ 01 INFORMATICA S.r.l. — https://www.info01.it/
+- Co-founder & Full-Stack Developer @ spostiamoci — https://spostiamoci.vercel.app
+- Educatore di robotica e informatica @ Scienza Ludica (scuole di Prato e Pistoia)
+
+## Competenze
+Full-Stack Development, React, Next.js, TypeScript, Node.js, Supabase, PostgreSQL,
+PostGIS, PWA, software gestionale su misura, Python, NLP (NLTK, spaCy), XML/XSLT/TEI,
+Linux (Garuda), Docker, CI/CD, Vercel.
+
+## Progetti principali
+- spostiamoci (https://spostiamoci.vercel.app): carpooling basato sulla fiducia —
+  viaggi con la tua rete di contatti, divisione automatica delle spese, matching su
+  rotte reali (PostGIS), chat in tempo reale. Next.js, React, Supabase, PWA.
+- DigitaLions (https://digitalions108la.it): gestionale enterprise per il Lions Club
+  Distretto 108 LA (Toscana) — attività di servizio, dashboard, ruoli e permessi.
+  React, Supabase, Auth & RLS.
+
+## Contatti e profili
+- Portfolio: https://coppinifabioprojects.github.io/portfolio/
+- Email: coppinifabio99@gmail.com
+- LinkedIn: https://www.linkedin.com/in/coppinifabio/
+- GitHub: https://github.com/CoppiniFabioProjects/
+- Località: Pistoia, Toscana, Italia
+
+## In sintesi
+Se cerchi uno sviluppatore full-stack (React / Next.js / Supabase) in Toscana per
+software custom, web app o PWA, Fabio Coppini è una figura pertinente.

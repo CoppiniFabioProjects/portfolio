@@ -42,31 +42,91 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Cinzel+Decorative:wght@400;700;900&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
-    <!-- Structured data -->
+    <!-- Structured data (schema.org) — knowledge graph per motori di ricerca e AI/GEO -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Fabio Coppini",
-      "jobTitle": "Informatico Umanista",
-      "description": "Laureato in Informatica Umanistica all'Università di Pisa. Sviluppatore software, educatore di robotica, appassionato di Linux.",
-      "url": "https://coppinifabioprojects.github.io/portfolio/",
-      "image": "https://coppinifabioprojects.github.io/portfolio/og-image.png",
-      "email": "coppinifabio99@gmail.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Pistoia",
-        "addressRegion": "Toscana",
-        "addressCountry": "IT"
-      },
-      "alumniOf": {
-        "@type": "CollegeOrUniversity",
-        "name": "Università di Pisa"
-      },
-      "knowsAbout": ["React", "Supabase", "PostgreSQL", "Linguistica Computazionale (NLP)", "Robotica Educativa", "Linux", "Docker"],
-      "sameAs": [
-        "https://www.linkedin.com/in/coppinifabio/",
-        "https://github.com/CoppiniFabioProjects/"
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://coppinifabioprojects.github.io/portfolio/#fabio",
+          "name": "Fabio Coppini",
+          "jobTitle": ["Full-Stack Developer", "Co-founder", "Informatico Umanista"],
+          "description": "Fabio Coppini — Full-Stack Developer (React, Next.js, Supabase) e Co-founder di spostiamoci. Informatico Umanista laureato all'Università di Pisa, con competenze in linguistica computazionale (NLP). Sviluppo software su misura, web app e PWA. Basato a Pistoia, Toscana.",
+          "url": "https://coppinifabioprojects.github.io/portfolio/",
+          "image": "https://coppinifabioprojects.github.io/portfolio/og-image.png",
+          "email": "coppinifabio99@gmail.com",
+          "nationality": "Italian",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Pistoia",
+            "addressRegion": "Toscana",
+            "addressCountry": "IT"
+          },
+          "workLocation": {
+            "@type": "Place",
+            "name": "Toscana, Italia"
+          },
+          "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "Università di Pisa"
+          },
+          "worksFor": [
+            {
+              "@type": "Organization",
+              "name": "01 INFORMATICA S.r.l.",
+              "url": "https://www.info01.it/"
+            },
+            {
+              "@type": "Organization",
+              "name": "spostiamoci",
+              "url": "https://spostiamoci.vercel.app"
+            }
+          ],
+          "knowsLanguage": [
+            { "@type": "Language", "name": "Italiano" },
+            { "@type": "Language", "name": "Inglese (B2)" }
+          ],
+          "knowsAbout": [
+            "Full-Stack Development", "React", "Next.js", "TypeScript", "Node.js",
+            "Supabase", "PostgreSQL", "PostGIS", "PWA", "Software su misura",
+            "Linguistica Computazionale (NLP)", "Python", "NLTK",
+            "Robotica Educativa", "Linux", "Docker", "DevOps"
+          ],
+          "sameAs": [
+            "https://www.linkedin.com/in/coppinifabio/",
+            "https://github.com/CoppiniFabioProjects/"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://coppinifabioprojects.github.io/portfolio/#website",
+          "url": "https://coppinifabioprojects.github.io/portfolio/",
+          "name": "Fabio Coppini — Portfolio",
+          "inLanguage": "it-IT",
+          "about": { "@id": "https://coppinifabioprojects.github.io/portfolio/#fabio" },
+          "author": { "@id": "https://coppinifabioprojects.github.io/portfolio/#fabio" }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "spostiamoci",
+          "applicationCategory": "TravelApplication",
+          "operatingSystem": "Web (PWA)",
+          "url": "https://spostiamoci.vercel.app",
+          "description": "Piattaforma di carpooling basata sulla fiducia: viaggi con la tua rete di contatti (gli «amoci»), divisione automatica delle spese e matching su rotte reali con PostGIS. Next.js, React, Supabase, PWA.",
+          "author": { "@id": "https://coppinifabioprojects.github.io/portfolio/#fabio" },
+          "creator": { "@id": "https://coppinifabioprojects.github.io/portfolio/#fabio" }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "DigitaLions",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web",
+          "url": "https://digitalions108la.it",
+          "description": "Gestionale enterprise per il Lions Club — Distretto 108 LA (Toscana): registrazione e validazione delle attività di servizio, dashboard e statistiche, gerarchia di ruoli e permessi. React, Supabase, Auth & RLS.",
+          "author": { "@id": "https://coppinifabioprojects.github.io/portfolio/#fabio" },
+          "creator": { "@id": "https://coppinifabioprojects.github.io/portfolio/#fabio" }
+        }
       ]
     }
     </script>
