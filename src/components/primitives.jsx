@@ -103,27 +103,30 @@ export function SectionHeader({ eyebrow, title, sub, align = "left", index }) {
 }
 
 /* Masked line reveal — each line slides up from behind a clip, staggered on scroll.
-   `immediate` = anima al montaggio (per contenuti above-the-fold come la hero):
-   così il testo compare sempre, senza dipendere dal trigger di scroll. */
+   `immediate` = anima al montaggio (per contenuti above-the-fold come la hero).
+   Il trigger "in vista" sta sul contenitore esterno: la singola riga parte nascosta
+   sotto una maschera overflow:hidden, quindi per l'IntersectionObserver non sarebbe
+   mai visibile e non si rivelerebbe mai. */
 export function AnimatedLines({ lines, className = "", delay = 0, stagger = 0.12, immediate = false }) {
   const trigger = immediate
-    ? { animate: { y: "0%" } }
-    : { whileInView: { y: "0%" }, viewport: { once: true, margin: "-60px" } };
+    ? { animate: "show" }
+    : { whileInView: "show", viewport: { once: true, margin: "-60px" } };
   return (
-    <span className="block">
+    <motion.span className="block" initial="hidden" {...trigger}>
       {lines.map((line, i) => (
         <span key={i} className="line-mask">
           <motion.span
             className={`block ${className}`}
-            initial={{ y: "110%" }}
-            {...trigger}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: delay + i * stagger }}
+            variants={{
+              hidden: { y: "110%" },
+              show: { y: "0%", transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: delay + i * stagger } },
+            }}
           >
             {line}
           </motion.span>
         </span>
       ))}
-    </span>
+    </motion.span>
   );
 }
 
