@@ -1,7 +1,10 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { AnimatedLines, WordReveal } from "./primitives";
+import Scene3D from "./Scene3D";
 import { manifesto } from "../data/content";
+
+const loadCrystal = () => import("../three/crystal");
 
 export default function Manifesto() {
   const ref = useRef(null);
@@ -20,6 +23,14 @@ export default function Manifesto() {
         >
           <span className="display-xl text-outline whitespace-nowrap">LEVITAS</span>
         </motion.div>
+
+        {/* "Tolgo peso": il cristallo si frantuma e sale mentre scorri */}
+        <Scene3D
+          load={loadCrystal}
+          progress={scrollYProgress}
+          className="absolute inset-0"
+          canvasClassName="opacity-60 md:opacity-100"
+        />
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center gap-3 mb-8">

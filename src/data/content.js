@@ -131,6 +131,13 @@ export const tech = [
   },
 ];
 
+// Orbita 3D della sezione Tech: tre anelli attorno al nucleo
+export const techOrbit = [
+  { name: "Frontend", color: "#c084fc", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vite", "Framer Motion"] },
+  { name: "Backend & Dati", color: "#5eead4", items: ["Node.js", "Supabase", "PostgreSQL", "PostGIS", "Prisma", "Redis"] },
+  { name: "Cloud, AI & NLP", color: "#e2e8f0", items: ["Vercel", "Docker", "GitHub Actions", "Linux", "Python", "Claude Code"] },
+];
+
 export const linux = {
   distro: "Garuda Linux",
   points: [
@@ -201,6 +208,7 @@ export const flagship = [
     ],
     tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime", "PWA"],
     image: "/portfolio/spostiamoci-poster.webp",
+    phone3d: true, // il poster (9:16) va sullo schermo di uno smartphone 3D
     link: "https://spostiamoci.vercel.app",
     linkLabel: "Apri l'app",
     status: "Live",

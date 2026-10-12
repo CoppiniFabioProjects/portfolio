@@ -6,6 +6,7 @@ import {
   WebGLRenderer, Scene, PerspectiveCamera, BufferGeometry, Float32BufferAttribute,
   Points, ShaderMaterial, AdditiveBlending, Group,
 } from "three";
+import { sampleImage } from "../three/sampleImage";
 
 const vertexShader = /* glsl */ `
   uniform float uProgress;   // 0 → 1: assemblaggio
@@ -66,15 +67,6 @@ const clamp01 = (t) => Math.min(1, Math.max(0, t));
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 const easeInQuad = (t) => t * t;
 
-function loadImage(src) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = reject;
-    img.src = src;
-  });
-}
-
 // Timeline (secondi)
 const ASSEMBLE = 1.9;    // l'aquila si compone
 const EXPLODE_AT = 2.75; // dopo un attimo di "posa", esplode
@@ -86,18 +78,13 @@ const EXIT_AT = 2.85;    // l'overlay inizia a dissolversi sulla hero
  * Lancia un errore se WebGL non è disponibile (l'intro userà il fallback CSS).
  */
 export async function createEagleScene(canvas, { src, onExit }) {
-  const img = await loadImage(src);
   const mobile = window.matchMedia("(max-width: 767px)").matches;
 
   // --- Campionamento dei pixel dell'aquila ---
   const S = 460;
-  const off = document.createElement("canvas");
-  off.width = off.height = S;
-  const ctx = off.getContext("2d", { willReadFrequently: true });
-  ctx.drawImage(img, 0, 0, S, S);
-  const { data } = ctx.getImageData(0, 0, S, S);
-
   const step = mobile ? 4 : 3;
+  const samples = await sampleImage(src, { size: S, step });
+
   const W = 3; // lato dell'aquila in unità mondo
   const targets = [], starts = [], colors = [], rands = [];
   const rnd = Math.random;
@@ -114,18 +101,12 @@ export async function createEagleScene(canvas, { src, onExit }) {
     );
   };
 
-  for (let y = 0; y < S; y += step) {
-    for (let x = 0; x < S; x += step) {
-      const i = (y * S + x) * 4;
-      if (data[i + 3] < 120) continue;
-      const r = data[i] / 255, g = data[i + 1] / 255, b = data[i + 2] / 255;
-      const lum = 0.299 * r + 0.587 * g + 0.114 * b;
-      // il rilievo: le sfaccettature più chiare stanno più avanti
-      targets.push((x / S - 0.5) * W, (0.5 - y / S) * W, (lum - 0.4) * 0.9 + (rnd() - 0.5) * 0.06);
-      colors.push(r * 1.15, g * 1.1, b * 1.2);
-      rands.push(rnd());
-      pushStart();
-    }
+  for (const { u, v, r, g, b, lum } of samples) {
+    // il rilievo: le sfaccettature più chiare stanno più avanti
+    targets.push((u - 0.5) * W, (0.5 - v) * W, (lum - 0.4) * 0.9 + (rnd() - 0.5) * 0.06);
+    colors.push(r * 1.15, g * 1.1, b * 1.2);
+    rands.push(rnd());
+    pushStart();
   }
 
   // polvere ambientale viola/teal: dà profondità mentre la camera ruota

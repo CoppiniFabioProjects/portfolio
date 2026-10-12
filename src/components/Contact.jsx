@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Mail, Phone, MapPin, Linkedin, Github, Download, Share2, Check, ArrowUpRight } from "lucide-react";
 import { Reveal, Magnetic } from "./primitives";
+import Scene3D from "./Scene3D";
 import { profile, interests } from "../data/content";
+
+const loadEagle = () => import("../three/eagleFinale");
 
 const SITE_URL = "https://coppinifabioprojects.github.io/portfolio/";
 
@@ -44,6 +47,12 @@ export default function Contact() {
   return (
     <footer id="contact" className="relative bg-ink-2 overflow-hidden">
       <Marquee />
+
+      {/* Il cerchio si chiude: il Garuda di particelle, da disperdere col mouse */}
+      <Scene3D
+        load={loadEagle}
+        className="absolute inset-x-0 top-24 h-[480px] md:h-[640px] pointer-events-none"
+      />
 
       {/* Giant watermark */}
       <div className="absolute -bottom-6 inset-x-0 text-center pointer-events-none select-none">

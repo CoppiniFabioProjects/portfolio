@@ -1,6 +1,9 @@
 import { Reveal, SectionHeader, Spotlight } from "./primitives";
 import Icon from "./Icon";
-import { tech } from "../data/content";
+import Scene3D from "./Scene3D";
+import { tech, techOrbit } from "../data/content";
+
+const loadOrbit = () => import("../three/techOrbit");
 
 export default function Tech() {
   return (
@@ -11,6 +14,13 @@ export default function Tech() {
           eyebrow="Arsenale Tecnologico"
           title="Cosa uso per costruire"
           sub="Uno stack moderno, AI-native, dal frontend al cloud."
+        />
+
+        {/* Orbita 3D: trascinala per girarla */}
+        <Scene3D
+          load={loadOrbit}
+          options={{ rings: techOrbit }}
+          className="relative h-[360px] md:h-[480px] -mt-6 mb-10"
         />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

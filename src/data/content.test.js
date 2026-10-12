@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { profile, nav, tech, flagship, projects, timeline, vetrina } from "./content";
+import { profile, nav, tech, techOrbit, flagship, projects, timeline, vetrina } from "./content";
 
 describe("content — integrità dei dati", () => {
   it("il profilo ha i campi essenziali", () => {
@@ -30,6 +30,15 @@ describe("content — integrità dei dati", () => {
     ["react", "next.js", "supabase", "vercel", "python", "nltk", "xml"].forEach((t) =>
       expect(all).toContain(t)
     );
+  });
+
+  it("l'orbita 3D ha al massimo 3 anelli, con colore e almeno 3 tecnologie", () => {
+    expect(techOrbit.length).toBeGreaterThan(0);
+    expect(techOrbit.length).toBeLessThanOrEqual(3); // la scena ha 3 raggi/inclinazioni
+    techOrbit.forEach((ring) => {
+      expect(ring.color).toMatch(/^#[0-9a-f]{6}$/i);
+      expect(ring.items.length).toBeGreaterThanOrEqual(3);
+    });
   });
 
   it("i progetti di punta hanno link validi e status", () => {

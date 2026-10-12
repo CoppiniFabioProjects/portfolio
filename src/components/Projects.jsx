@@ -2,7 +2,10 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal, SectionHeader, Spotlight, AnimatedLines } from "./primitives";
+import Scene3D from "./Scene3D";
 import { flagship, projects } from "../data/content";
+
+const loadPhone = () => import("../three/phone");
 
 const ACCENT = {
   garuda: { text: "text-garuda", border: "border-garuda/40", bg: "bg-garuda/15", dot: "bg-garuda" },
@@ -21,20 +24,46 @@ function Flagship({ p, i }) {
     <div ref={ref} className="group grid lg:grid-cols-12 gap-6 lg:gap-12 items-center py-6 md:py-10">
       {/* Image */}
       <div className={`lg:col-span-7 ${reverse ? "lg:order-2" : ""}`}>
-        <Spotlight className="relative overflow-hidden rounded-3xl aspect-[16/10] glass">
-          <motion.img
-            style={{ y: imgY, scale: 1.15 }}
-            src={p.image}
-            alt={`Anteprima del progetto ${p.title}`}
-            loading="lazy"
-            decoding="async"
-            className="absolute inset-0 w-full h-full object-cover duotone"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
-          <span className={`absolute top-5 left-5 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest border ${a.border} ${a.bg} ${a.text} px-3 py-1 rounded-full backdrop-blur-md`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${a.dot} animate-pulse`} /> {p.status}
-          </span>
-        </Spotlight>
+        {p.phone3d ? (
+          // smartphone 3D: si inclina col mouse e ruota mentre scorri
+          <div className="relative h-[520px] sm:h-[600px] lg:h-[640px]">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[55%] h-[60%] rounded-full bg-garuda/25 blur-[100px]" />
+            <div className="absolute left-[60%] top-[60%] -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full bg-purple/25 blur-[100px]" />
+            <Scene3D
+              load={loadPhone}
+              options={{ src: p.image }}
+              progress={scrollYProgress}
+              className="absolute inset-0"
+              fallback={
+                <img
+                  src={p.image}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 m-auto h-[88%] w-auto rounded-[2.6rem] border-[10px] border-[#1c1a24] object-cover shadow-2xl shadow-black/60"
+                />
+              }
+            />
+            <span className={`absolute top-5 left-5 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest border ${a.border} ${a.bg} ${a.text} px-3 py-1 rounded-full backdrop-blur-md`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${a.dot} animate-pulse`} /> {p.status}
+            </span>
+          </div>
+        ) : (
+          <Spotlight className="relative overflow-hidden rounded-3xl aspect-[16/10] glass">
+            <motion.img
+              style={{ y: imgY, scale: 1.15 }}
+              src={p.image}
+              alt={`Anteprima del progetto ${p.title}`}
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover duotone"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
+            <span className={`absolute top-5 left-5 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest border ${a.border} ${a.bg} ${a.text} px-3 py-1 rounded-full backdrop-blur-md`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${a.dot} animate-pulse`} /> {p.status}
+            </span>
+          </Spotlight>
+        )}
       </div>
 
       {/* Copy */}
