@@ -38,8 +38,12 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* overflow-x: clip (non hidden): taglia l'eccedenza orizzontale senza trasformare
+   html/body in contenitori di scroll, altrimenti position: sticky smette di funzionare
+   (la sezione Manifesto non resterebbe "pinnata"). hidden resta come ripiego. */
 html {
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -47,6 +51,7 @@ body {
   color: #e8e6f0;
   font-family: var(--font-body);
   overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100vw;
 }
 
