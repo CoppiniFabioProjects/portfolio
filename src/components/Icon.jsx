@@ -3,11 +3,13 @@
 import {
   Trophy, Bot, Sprout, Layout, Database, Sparkles, Boxes,
   Terminal, Container, Cpu, Users, Circle, Cloud, ScrollText, Palette,
+  Factory, ClipboardCheck, GitPullRequest, Lock, History, Gauge, Radio, Scale,
 } from "lucide-react";
 
 const MAP = {
   Trophy, Bot, Sprout, Layout, Database, Sparkles, Boxes,
   Terminal, Container, Cpu, Users, Cloud, ScrollText, Palette,
+  Factory, ClipboardCheck, GitPullRequest, Lock, History, Gauge, Radio, Scale,
 };
 
 export default function Icon({ name, className }) {

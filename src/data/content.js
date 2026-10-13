@@ -10,7 +10,7 @@ export const profile = {
   email: "coppinifabio99@gmail.com",
   phone: "+39 334 923 5662",
   linkedin: "https://www.linkedin.com/in/coppinifabio/",
-  linkedinFollowers: "7.5k",
+  linkedinFollowers: "7.7k",
   github: "https://github.com/CoppiniFabioProjects/",
   tagline: "Libero come un'aquila.",
   headline: "Full-Stack Developer",
@@ -56,6 +56,69 @@ export const vetrina = {
       label: "Leggi la Tesi",
     },
   },
+  // Storie dal lavoro: ognuna viene da un post LinkedIn, con il link all'originale
+  stories: [
+    {
+      icon: "GitPullRequest",
+      tag: "Metodo · Code review",
+      title: "Non sbaglio mai. Poi ho sbagliato.",
+      body:
+        "Una modifica giusta per un cliente, scritta nella classe condivisa da tutte le stampe: i pesi di DDT e fatture hanno perso i decimali per tutti. Ho messo per iscritto cosa è successo e cosa cambia da quel giorno.",
+      lesson: "Un commento non è una condizione.",
+      href: "https://www.linkedin.com/feed/update/urn:li:activity:7508933285134372865/",
+      accent: "purple",
+    },
+    {
+      icon: "Lock",
+      tag: "Sicurezza · Supabase",
+      title: "Il login protegge le pagine, non i dati.",
+      body:
+        "La chiave anon di un BaaS è pubblica: una chiamata REST arriva al database senza passare dal tuo codice. La difesa sono le policy RLS e, per le pagine pubbliche, una funzione SECURITY DEFINER che risponde sì o no senza mostrare le righe.",
+      lesson: "Su dati personali il SELECT «minimo» è già il problema.",
+      href: "https://www.linkedin.com/feed/update/urn:li:activity:7485423343811227649/",
+      accent: "garuda",
+    },
+    {
+      icon: "History",
+      tag: "Legacy · Windows CE",
+      title: "2003. Un palmare. 15.000 righe senza test.",
+      body:
+        "Un'app di tentata vendita in eMbedded Visual Basic registrava fatture che nessuno aveva scelto. Due patch, undici righe, l'ambiente di build ricostruito in una macchina virtuale e il rilascio sui terminali, sul campo.",
+      lesson: "Il codice vecchio non è codice morto: ha lavorato più di te.",
+      href: "https://www.linkedin.com/feed/update/urn:li:activity:7502766993562025987/",
+      accent: "purple",
+    },
+    {
+      icon: "Gauge",
+      tag: "Prestazioni · SQL su DB2",
+      title: "Ho tolto una riga di SQL e la pagina vola.",
+      body:
+        "Un filtro di stagionalità scritto con un CASE nella WHERE impediva al database di usare gli indici. Ho spostato la regola in Java, lasciando alla query un'uguaglianza su chiave, e ho confrontato il risultato su 53 settimane: zero differenze.",
+      lesson: "La condizione più comoda da scrivere è spesso la più costosa da eseguire.",
+      href: "https://www.linkedin.com/feed/update/urn:li:activity:7503489910654349312/",
+      accent: "garuda",
+    },
+    {
+      icon: "Radio",
+      tag: "Realtime · spostiamoci",
+      title: "La posizione live funzionava. Tranne quando serviva.",
+      body:
+        "Chi aspettava fermo al punto d'incontro spariva dalla mappa. Tre bug della stessa famiglia: trasmettevo prima di essere in ascolto, da fermo il GPS tace, i canali broadcast non hanno storico. Li ho trovati con due telefoni in mano.",
+      lesson: "Se lo stato dipende da eventi, va progettato anche il silenzio.",
+      href: "https://www.linkedin.com/feed/update/urn:li:activity:7487143100046327808/",
+      accent: "purple",
+    },
+    {
+      icon: "Scale",
+      tag: "Dati · DigitaLions",
+      title: "Un motore di punteggio per 92 Lions Club.",
+      body:
+        "Il regolamento assegna punti su 16 tipologie di attività, il portale ufficiale ne espone 4. La tipologia la assegna una persona: finché non lo fa, il punteggio non è zero, è assente. E i dati del concorso li protegge il database, colonna per colonna.",
+      lesson: "Su una classifica ufficiale, un dato indovinato è peggio di uno mancante.",
+      href: "https://www.linkedin.com/feed/update/urn:li:activity:7502685882110500865/",
+      accent: "garuda",
+    },
+  ],
   cards: [
     {
       icon: "Trophy",
@@ -85,10 +148,11 @@ export const vetrina = {
       accent: "garuda",
     },
   ],
+  // Numeri presi dai post: migrazioni di spostiamoci, soci di DigitaLions, follower
   stats: [
-    { value: "B2", label: "Inglese" },
-    { value: "110%", label: "Dedizione" },
-    { value: "B", label: "Patente" },
+    { value: "~180", label: "Migrazioni DB" },
+    { value: "3.000", label: "Soci gestiti" },
+    { value: "7.7k", label: "Follower LinkedIn" },
   ],
 };
 
@@ -97,44 +161,44 @@ export const tech = [
     title: "Frontend",
     icon: "Layout",
     accent: "purple",
-    items: ["React 19", "Next.js 15", "TypeScript", "Tailwind CSS v4", "Vite", "Framer Motion", "TanStack Query", "PWA"],
+    items: ["React 19", "Next.js 15 / 16", "TypeScript", "Tailwind CSS v4", "Framer Motion", "Three.js", "TanStack Query", "PWA & Web Push"],
   },
   {
     title: "Backend & Database",
     icon: "Database",
     accent: "garuda",
-    items: ["Node.js", "Supabase", "PostgreSQL", "Prisma / Drizzle", "Server Actions", "REST APIs", "Auth & RLS", "Redis"],
+    items: ["Supabase", "PostgreSQL", "PostGIS", "Row Level Security", "Funzioni SECURITY DEFINER", "Realtime & pg_cron", "Edge Functions", "Node.js"],
   },
   {
-    title: "DevOps & Cloud",
-    icon: "Cloud",
+    title: "Gestionali & Enterprise",
+    icon: "Factory",
     accent: "purple",
-    items: ["Vercel", "Docker", "GitHub Actions", "CI/CD", "Git & GitHub", "Linux", "Nginx", "Cloudflare"],
+    items: ["Java", "DB2 su IBM i", "SQL Server", "Spring Boot", "ERP", "Ottimizzazione SQL", "Legacy: eVB · Windows CE", "Integrazioni di magazzino"],
   },
   {
-    title: "NLP & Linguistica Computazionale",
+    title: "Metodo & Qualità",
+    icon: "ClipboardCheck",
+    accent: "garuda",
+    items: ["Analisi funzionale", "Note tecniche", "Piani di test", "Code review", "Git · Bitbucket · GitHub", "CI/CD con GitHub Actions", "Manuali d'uso", "Go-live dai clienti"],
+  },
+  {
+    title: "NLP & Codifica di Testi",
     icon: "ScrollText",
-    accent: "garuda",
-    items: ["Python", "NLTK", "spaCy", "Tokenizzazione", "POS Tagging", "Named Entity Recognition", "WordNet", "Corpora"],
-  },
-  {
-    title: "Codifica di Testi & Markup",
-    icon: "Boxes",
     accent: "purple",
-    items: ["XML", "XSLT", "XPath", "TEI", "Codifica di testi", "Metadati semantici", "RegEx", "Schema / DTD"],
+    items: ["Python", "NLTK", "Tokenizzazione", "POS Tagging", "Named Entity Recognition", "XML", "XSLT", "TEI"],
   },
   {
-    title: "AI, Design & Tooling",
-    icon: "Palette",
+    title: "AI, Cloud & Tooling",
+    icon: "Cloud",
     accent: "garuda",
-    items: ["Cursor IDE", "Claude Code", "Higgsfield", "Prompt Engineering", "Figma", "Canva Pro", "Mermaid", "Excalidraw", "OpenGraph", "SEO"],
+    items: ["Claude Code", "Cursor", "Agenti in parallelo", "Vercel", "Docker", "Linux", "Vite", "GitHub Pages"],
   },
 ];
 
 // Orbita 3D della sezione Tech: tre anelli attorno al nucleo
 export const techOrbit = [
-  { name: "Frontend", color: "#c084fc", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vite", "Framer Motion"] },
-  { name: "Backend & Dati", color: "#5eead4", items: ["Node.js", "Supabase", "PostgreSQL", "PostGIS", "Prisma", "Redis"] },
+  { name: "Frontend", color: "#c084fc", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Three.js", "Framer Motion"] },
+  { name: "Backend & Dati", color: "#5eead4", items: ["Supabase", "PostgreSQL", "PostGIS", "Java", "DB2", "SQL Server"] },
   { name: "Cloud, AI & NLP", color: "#e2e8f0", items: ["Vercel", "Docker", "GitHub Actions", "Linux", "Python", "Claude Code"] },
 ];
 
@@ -150,7 +214,7 @@ export const linux = {
 
 export const timeline = [
   {
-    period: "2025 — oggi",
+    period: "Giu 2026 — oggi",
     org: "spostiamoci",
     role: "Co-founder & Full-Stack Developer",
     body: "Ideazione e sviluppo full-stack della piattaforma di mobilità sociale di fiducia: Next.js, React, Supabase, PostGIS. Dall'architettura al prodotto installabile (PWA), con samo, l'assistente che rende equi i viaggi.",
@@ -162,7 +226,7 @@ export const timeline = [
     period: "Mag 2025 — oggi",
     org: "01Informatica",
     role: "Sviluppatore Full-Stack (Apprendista)",
-    body: "Sviluppo software full-stack, gestione siti e gestionale interno, supporto tecnico e problem solving IT. Mentorship di Michele.",
+    body: "Sviluppo e assistenza su Codice01, il gestionale ERP dell'azienda (Java, DB2): seguo i lavori dall'analisi al rilascio, compresi i go-live dai clienti e il codice legacy. Mentorship di Michele.",
     current: true,
   },
   {
@@ -219,13 +283,13 @@ export const flagship = [
     title: "DigitaLions",
     tagline: "Tecnologia al servizio del bene",
     body:
-      "Gestionale enterprise per il Lions Club — Distretto 108 LA (Toscana). Ogni socio accede col proprio numero di matricola e registra le attività di servizio; senior e presidenti di distretto le revisionano e validano in una gerarchia di ruoli e permessi. Dashboard e statistiche trasformano migliaia di ore di volontariato in dati misurabili. Evoluzione del progetto ServiceScore, oggi con dominio proprio.",
+      "Gestionale enterprise per il Lions Club — Distretto 108 LA (Toscana). Ogni socio accede col proprio numero di matricola e registra le attività di servizio; senior e presidenti di distretto le revisionano e validano in una gerarchia di ruoli e permessi. Dashboard e statistiche trasformano migliaia di ore di volontariato in dati misurabili, e ogni notte si aggiornano da sole dalle statistiche ufficiali di Lions International. Evoluzione del progetto ServiceScore, oggi con dominio proprio.",
     metrics: [
       { value: "3.000", label: "Soci" },
       { value: "7.000+", label: "Attività gestite" },
       { value: "108 LA", label: "Distretto Toscana" },
     ],
-    tags: ["React", "Supabase", "Auth & RLS", "Dashboard", "Multi-ruolo"],
+    tags: ["Next.js 16", "React 19", "TypeScript", "Supabase", "RLS", "Vercel"],
     image: "/portfolio/digitalions.webp",
     link: "https://digitalions108la.it",
     linkLabel: "Visita DigitaLions",

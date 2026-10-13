@@ -13,7 +13,7 @@ export default function Tech() {
           index="02"
           eyebrow="Arsenale Tecnologico"
           title="Cosa uso per costruire"
-          sub="Uno stack moderno, AI-native, dal frontend al cloud."
+          sub="Quello che uso davvero, dalla web app al gestionale."
         />
 
         {/* Orbita 3D: trascinala per girarla */}

@@ -11,12 +11,12 @@ export default function Vetrina() {
           index="01"
           eyebrow="Chi sono"
           title="Vetrina"
-          sub="Un approccio multidisciplinare che fonde tecnologia e umanesimo."
+          sub="Chi sono, e cosa mi ha insegnato il lavoro sul campo."
         />
 
         {/* Main card */}
         <Reveal>
-          <Spotlight className="glass-violet card-hover rounded-3xl p-8 md:p-12 mb-8">
+          <Spotlight className="glass-violet card-hover rounded-3xl p-8 md:p-12 mb-14">
             <div className="grid lg:grid-cols-2 gap-10 items-center">
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
@@ -55,7 +55,54 @@ export default function Vetrina() {
           </Spotlight>
         </Reveal>
 
-        {/* Secondary cards */}
+        {/* Storie dal lavoro: ognuna rimanda al post LinkedIn da cui viene */}
+        <Reveal>
+          <div className="flex items-center gap-4 mb-6">
+            <span className="kicker">Dal campo</span>
+            <span className="flex-1 h-px bg-white/10" />
+            <span className="hidden sm:block text-xs font-mono text-mist/70">dai miei post su LinkedIn</span>
+          </div>
+        </Reveal>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
+          {vetrina.stories.map((s, i) => {
+            const garuda = s.accent === "garuda";
+            return (
+              <Reveal key={s.title} delay={i * 0.06}>
+                <Spotlight className="group glass card-hover rounded-3xl p-6 h-full flex flex-col">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className={`w-10 h-10 rounded-xl grid place-items-center border ${garuda ? "bg-garuda/15 border-garuda/30 text-garuda" : "bg-purple/15 border-purple/30 text-purple-glow"}`}>
+                      <Icon name={s.icon} className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-mist">{s.tag}</span>
+                  </div>
+                  <h3 className="font-display text-xl text-white mb-3 leading-snug">{s.title}</h3>
+                  <p className="text-sm text-mist leading-relaxed flex-1">{s.body}</p>
+                  <p className={`mt-4 pl-3 border-l-2 text-sm italic ${garuda ? "border-garuda/50 text-garuda" : "border-purple/50 text-purple-glow"}`}>
+                    {s.lesson}
+                  </p>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`mt-4 inline-flex items-center gap-1.5 text-sm font-semibold ${garuda ? "text-garuda" : "text-purple-glow"} hover:gap-2.5 transition-all`}
+                  >
+                    Leggi il post <ArrowUpRight className="w-4 h-4" />
+                  </a>
+                </Spotlight>
+              </Reveal>
+            );
+          })}
+        </div>
+
+        {/* Fuori dal codice */}
+        <Reveal>
+          <div className="flex items-center gap-4 mb-6">
+            <span className="kicker">Fuori dal codice</span>
+            <span className="flex-1 h-px bg-white/10" />
+          </div>
+        </Reveal>
+
         <div className="grid md:grid-cols-3 gap-6">
           {vetrina.cards.map((c, i) => (
             <Reveal key={c.title} delay={i * 0.08}>

@@ -17,7 +17,7 @@ const SPAWN_DX = 300;
 const BIRD_X = 150;
 const BIRD_R = 20;
 
-const TECHS = ["React", "Next.js", "TypeScript", "Node.js", "Supabase", "PostgreSQL", "Vercel", "Docker", "Linux", "Python", "NLTK", "Prisma"];
+const TECHS = ["React", "Next.js", "TypeScript", "Node.js", "Supabase", "PostgreSQL", "Vercel", "Docker", "Linux", "Python", "NLTK", "PostGIS"];
 const HS_KEY = "garuda-highscore";
 
 export default function Game() {

@@ -64,4 +64,21 @@ describe("content — integrità dei dati", () => {
   it("la vetrina evidenzia la tesi in Python/NLTK", () => {
     expect(vetrina.main.body.toLowerCase()).toContain("nltk");
   });
+
+  it("ogni storia della vetrina ha titolo, lezione e link al post LinkedIn", () => {
+    expect(vetrina.stories.length).toBeGreaterThanOrEqual(3);
+    vetrina.stories.forEach((s) => {
+      expect(s.title).toBeTruthy();
+      expect(s.body).toBeTruthy();
+      expect(s.lesson).toBeTruthy();
+      expect(s.href).toMatch(/^https:\/\/www\.linkedin\.com\/feed\/update\/urn:li:activity:\d+\/$/);
+    });
+    const links = vetrina.stories.map((s) => s.href);
+    expect(new Set(links).size).toBe(links.length);
+  });
+
+  it("lo stack include anche il lavoro sul gestionale", () => {
+    const all = tech.flatMap((g) => g.items).join(" ").toLowerCase();
+    ["java", "db2", "code review"].forEach((t) => expect(all).toContain(t));
+  });
 });

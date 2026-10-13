@@ -17,9 +17,10 @@ cultura umanistica. È laureato in Informatica Umanistica all'Università di Pis
 - Educatore di robotica e informatica @ Scienza Ludica (scuole di Prato e Pistoia)
 
 ## Competenze
-Full-Stack Development, React, Next.js, TypeScript, Node.js, Supabase, PostgreSQL,
-PostGIS, PWA, software gestionale su misura, Python, NLP (NLTK, spaCy), XML/XSLT/TEI,
-Linux (Garuda), Docker, CI/CD, Vercel.
+Full-Stack Development, React, Next.js, TypeScript, Three.js, Node.js, Supabase,
+PostgreSQL, PostGIS, Row Level Security, PWA, software gestionale su misura (Java,
+DB2 su IBM i, SQL Server), analisi funzionale, piani di test, code review, Python,
+NLP (NLTK), XML/XSLT/TEI, Linux (Garuda), Docker, CI/CD, Vercel.
 
 ## Progetti principali
 - spostiamoci (https://spostiamoci.vercel.app): carpooling basato sulla fiducia —
