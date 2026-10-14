@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { ui } from "../data/ui";
 
 const KONAMI = [
   "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown",
@@ -15,10 +16,10 @@ export default function EasterEggs() {
     const s1 = "color:#c084fc;font-size:20px;font-weight:bold";
     const s2 = "color:#5eead4;font-size:12px";
     const s3 = "color:#94a3b8;font-size:11px";
-    console.log("%c🦅 Ciao, smanettone.", s1);
-    console.log("%cSe sei qui, sei uno dei miei. Libero come un'aquila.", s2);
-    console.log("%cProva il codice Konami sulla pagina: ↑ ↑ ↓ ↓ ← → ← → B A", s3);
-    console.log("%c…oppure scrivi 'help' nel terminale nella sezione Linux.", s3);
+    console.log(`%c${ui.eggs.hello}`, s1);
+    console.log(`%c${ui.eggs.mine}`, s2);
+    console.log(`%c${ui.eggs.konami}`, s3);
+    console.log(`%c${ui.eggs.terminal}`, s3);
   }, []);
 
   useEffect(() => {
@@ -69,7 +70,7 @@ export default function EasterEggs() {
       ))}
       <div className="egg-toast glass rounded-full px-6 py-3 border border-purple/40 shadow-2xl shadow-purple/30">
         <span className="font-display text-white text-sm md:text-base">
-          🦅 Modalità Aquila attivata — <span className="text-gradient italic">libero come un'aquila</span>
+          {ui.eggs.toast[0]}<span className="text-gradient italic">{ui.eggs.toast[1]}</span>
         </span>
       </div>
     </div>

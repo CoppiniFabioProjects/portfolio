@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { AnimatedLines, Magnetic } from "./primitives";
 import { profile } from "../data/content";
+import { ui } from "../data/ui";
 
 export default function Hero() {
   const ref = useRef(null);
@@ -46,7 +47,7 @@ export default function Hero() {
       <motion.div style={{ opacity: fade }} className="container mx-auto px-6 relative z-10 mb-6">
         <div className="flex items-center justify-between">
           <span className="kicker">{profile.role}</span>
-          <span className="hidden md:block kicker text-mist/60">Pistoia · IT</span>
+          <span className="hidden md:block kicker text-mist/60">{ui.hero.place}</span>
         </div>
       </motion.div>
 
@@ -92,12 +93,12 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-3 md:justify-end">
               <Magnetic>
                 <a href="#projects" className="btn-primary group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest">
-                  Esplora <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
+                  {ui.hero.explore} <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
                 </a>
               </Magnetic>
               <Magnetic>
                 <a href="#contact" className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white">
-                  Contattami
+                  {ui.hero.contact}
                 </a>
               </Magnetic>
             </div>
@@ -109,7 +110,7 @@ export default function Hero() {
       <motion.div style={{ opacity: fade }} className="container mx-auto px-6 relative z-10 mt-14">
         <div className="flex items-center gap-3 text-mist/60">
           <span className="w-10 h-px bg-mist/40" />
-          <span className="kicker">Scorri per iniziare</span>
+          <span className="kicker">{ui.hero.scroll}</span>
         </div>
       </motion.div>
     </section>

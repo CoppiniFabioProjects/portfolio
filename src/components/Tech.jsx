@@ -2,6 +2,7 @@ import { Reveal, SectionHeader, Spotlight } from "./primitives";
 import Icon from "./Icon";
 import Scene3D from "./Scene3D";
 import { tech, techOrbit } from "../data/content";
+import { ui } from "../data/ui";
 
 const loadOrbit = () => import("../three/techOrbit");
 
@@ -11,9 +12,9 @@ export default function Tech() {
       <div className="container mx-auto px-6">
         <SectionHeader
           index="02"
-          eyebrow="Arsenale Tecnologico"
-          title="Cosa uso per costruire"
-          sub="Quello che uso davvero, dalla web app al gestionale."
+          eyebrow={ui.tech.eyebrow}
+          title={ui.tech.title}
+          sub={ui.tech.sub}
         />
 
         {/* Orbita 3D: trascinala per girarla */}

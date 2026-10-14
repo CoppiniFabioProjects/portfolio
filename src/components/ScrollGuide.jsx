@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
+import { ui } from "../data/ui";
 
-const SECTIONS = [
-  { id: "hero", label: "Intro" },
-  { id: "about", label: "Vetrina" },
-  { id: "skills", label: "Tech" },
-  { id: "linux", label: "Linux" },
-  { id: "experience", label: "Timeline" },
-  { id: "projects", label: "Progetti" },
-  { id: "contact", label: "Contatti" },
-];
+const SECTIONS = ["hero", "about", "skills", "linux", "experience", "projects", "contact"].map(
+  (id, i) => ({ id, label: ui.scrollGuide[i] }),
+);
 
 export default function ScrollGuide() {
   const [active, setActive] = useState(0);

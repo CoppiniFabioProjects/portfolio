@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Reveal, SectionHeader, Spotlight, AnimatedLines } from "./primitives";
 import Scene3D from "./Scene3D";
 import { flagship, projects } from "../data/content";
+import { ui } from "../data/ui";
 
 const loadPhone = () => import("../three/phone");
 
@@ -53,7 +54,7 @@ function Flagship({ p, i }) {
             <motion.img
               style={{ y: imgY, scale: 1.15 }}
               src={p.image}
-              alt={`Anteprima del progetto ${p.title}`}
+              alt={`${ui.projects.preview} ${p.title}`}
               loading="lazy"
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover duotone"
@@ -70,7 +71,7 @@ function Flagship({ p, i }) {
       <div className={`lg:col-span-5 ${reverse ? "lg:order-1" : ""}`}>
         <div className="flex items-center gap-3 mb-5">
           <span className="section-index">.{p.index}</span>
-          <span className="kicker">Progetto di punta</span>
+          <span className="kicker">{ui.projects.flagship}</span>
         </div>
         <h3 className="display-serif text-white text-4xl sm:text-5xl md:text-6xl mb-4 break-words">
           <AnimatedLines lines={[p.title]} />
@@ -110,7 +111,7 @@ export default function Projects() {
     <section id="projects" className="relative py-20 md:py-28 overflow-hidden">
       <div className="blob bg-purple w-[34rem] h-[34rem] -left-40 top-1/3 opacity-20" />
       <div className="container mx-auto px-6 relative">
-        <SectionHeader index="05" eyebrow="Lavori" title="Progetti" sub="Due progetti di punta, e tutto il resto che ho costruito." />
+        <SectionHeader index="05" eyebrow={ui.projects.eyebrow} title={ui.projects.title} sub={ui.projects.sub} />
 
         {/* Flagship duo */}
         <div className="space-y-8 mb-20">
@@ -122,7 +123,7 @@ export default function Projects() {
         {/* Altri progetti */}
         <Reveal>
           <div className="flex items-center gap-4 mb-8">
-            <span className="kicker">Altri lavori</span>
+            <span className="kicker">{ui.projects.others}</span>
             <span className="flex-1 h-px bg-white/10" />
           </div>
         </Reveal>
@@ -132,7 +133,7 @@ export default function Projects() {
             <Reveal key={p.title} delay={i * 0.08}>
               <Spotlight className="group glass card-hover rounded-3xl overflow-hidden h-full flex flex-col">
                 <div className="relative h-40 overflow-hidden bg-ink-2 grid place-items-center">
-                  <img src={p.image} alt={`Anteprima del progetto ${p.title}`} loading="lazy" decoding="async" className="w-full h-full object-cover duotone" />
+                  <img src={p.image} alt={`${ui.projects.preview} ${p.title}`} loading="lazy" decoding="async" className="w-full h-full object-cover duotone" />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink to-transparent" />
                   {p.status && (
                     <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest border bg-white/10 text-mist border-white/20 px-2.5 py-1 rounded-full backdrop-blur-md">
@@ -150,7 +151,7 @@ export default function Projects() {
                   </div>
                   {p.link && (
                     <a href={p.link} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-purple-glow hover:gap-2.5 transition-all">
-                      Apri <ArrowUpRight className="w-4 h-4" />
+                      {ui.projects.open} <ArrowUpRight className="w-4 h-4" />
                     </a>
                   )}
                 </div>

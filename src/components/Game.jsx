@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { Play, RotateCcw, Trophy, Gamepad2, Volume2, VolumeX, Send, Loader2, Medal } from "lucide-react";
 import { SectionHeader } from "./primitives";
 import { getSupabase, hasLeaderboard } from "../lib/supabase";
+import { ui } from "../data/ui";
 
 // Dimensioni logiche del campo di gioco (il canvas viene scalato al contenitore)
 // L'altezza H è responsiva (più alta su mobile per una board più grande e comoda).
@@ -68,7 +69,7 @@ export default function Game() {
   }, [fetchTop]);
 
   const submitScore = useCallback(async () => {
-    const name = pname.trim().slice(0, 20) || "Anonimo";
+    const name = pname.trim().slice(0, 20) || ui.game.anonymous;
     if (!hasLeaderboard || submitting || submitted) return;
     setSubmitting(true);
     localStorage.setItem("garuda-name", name);
@@ -359,9 +360,9 @@ export default function Game() {
       <div className="container mx-auto px-6 relative">
         <SectionHeader
           index="06"
-          eyebrow="🎮 Pausa"
-          title="Fai volare il Garuda"
-          sub="Un attimo di leggerezza: schiva le colonne e raccogli le tecnologie che uso. Clicca, tocca o premi Spazio."
+          eyebrow={ui.game.eyebrow}
+          title={ui.game.title}
+          sub={ui.game.sub}
         />
 
         <div className="max-w-3xl mx-auto">
@@ -372,7 +373,7 @@ export default function Game() {
             onMouseDown={onPointer}
             onTouchStart={(e) => { e.preventDefault(); onPointer(); }}
             role="application"
-            aria-label="Mini-gioco: fai volare l'aquila premendo spazio o toccando"
+            aria-label={ui.game.aria}
             className="group relative w-full rounded-3xl glass overflow-hidden cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-purple-glow"
             style={{ aspectRatio: `${W} / ${H}` }}
           >
@@ -381,14 +382,14 @@ export default function Game() {
             {/* HUD */}
             <div className="absolute top-4 left-5 z-10 flex items-center gap-2 font-mono text-sm text-white/90">
               <span className="text-purple-glow font-bold text-lg">{score}</span>
-              <span className="text-mist/60 text-xs">punti</span>
+              <span className="text-mist/60 text-xs">{ui.game.points}</span>
             </div>
             <div className="absolute top-3 right-4 z-20 flex items-center gap-3">
               <button
                 onClick={toggleMute}
                 onMouseDown={(e) => e.stopPropagation()}
                 onTouchStart={(e) => e.stopPropagation()}
-                aria-label={muted ? "Attiva audio" : "Disattiva audio"}
+                aria-label={muted ? ui.game.soundOn : ui.game.soundOff}
                 className="w-8 h-8 grid place-items-center rounded-lg glass text-mist hover:text-white transition-colors"
               >
                 {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
@@ -407,20 +408,20 @@ export default function Game() {
                       <div className="w-16 h-16 mx-auto mb-4 rounded-2xl grid place-items-center btn-primary">
                         <Gamepad2 className="w-8 h-8" />
                       </div>
-                      <h3 className="font-display text-2xl md:text-3xl text-white mb-2">Pronto a volare?</h3>
-                      <p className="text-mist text-sm mb-5">Clicca, tocca o premi <kbd className="px-2 py-0.5 rounded bg-white/10 font-mono text-xs">Spazio</kbd></p>
+                      <h3 className="font-display text-2xl md:text-3xl text-white mb-2">{ui.game.ready}</h3>
+                      <p className="text-mist text-sm mb-5">{ui.game.howTo} <kbd className="px-2 py-0.5 rounded bg-white/10 font-mono text-xs">{ui.game.space}</kbd></p>
                       <span className="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest">
-                        <Play className="w-4 h-4" /> Inizia
+                        <Play className="w-4 h-4" /> {ui.game.start}
                       </span>
                     </>
                   ) : (
                     <>
                       <h3 className="font-display text-3xl md:text-4xl text-white mb-1">
-                        {score > 0 && score >= high ? "Nuovo record! 🎉" : "Game Over"}
+                        {score > 0 && score >= high ? ui.game.record : "Game Over"}
                       </h3>
-                      <p className="text-mist mb-1">Punteggio: <span className="text-purple-glow font-bold">{score}</span></p>
+                      <p className="text-mist mb-1">{ui.game.score} <span className="text-purple-glow font-bold">{score}</span></p>
                       <p className="text-xs text-mist/70 mb-4 flex items-center justify-center gap-1.5">
-                        <Trophy className="w-3.5 h-3.5 text-garuda" /> Record: {high}
+                        <Trophy className="w-3.5 h-3.5 text-garuda" /> {ui.game.best} {high}
                       </p>
 
                       {/* Invio in classifica */}
@@ -436,8 +437,8 @@ export default function Game() {
                             onChange={(e) => setPname(e.target.value)}
                             onKeyDown={(e) => { e.stopPropagation(); if (e.key === "Enter") submitScore(); }}
                             maxLength={20}
-                            placeholder="Il tuo nome"
-                            aria-label="Il tuo nome per la classifica"
+                            placeholder={ui.game.namePlaceholder}
+                            aria-label={ui.game.nameAria}
                             className="w-36 bg-white/10 border border-white/15 rounded-full px-4 py-2 text-sm text-white outline-none focus:border-purple-glow"
                           />
                           <button
@@ -446,16 +447,16 @@ export default function Game() {
                             className="btn-primary inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold disabled:opacity-60"
                           >
                             {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                            Salva
+                            {ui.game.save}
                           </button>
                         </div>
                       )}
                       {hasLeaderboard && submitted && (
-                        <p className="text-garuda text-sm mb-4">✓ Punteggio salvato in classifica!</p>
+                        <p className="text-garuda text-sm mb-4">{ui.game.saved}</p>
                       )}
 
                       <span className="btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest text-white">
-                        <RotateCcw className="w-4 h-4" /> Riprova
+                        <RotateCcw className="w-4 h-4" /> {ui.game.retry}
                       </span>
                     </>
                   )}
@@ -464,7 +465,7 @@ export default function Game() {
             )}
           </div>
           <p className="text-center text-xs text-mist/50 mt-4 font-mono">
-            +1 per ogni colonna · +3 per ogni tecnologia raccolta
+            {ui.game.rules}
           </p>
 
           {/* Classifica online */}
@@ -472,14 +473,14 @@ export default function Game() {
             <div className="mt-6 glass rounded-2xl p-5">
               <div className="flex items-center gap-2 mb-3">
                 <Medal className="w-4 h-4 text-garuda" />
-                <h3 className="font-display text-white text-lg">Classifica</h3>
+                <h3 className="font-display text-white text-lg">{ui.game.leaderboard}</h3>
                 <span className="ml-auto text-[10px] font-mono text-mist/50">live · Supabase</span>
               </div>
               <ol className="space-y-1">
                 {board.map((r, i) => (
                   <li key={i} className="flex items-center gap-3 text-sm py-1.5 border-b border-white/5 last:border-0">
                     <span className={`w-6 font-mono ${i === 0 ? "text-lions-gold" : i === 1 ? "text-mist" : i === 2 ? "text-lions-red/80" : "text-mist/50"}`}>
-                      {i + 1}°
+                      {i + 1}{ui.game.rank}
                     </span>
                     <span className="text-white/90 truncate flex-1">{r.name}</span>
                     <span className="font-mono text-purple-glow font-bold">{r.score}</span>

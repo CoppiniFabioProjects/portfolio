@@ -1,11 +1,12 @@
 // Service Worker — portfolio Fabio Coppini
 // Strategia: network-first per la navigazione (gli aggiornamenti vincono sempre),
 // cache-first per gli asset immutabili (hashati da Vite). Fallback offline.
-const CACHE = "fc-portfolio-v1";
+const CACHE = "fc-portfolio-v2";
 const BASE = "/portfolio/";
+const EN = BASE + "en/";
 const CORE = [
   BASE,
-  BASE + "index.html",
+  EN,
   BASE + "garuda.png",
   BASE + "manifest.webmanifest",
   BASE + "fabio-portrait.webp",
@@ -29,16 +30,21 @@ self.addEventListener("fetch", (e) => {
   const req = e.request;
   if (req.method !== "GET" || new URL(req.url).origin !== self.location.origin) return;
 
-  // Navigazione (HTML): network-first, fallback cache/offline
+  // Navigazione (HTML): network-first, fallback cache/offline.
+  // Ogni lingua ha la sua pagina: la salvo col suo indirizzo (senza #ancora né ?query).
   if (req.mode === "navigate") {
+    const url = new URL(req.url);
+    const page = /^\/portfolio\/en(\/|$)/.test(url.pathname) ? EN : BASE;
     e.respondWith(
       fetch(req)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(BASE + "index.html", copy));
+          if (res.ok && url.pathname === page) {
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put(page, copy));
+          }
           return res;
         })
-        .catch(() => caches.match(req).then((r) => r || caches.match(BASE + "index.html")))
+        .catch(() => caches.match(page).then((r) => r || caches.match(BASE)))
     );
     return;
   }

@@ -2,6 +2,7 @@ import { Reveal, SectionHeader, Spotlight } from "./primitives";
 import Icon from "./Icon";
 import Terminal from "./Terminal";
 import { linux } from "../data/content";
+import { ui } from "../data/ui";
 
 export default function Linux() {
   return (
@@ -10,9 +11,9 @@ export default function Linux() {
       <div className="container mx-auto px-6 relative">
         <SectionHeader
           index="03"
-          eyebrow="🐧 Ecosistema"
-          title={<>Vivo in <span className="text-garuda">{linux.distro}</span></>}
-          sub="Arch-based, tiling, terminale-first. L'ambiente dove tutto prende forma."
+          eyebrow={ui.linux.eyebrow}
+          title={<>{ui.linux.titleBefore}<span className="text-garuda">{linux.distro}</span></>}
+          sub={ui.linux.sub}
         />
 
         {/* Terminale interattivo */}
@@ -21,7 +22,7 @@ export default function Linux() {
             <Terminal />
           </div>
           <p className="text-xs text-mist/50 font-mono mb-10">
-            ↑ Terminale vero: prova <span className="text-garuda">whoami</span>, <span className="text-garuda">projects</span>, <span className="text-garuda">skills</span> o <span className="text-garuda">help</span>
+            {ui.linux.hintBefore}<span className="text-garuda">whoami</span>, <span className="text-garuda">projects</span>, <span className="text-garuda">skills</span>{ui.linux.hintOr}<span className="text-garuda">help</span>
           </p>
         </Reveal>
 

@@ -32,6 +32,9 @@ NLP (NLTK), XML/XSLT/TEI, Linux (Garuda), Docker, CI/CD, Vercel.
 
 ## Contatti e profili
 - Portfolio: https://coppinifabioprojects.github.io/portfolio/
+- Portfolio (English): https://coppinifabioprojects.github.io/portfolio/en/
+- CV (PDF, italiano): https://coppinifabioprojects.github.io/portfolio/cv-fabio-coppini.pdf
+- CV (PDF, English): https://coppinifabioprojects.github.io/portfolio/cv-fabio-coppini-en.pdf
 - Email: coppinifabio99@gmail.com
 - LinkedIn: https://www.linkedin.com/in/coppinifabio/
 - GitHub: https://github.com/CoppiniFabioProjects/
@@ -40,3 +43,12 @@ NLP (NLTK), XML/XSLT/TEI, Linux (Garuda), Docker, CI/CD, Vercel.
 ## In sintesi
 Se cerchi uno sviluppatore full-stack (React / Next.js / Supabase) in Toscana per
 software custom, web app o PWA, Fabio Coppini è una figura pertinente.
+
+## In English
+Fabio Coppini is a Full-Stack Developer (React, Next.js, Supabase) and co-founder
+of spostiamoci, a trust-based carpooling platform. He holds a BA in Digital
+Humanities from the University of Pisa (thesis in computational linguistics / NLP,
+98/110) and works on custom business software at 01 INFORMATICA S.r.l. He designed
+and built DigitaLions, the management system of Lions Clubs District 108 LA (Tuscany).
+Based in Pistoia, Tuscany, Italy. English portfolio:
+https://coppinifabioprojects.github.io/portfolio/en/

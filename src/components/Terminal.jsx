@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { profile, flagship, projects, timeline, tech, vetrina } from "../data/content";
+import { ui } from "../data/ui";
+
+const T = ui.terminal;
 
 const openable = [...flagship, ...projects].filter((p) => p.link);
 
@@ -12,30 +15,16 @@ const L = ({ href, children }) => (
 
 function banner() {
   return [
-    <span key="b1" className="text-purple-glow">Benvenuto nel terminale di Fabio. 🦅</span>,
-    <span key="b2" className="text-mist">Scrivi <b className="text-white">help</b> per i comandi disponibili, oppure prova <b className="text-white">whoami</b>.</span>,
+    <span key="b1" className="text-purple-glow">{T.banner}</span>,
+    <span key="b2" className="text-mist">{T.bannerHelp[0]}<b className="text-white">{T.bannerHelp[1]}</b>{T.bannerHelp[2]}<b className="text-white">{T.bannerHelp[3]}</b>{T.bannerHelp[4]}</span>,
   ];
 }
 
 const COMMANDS = {
   help: () => [
-    <span key="h" className="text-mist">Comandi disponibili:</span>,
+    <span key="h" className="text-mist">{T.helpTitle}</span>,
     <div key="grid" className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-0.5 mt-1">
-      {[
-        ["whoami", "chi sono"],
-        ["about", "presentazione"],
-        ["skills", "stack tecnologico"],
-        ["projects", "i miei progetti"],
-        ["apri <n>", "apri un progetto"],
-        ["experience", "il mio percorso"],
-        ["tesi", "la tesi NLP 🎓"],
-        ["neofetch", "il mio sistema"],
-        ["contact", "come contattarmi"],
-        ["social", "LinkedIn & GitHub"],
-        ["cv", "scarica il CV"],
-        ["padel", "🎾 ?"],
-        ["clear", "pulisci schermo"],
-      ].map(([c, d]) => (
+      {T.help.map(([c, d]) => (
         <div key={c}><span className="text-garuda">{c}</span> <span className="text-mist/60">— {d}</span></div>
       ))}
     </div>,
@@ -55,7 +44,7 @@ const COMMANDS = {
   stack: () => COMMANDS.skills(),
   competenze: () => COMMANDS.skills(),
   projects: () => [
-    <span key="p0" className="text-mist">I miei progetti — scrivi <b className="text-white">apri &lt;numero&gt;</b> per visitarli:</span>,
+    <span key="p0" className="text-mist">{T.projectsIntro[0]}<b className="text-white">{T.projectsIntro[1]}</b>{T.projectsIntro[2]}</span>,
     ...openable.map((p, i) => (
       <div key={p.title}>
         <span className="text-garuda">[{i + 1}]</span>{" "}
@@ -81,54 +70,48 @@ const COMMANDS = {
     <span key="n2" className="text-mist">WM: <span className="text-white">Hyprland (Wayland)</span></span>,
     <span key="n3" className="text-mist">Shell: <span className="text-white">zsh + oh-my-zsh</span></span>,
     <span key="n4" className="text-mist">Editor: <span className="text-white">Cursor / Claude Code</span></span>,
-    <span key="n5" className="text-mist">Uptime: <span className="text-white">sempre in apprendimento</span></span>,
+    <span key="n5" className="text-mist">Uptime: <span className="text-white">{T.uptime}</span></span>,
   ],
   linux: () => COMMANDS.neofetch(),
   contact: () => [
     <span key="c1" className="text-mist">Email: <L href={`mailto:${profile.email}`}>{profile.email}</L></span>,
-    <span key="c2" className="text-mist">Tel: <L href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</L></span>,
+    <span key="c2" className="text-mist">{T.phone}: <L href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</L></span>,
   ],
   contatti: () => COMMANDS.contact(),
   social: () => [
     <span key="s1" className="text-mist">LinkedIn: <L href={profile.linkedin}>in/coppinifabio</L></span>,
     <span key="s2" className="text-mist">GitHub: <L href={profile.github}>CoppiniFabioProjects</L></span>,
   ],
-  cv: () => [<span key="cv" className="text-mist">📄 <L href="/portfolio/cv-fabio-coppini.pdf">Scarica il CV in PDF</L></span>],
+  cv: () => [<span key="cv" className="text-mist">📄 <L href={ui.cv.href}>{T.cv}</L></span>],
   tesi: () => [
-    <span key="t1" className="text-purple-glow">🎓 Tesi — Linguistica Computazionale (NLP)</span>,
-    <span key="t2" className="text-mist">Analisi dei testi delle medaglie d'oro in <span className="text-white">Python + NLTK</span>: tokenizzazione, POS tagging, named entity recognition.</span>,
-    <span key="t3" className="text-mist">Laurea in Informatica Umanistica @ Università di Pisa · <span className="text-white">98/110</span></span>,
+    <span key="t1" className="text-purple-glow">{T.thesisTitle}</span>,
+    <span key="t2" className="text-mist">{T.thesisBody[0]}<span className="text-white">{T.thesisBody[1]}</span>{T.thesisBody[2]}</span>,
+    <span key="t3" className="text-mist">{T.thesisDegree[0]}<span className="text-white">{T.thesisDegree[1]}</span></span>,
     <span key="t4" className="text-mist">→ <L href={vetrina.main.link.href}>{vetrina.main.link.label}</L></span>,
   ],
   nlp: () => COMMANDS.tesi(),
   thesis: () => COMMANDS.tesi(),
-  padel: () => [<span key="pd" className="text-garuda-glow">🎾 Livello: agonistico. Importante quanto il codice. Non giudicare. 😎</span>],
-  assumimi: () => [<span key="hire" className="text-purple-glow">Ottima scelta. 😏 Scrivimi qui → <L href={`mailto:${profile.email}`}>{profile.email}</L></span>],
+  padel: () => [<span key="pd" className="text-garuda-glow">{T.padel}</span>],
+  assumimi: () => [<span key="hire" className="text-purple-glow">{T.hire}<L href={`mailto:${profile.email}`}>{profile.email}</L></span>],
   hire: () => COMMANDS.assumimi(),
-  ls: () => [<span key="ls" className="text-mist">progetti/  skills.json  cv.pdf  garuda.png  <span className="text-purple-glow/70">padel.secret</span></span>],
-  sudo: () => [<span key="su" className="text-lions-red">Nice try. 😏 Non ti serve sudo per assumermi — basta un'email.</span>],
+  ls: () => [<span key="ls" className="text-mist">{T.ls}<span className="text-purple-glow/70">padel.secret</span></span>],
+  sudo: () => [<span key="su" className="text-lions-red">{T.sudo}</span>],
   // --- easter egg nascosti (non in help) ---
-  matrix: () => [<span key="mx" className="text-garuda-glow">01001100 01101001 01100010 01100101 01110010 — wake up, Neo. 🕶️ Sei nella Matrix di Fabio.</span>],
+  matrix: () => [<span key="mx" className="text-garuda-glow">{T.matrix}</span>],
   coffee: () => [
     <span key="cf1" className="text-mist">      ( (</span>,
     <span key="cf2" className="text-mist">       ) )</span>,
     <span key="cf3" className="text-mist">    ........</span>,
-    <span key="cf4" className="text-mist">    |      |]  ☕ Il carburante di ogni deploy.</span>,
+    <span key="cf4" className="text-mist">    |      |]  {T.coffee}</span>,
     <span key="cf5" className="text-mist">    \\      /</span>,
     <span key="cf6" className="text-mist">     `----'</span>,
   ],
   fortune: () => {
-    const q = [
-      "«Non chiedo più potenza. Tolgo peso.» — Colin Chapman",
-      "«L'unico modo per liberarsi di una tentazione è cedervi.» — Oscar Wilde",
-      "«E il naufragar m'è dolce in questo mare.» — Leopardi",
-      "«Talk is cheap. Show me the code.» — Linus Torvalds",
-      "«Prima risolvi il problema. Poi scrivi il codice.» — John Johnson",
-    ];
+    const q = T.fortunes;
     return [<span key="fr" className="text-purple-glow italic">{q[Math.floor(Math.random() * q.length)]}</span>];
   },
-  konami: () => [<span key="kn" className="text-garuda">Suggerimento: ↑ ↑ ↓ ↓ ← → ← → B A … prova sulla pagina. 🦅</span>],
-  "42": () => [<span key="42" className="text-mist">La risposta a tutto. Ma qual era la domanda? 🤔</span>],
+  konami: () => [<span key="kn" className="text-garuda">{T.konami}</span>],
+  "42": () => [<span key="42" className="text-mist">{T.answer42}</span>],
 };
 
 export default function Terminal() {
@@ -159,16 +142,16 @@ export default function Terminal() {
       const p = openable[n - 1];
       if (p) {
         window.open(p.link, "_blank", "noopener");
-        output = [<span key="o" className="text-mist">Apro <span className="text-white">{p.title}</span>… 🚀 <span className="text-mist/60">(se non si apre, controlla il blocco popup)</span></span>];
+        output = [<span key="o" className="text-mist">{T.opening[0]}<span className="text-white">{p.title}</span>{T.opening[1]}<span className="text-mist/60">{T.opening[2]}</span></span>];
       } else {
-        output = [<span key="e" className="text-lions-red">Progetto {args[0] || "?"} non trovato. Scrivi <b className="text-white">projects</b>.</span>];
+        output = [<span key="e" className="text-lions-red">{T.projectNotFound[0]}{args[0] || "?"}{T.projectNotFound[1]}<b className="text-white">{T.projectNotFound[2]}</b>{T.projectNotFound[3]}</span>];
       }
     } else if (c === "echo") {
       output = [<span key="ec" className="text-mist">{args.join(" ")}</span>];
     } else if (COMMANDS[c]) {
       output = COMMANDS[c]();
     } else {
-      output = [<span key="nf" className="text-lions-red">comando non trovato: {cmd}. Scrivi <b className="text-white">help</b>.</span>];
+      output = [<span key="nf" className="text-lions-red">{T.commandNotFound[0]}{cmd}{T.commandNotFound[1]}<b className="text-white">{T.commandNotFound[2]}</b>{T.commandNotFound[3]}</span>];
     }
     setLines((l) => [...l, { cmd: input, output }]);
   }, []);
@@ -202,7 +185,7 @@ export default function Terminal() {
         <span className="w-3 h-3 rounded-full bg-lions-gold/80" />
         <span className="w-3 h-3 rounded-full bg-garuda/80" />
         <span className="ml-3 text-xs font-mono text-mist">fabio@garuda ~ zsh</span>
-        <span className="ml-auto text-[10px] font-mono text-mist/50 hidden sm:inline">interattivo · scrivi «help»</span>
+        <span className="ml-auto text-[10px] font-mono text-mist/50 hidden sm:inline">{T.windowHint}</span>
       </div>
 
       {/* corpo */}
@@ -232,7 +215,7 @@ export default function Terminal() {
             spellCheck={false}
             autoComplete="off"
             autoCapitalize="off"
-            aria-label="Terminale interattivo: scrivi un comando e premi Invio"
+            aria-label={T.inputAria}
             className="flex-1 bg-transparent outline-none text-white caret-garuda placeholder:text-mist/40"
             placeholder="help"
           />

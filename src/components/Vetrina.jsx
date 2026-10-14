@@ -2,6 +2,7 @@ import { GraduationCap, FileText, Award, ArrowUpRight } from "lucide-react";
 import { Reveal, SectionHeader, Spotlight } from "./primitives";
 import Icon from "./Icon";
 import { vetrina } from "../data/content";
+import { ui } from "../data/ui";
 
 export default function Vetrina() {
   return (
@@ -9,9 +10,9 @@ export default function Vetrina() {
       <div className="container mx-auto px-6">
         <SectionHeader
           index="01"
-          eyebrow="Chi sono"
-          title="Vetrina"
-          sub="Chi sono, e cosa mi ha insegnato il lavoro sul campo."
+          eyebrow={ui.vetrina.eyebrow}
+          title={ui.vetrina.title}
+          sub={ui.vetrina.sub}
         />
 
         {/* Main card */}
@@ -58,9 +59,9 @@ export default function Vetrina() {
         {/* Storie dal lavoro: ognuna rimanda al post LinkedIn da cui viene */}
         <Reveal>
           <div className="flex items-center gap-4 mb-6">
-            <span className="kicker">Dal campo</span>
+            <span className="kicker">{ui.vetrina.field}</span>
             <span className="flex-1 h-px bg-white/10" />
-            <span className="hidden sm:block text-xs font-mono text-mist/70">dai miei post su LinkedIn</span>
+            <span className="hidden sm:block text-xs font-mono text-mist/70">{ui.vetrina.fieldNote}</span>
           </div>
         </Reveal>
 
@@ -87,7 +88,7 @@ export default function Vetrina() {
                     rel="noreferrer"
                     className={`mt-4 inline-flex items-center gap-1.5 text-sm font-semibold ${garuda ? "text-garuda" : "text-purple-glow"} hover:gap-2.5 transition-all`}
                   >
-                    Leggi il post <ArrowUpRight className="w-4 h-4" />
+                    {ui.vetrina.readPost} <ArrowUpRight className="w-4 h-4" />
                   </a>
                 </Spotlight>
               </Reveal>
@@ -98,7 +99,7 @@ export default function Vetrina() {
         {/* Fuori dal codice */}
         <Reveal>
           <div className="flex items-center gap-4 mb-6">
-            <span className="kicker">Fuori dal codice</span>
+            <span className="kicker">{ui.vetrina.offCode}</span>
             <span className="flex-1 h-px bg-white/10" />
           </div>
         </Reveal>

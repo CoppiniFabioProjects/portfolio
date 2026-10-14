@@ -3,10 +3,9 @@ import { Mail, Phone, MapPin, Linkedin, Github, Download, Share2, Check, ArrowUp
 import { Reveal, Magnetic } from "./primitives";
 import Scene3D from "./Scene3D";
 import { profile, interests } from "../data/content";
+import { ui } from "../data/ui";
 
 const loadEagle = () => import("../three/eagleFinale");
-
-const SITE_URL = "https://coppinifabioprojects.github.io/portfolio/";
 
 function Marquee() {
   const row = [...interests, ...interests];
@@ -30,15 +29,15 @@ export default function Contact() {
 
   const share = async () => {
     const data = {
-      title: "Fabio Coppini — Informatico Umanista",
-      text: "Dai un'occhiata al mio portfolio 🦅",
-      url: SITE_URL,
+      title: ui.contact.shareTitle,
+      text: ui.contact.shareText,
+      url: ui.contact.siteUrl,
     };
     try {
       if (navigator.share) { await navigator.share(data); return; }
     } catch { /* l'utente ha annullato */ return; }
     try {
-      await navigator.clipboard.writeText(SITE_URL);
+      await navigator.clipboard.writeText(ui.contact.siteUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2200);
     } catch { /* clipboard non disponibile */ }
@@ -62,12 +61,12 @@ export default function Contact() {
       <div className="container mx-auto px-6 py-16 md:py-24 relative z-10 text-center">
         <Reveal>
           <h2 className="font-display text-4xl md:text-7xl text-white mb-4">
-            Io creo sempre qualcosa di <span className="text-gradient italic">unico</span>.
+            {ui.contact.headline[0]}<span className="text-gradient italic">{ui.contact.headline[1]}</span>{ui.contact.headline[2]}
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="text-mist max-w-xl mx-auto mb-12">
-            Il futuro lo afferro con i miei artigli.
+            {ui.contact.sub}
           </p>
         </Reveal>
 
@@ -86,17 +85,17 @@ export default function Contact() {
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-16">
             <a
-              href="/portfolio/cv-fabio-coppini.pdf"
-              download="CV-Fabio-Coppini.pdf"
+              href={ui.cv.href}
+              download={ui.cv.file}
               className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white"
             >
-              <Download className="w-4 h-4" /> Scarica il CV (PDF)
+              <Download className="w-4 h-4" /> {ui.contact.downloadCv}
             </a>
             <button
               onClick={share}
               className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white"
             >
-              {copied ? <><Check className="w-4 h-4 text-garuda" /> Link copiato!</> : <><Share2 className="w-4 h-4" /> Condividi</>}
+              {copied ? <><Check className="w-4 h-4 text-garuda" /> {ui.contact.copied}</> : <><Share2 className="w-4 h-4" /> {ui.contact.share}</>}
             </button>
           </div>
         </Reveal>
@@ -113,15 +112,15 @@ export default function Contact() {
             </div>
             <div className="flex-1 text-center sm:text-left">
               <div className="flex items-center gap-2 justify-center sm:justify-start flex-wrap">
-                <span className="font-display text-xl text-white">Attivo su LinkedIn</span>
+                <span className="font-display text-xl text-white">{ui.contact.linkedinTitle}</span>
                 <span className="text-[10px] font-bold uppercase tracking-wider bg-garuda/15 text-garuda border border-garuda/30 px-2 py-0.5 rounded-full">
-                  {profile.linkedinFollowers} follower
+                  {profile.linkedinFollowers} {ui.contact.followers}
                 </span>
               </div>
-              <p className="text-sm text-mist mt-1">Scrivo quasi ogni giorno di sviluppo, AI e lavoro reale — casi veri, errori inclusi.</p>
+              <p className="text-sm text-mist mt-1">{ui.contact.linkedinBody}</p>
             </div>
             <span className="shrink-0 btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest group-hover:gap-3 transition-all">
-              Seguimi <ArrowUpRight className="w-4 h-4" />
+              {ui.contact.follow} <ArrowUpRight className="w-4 h-4" />
             </span>
           </a>
         </Reveal>
@@ -129,11 +128,11 @@ export default function Contact() {
         <Reveal delay={0.2}>
           <div className="grid sm:grid-cols-3 gap-8 text-left border-t border-white/10 pt-12 max-w-4xl mx-auto text-sm">
             <div>
-              <strong className="text-white flex items-center gap-2 mb-2"><MapPin className="w-4 h-4 text-purple-glow" /> Location</strong>
-              <p className="text-mist">{profile.location}<br />Patente B · Automunito</p>
+              <strong className="text-white flex items-center gap-2 mb-2"><MapPin className="w-4 h-4 text-purple-glow" /> {ui.contact.location}</strong>
+              <p className="text-mist">{profile.location}<br />{ui.contact.driving}</p>
             </div>
             <div>
-              <strong className="text-white block mb-2">Social</strong>
+              <strong className="text-white block mb-2">{ui.contact.social}</strong>
               <div className="flex gap-3">
                 <a href={profile.linkedin} target="_blank" rel="noreferrer" className="w-10 h-10 grid place-items-center rounded-xl glass text-mist hover:text-purple-glow hover:border-purple/40 transition-colors">
                   <Linkedin className="w-4 h-4" />
@@ -144,8 +143,8 @@ export default function Contact() {
               </div>
             </div>
             <div>
-              <strong className="text-white block mb-2">Privacy</strong>
-              <p className="text-mist">Autorizzo il trattamento dei dati personali (art. 13 GDPR 679/16).</p>
+              <strong className="text-white block mb-2">{ui.contact.privacy}</strong>
+              <p className="text-mist">{ui.contact.privacyText}</p>
             </div>
           </div>
         </Reveal>

@@ -1,12 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
 import { Reveal, SectionHeader } from "./primitives";
 import { timeline } from "../data/content";
+import { ui } from "../data/ui";
 
 export default function Timeline() {
   return (
     <section id="experience" className="relative py-20 md:py-28">
       <div className="container mx-auto px-6">
-        <SectionHeader index="04" eyebrow="Percorso" title="Timeline" sub="Dove ho imparato, costruito e insegnato." />
+        <SectionHeader index="04" eyebrow={ui.timeline.eyebrow} title={ui.timeline.title} sub={ui.timeline.sub} />
 
         <div className="relative max-w-2xl">
           {/* rail verticale */}
@@ -27,7 +28,7 @@ export default function Timeline() {
                       <span className="font-mono text-xs text-purple-glow">{t.period}</span>
                       {t.current && (
                         <span className="text-[9px] font-bold uppercase tracking-wider bg-garuda/15 text-garuda border border-garuda/30 px-2 py-0.5 rounded-full">
-                          In corso
+                          {ui.timeline.current}
                         </span>
                       )}
                     </div>
@@ -41,7 +42,7 @@ export default function Timeline() {
                         rel="noreferrer"
                         className="mt-3 inline-flex items-center gap-1.5 text-sm text-garuda hover:gap-2.5 transition-all"
                       >
-                        {t.linkLabel || "Documento"} <ArrowUpRight className="w-4 h-4" />
+                        {t.linkLabel || ui.timeline.document} <ArrowUpRight className="w-4 h-4" />
                       </a>
                     )}
                   </div>

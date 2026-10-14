@@ -16,6 +16,7 @@ import Contact from "./components/Contact";
 import EasterEggs from "./components/EasterEggs";
 import Intro from "./components/Intro";
 import { KineticText, SectionReveal } from "./components/transitions";
+import { ui } from "./data/ui";
 
 // Game: componente pesante e sotto la piega → caricato in chunk separato
 const Game = lazy(() => import("./components/Game"));
@@ -40,7 +41,7 @@ function BackToTop() {
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="w-12 h-12 grid place-items-center rounded-full btn-primary"
-              aria-label="Torna su"
+              aria-label={ui.app.backToTop}
             >
               <ArrowUp className="w-5 h-5" />
             </button>
@@ -56,7 +57,7 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <Intro />
-      <a href="#hero" className="skip-link">Salta al contenuto</a>
+      <a href="#hero" className="skip-link">{ui.app.skipLink}</a>
       <div className="aurora" />
       <div className="grain" />
       <div className="vignette" />
@@ -67,7 +68,7 @@ export default function App() {
         <Hero />
         <Manifesto />
         <Vetrina />
-        <KineticText text="FULL-STACK · NLP · LINUX · ROBOTICA" baseVelocity={2} />
+        <KineticText text={ui.app.kinetic} baseVelocity={2} />
         <SectionReveal>
           <Tech />
         </SectionReveal>

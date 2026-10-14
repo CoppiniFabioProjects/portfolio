@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { ui } from "../data/ui";
 
 // Intro cinematografico: l'aquila Garuda si compone in 3D da migliaia di particelle
 // (Three.js, caricato in lazy solo qui) e poi esplode aprendo la hero con un crossfade.
@@ -112,13 +113,13 @@ export default function Intro() {
           // in 3D compare quando l'aquila è formata, non durante il vortice
           style={mode === "webgl" ? { animationDelay: "0.9s", animationFillMode: "both" } : undefined}
         >
-          Libero come un'aquila
+          {ui.intro.sign}
         </span>
       )}
 
       {!exiting && (
         <span className="absolute bottom-6 right-6 text-[11px] font-mono text-mist/50 pointer-events-none">
-          clicca per saltare
+          {ui.intro.skip}
         </span>
       )}
     </div>

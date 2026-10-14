@@ -2,6 +2,25 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Send, Linkedin, Github, ArrowUpRight } from "lucide-react";
 import { nav, profile } from "../data/content";
+import { ui } from "../data/ui";
+import { lang, HOME } from "../i18n";
+
+// Passa all'altra lingua restando nella stessa sezione (#ancora)
+const other = lang === "en" ? "it" : "en";
+function LangSwitch({ className = "" }) {
+  return (
+    <a
+      href={HOME[other]}
+      hrefLang={other}
+      lang={other}
+      aria-label={ui.langSwitch.aria}
+      onClick={(e) => { e.currentTarget.href = HOME[other] + window.location.hash; }}
+      className={`grid place-items-center rounded-xl glass font-mono text-xs font-bold tracking-wider text-mist hover:text-white active:scale-95 transition ${className}`}
+    >
+      {ui.langSwitch.label}
+    </a>
+  );
+}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -104,20 +123,23 @@ export default function Nav() {
             })}
           </ul>
 
-          <a
-            href="#contact"
-            className="hidden md:inline-flex items-center gap-2 btn-primary px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider"
-          >
-            <Send className="w-3.5 h-3.5" /> Contatti
-          </a>
+          <div className="flex items-center gap-2">
+            <LangSwitch className="w-11 h-11 md:w-10 md:h-10" />
+            <a
+              href="#contact"
+              className="hidden md:inline-flex items-center gap-2 btn-primary px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider"
+            >
+              <Send className="w-3.5 h-3.5" /> {ui.nav.cta}
+            </a>
 
-          <button
-            onClick={openMenu}
-            className="md:hidden w-11 h-11 grid place-items-center rounded-xl glass text-white active:scale-95 transition-transform"
-            aria-label="Apri il menu"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
+            <button
+              onClick={openMenu}
+              className="md:hidden w-11 h-11 grid place-items-center rounded-xl glass text-white active:scale-95 transition-transform"
+              aria-label={ui.nav.openMenu}
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+          </div>
         </nav>
       </motion.header>
 
@@ -151,7 +173,7 @@ export default function Nav() {
               <button
                 onClick={() => setOpen(false)}
                 className="w-11 h-11 grid place-items-center rounded-xl glass text-white active:scale-95 transition-transform"
-                aria-label="Chiudi il menu"
+                aria-label={ui.nav.closeMenu}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -195,7 +217,7 @@ export default function Nav() {
                 onClick={() => setOpen(false)}
                 className="btn-primary flex items-center justify-center gap-2 w-full px-6 py-4 rounded-full text-sm font-bold uppercase tracking-widest"
               >
-                <Send className="w-4 h-4" /> Contattami
+                <Send className="w-4 h-4" /> {ui.nav.menuCta}
               </a>
               <div className="mt-5 flex items-center justify-between">
                 <div className="flex gap-3">
@@ -205,7 +227,7 @@ export default function Nav() {
                   <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub" className="w-11 h-11 grid place-items-center rounded-xl glass text-mist active:text-purple-glow transition-colors">
                     <Github className="w-4 h-4" />
                   </a>
-                  <a href="/portfolio/cv-fabio-coppini.pdf" download aria-label="Scarica CV" className="w-11 h-11 grid place-items-center rounded-xl glass text-mist active:text-purple-glow transition-colors">
+                  <a href={ui.cv.href} download={ui.cv.file} aria-label={ui.nav.downloadCv} className="w-11 h-11 grid place-items-center rounded-xl glass text-mist active:text-purple-glow transition-colors">
                     <ArrowUpRight className="w-4 h-4" />
                   </a>
                 </div>
