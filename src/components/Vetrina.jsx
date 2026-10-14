@@ -77,6 +77,11 @@ function RingCard({ p, i, step, size, goTo }) {
     return d < 1 ? 1 - 0.5 * d : Math.max(0, 0.5 - 0.32 * (d - 1));
   });
   const pointer = useTransform(step, (s) => (ringDist(i, s) < 0.5 ? "auto" : "none"));
+  // riflesso di luce che scorre sulla card mentre ruota: visibile di sbieco, fuori dalla card quando è davanti
+  const sheen = useTransform(step, (s) => {
+    const rel = ((((i - s) % N) + N + N / 2) % N) - N / 2;
+    return `${Math.min(100, Math.max(0, 90 + rel * 55))}% 0%`;
+  });
   return (
     <motion.div
       className="absolute inset-0 [backface-visibility:hidden]"
@@ -85,6 +90,15 @@ function RingCard({ p, i, step, size, goTo }) {
       onFocus={() => goTo(i)}
     >
       <Post p={p} i={i} className="post-card" />
+      <motion.div
+        aria-hidden="true"
+        className="absolute inset-0 rounded-[1.75rem] pointer-events-none"
+        style={{
+          backgroundImage: "linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.07) 48%, rgba(192,132,252,0.09) 52%, transparent 62%)",
+          backgroundSize: "300% 100%",
+          backgroundPosition: sheen,
+        }}
+      />
     </motion.div>
   );
 }

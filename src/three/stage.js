@@ -1,6 +1,6 @@
 // Infrastruttura condivisa delle scene 3D: renderer trasparente, camera, loop
 // che gira solo quando la scena è visibile, resize automatico, cleanup completo.
-import { WebGLRenderer, Scene, PerspectiveCamera } from "three";
+import { WebGLRenderer, Scene, PerspectiveCamera, ACESFilmicToneMapping } from "three";
 
 export const clamp01 = (t) => Math.min(1, Math.max(0, t));
 export const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
@@ -13,9 +13,14 @@ export const damp = (current, target, lambda, dt) => current + (target - current
 
 export function createStage(canvas, {
   fov = 35, near = 0.1, far = 100, maxDpr = 2, antialias = true,
-  reducedMotion = false, onFrame, onResize,
+  reducedMotion = false, onFrame, onResize, toneMapping = false, exposure = 1,
 } = {}) {
   const renderer = new WebGLRenderer({ canvas, alpha: true, antialias, powerPreference: "high-performance" });
+  // tone mapping "da cinema" per le scene con materiali realistici (metallo, vetro)
+  if (toneMapping) {
+    renderer.toneMapping = ACESFilmicToneMapping;
+    renderer.toneMappingExposure = exposure;
+  }
   const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
   renderer.setPixelRatio(dpr);
   renderer.setClearColor(0x000000, 0);

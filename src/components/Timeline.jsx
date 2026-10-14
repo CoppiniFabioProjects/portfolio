@@ -121,7 +121,8 @@ function Road({ g }) {
         transform: `translate3d(${d.x}px, ${g.road}px, ${d.z}px)`,
         background: d.c < 0.5 ? "#c084fc" : "#5eead4",
         boxShadow: `0 0 12px ${d.c < 0.5 ? "#a855f7" : "#2dd4bf"}`,
-        opacity: 0.75,
+        // nebbia: più il punto è lontano dalla tappa davanti, più sbiadisce (--s = tappa attuale)
+        opacity: `clamp(0.04, calc(0.85 - (${-d.z} - var(--s) * ${g.d}) / 3400), 0.85)`,
       }}
     />
   ));
@@ -138,7 +139,7 @@ function Tunnel() {
     <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 60) }}>
       <div className="sticky top-0 h-[100svh] overflow-hidden flex flex-col pt-24 pb-20 md:pb-10">
         <div className="relative flex-1 min-h-0 overflow-hidden" style={{ perspective: `${g.persp}px`, perspectiveOrigin: "50% 40%" }}>
-          <motion.div className="absolute inset-0 [transform-style:preserve-3d]" style={{ transform: world }}>
+          <motion.div className="absolute inset-0 [transform-style:preserve-3d]" style={{ transform: world, "--s": step }}>
             <Road g={g} />
             {timeline.map((t, i) => (
               <TunnelStop key={t.org + t.period} t={t} i={i} step={step} g={g} goTo={goTo} />

@@ -4,10 +4,13 @@
 // Gli altri gruppi restano orbite tenui, per dare l'idea dell'insieme.
 // L'orbita si trascina col mouse/dito con inerzia.
 import {
-  Group, Object3D, BufferGeometry, Float32BufferAttribute, LineLoop, LineBasicMaterial,
+  Group, Object3D, BufferGeometry, Float32BufferAttribute, LineBasicMaterial,
   IcosahedronGeometry, EdgesGeometry, LineSegments, Mesh, MeshStandardMaterial,
   AmbientLight, PointLight, Points, ShaderMaterial, AdditiveBlending, Color, Vector3,
 } from "three";
+import { Line2 } from "three/addons/lines/Line2.js";
+import { LineMaterial } from "three/addons/lines/LineMaterial.js";
+import { LineGeometry } from "three/addons/lines/LineGeometry.js";
 import { createStage, trackPointer, damp, clamp01, smoothstep } from "./stage";
 
 const COLORS = { purple: "#c084fc", garuda: "#5eead4" };
@@ -54,15 +57,14 @@ export default async function create(canvas, { groups = [], reducedMotion }) {
   const system = new Group();
   scene.add(system);
 
-  // cerchio di raggio 1: ogni anello lo scala al suo raggio
-  const SEG = 200;
+  // cerchio di raggio 1 (chiuso): ogni anello lo scala al suo raggio
+  const SEG = 240;
   const circle = [];
-  for (let k = 0; k < SEG; k++) {
+  for (let k = 0; k <= SEG; k++) {
     const a = (k / SEG) * Math.PI * 2;
     circle.push(Math.cos(a), 0, Math.sin(a));
   }
-  const circleGeo = new BufferGeometry();
-  circleGeo.setAttribute("position", new Float32BufferAttribute(circle, 3));
+  const lineMats = [];
 
   const n = groups.length;
   const rings = groups.map((group, i) => {
@@ -76,8 +78,22 @@ export default async function create(canvas, { groups = [], reducedMotion }) {
     tilt.add(spin);
     system.add(tilt);
 
-    const line = new LineLoop(circleGeo, new LineBasicMaterial({ color, transparent: true, opacity: 0.12 }));
-    spin.add(line);
+    // l'orbita: linea spessa e antialiasata; la metà lontana sfuma (profondità).
+    // Sta su un gruppo che non gira: il gradiente resta fermo, scorrono solo le tecnologie
+    const orbit = new Group();
+    tilt.add(orbit);
+    const geo = new LineGeometry();
+    geo.setPositions(circle);
+    const cols = [];
+    for (let k = 0; k <= SEG; k++) {
+      const f = 0.22 + 0.78 * smoothstep(-1, 1, Math.sin((k / SEG) * Math.PI * 2));
+      cols.push(color.r * f, color.g * f, color.b * f);
+    }
+    geo.setColors(cols);
+    const lineMat = new LineMaterial({ vertexColors: true, linewidth: 1, transparent: true, opacity: 0.12, depthWrite: false });
+    lineMats.push(lineMat);
+    const line = new Line2(geo, lineMat);
+    orbit.add(line);
 
     const pos = [];
     const labels = group.items.map((name, j) => {
@@ -111,7 +127,7 @@ export default async function create(canvas, { groups = [], reducedMotion }) {
     });
     spin.add(new Points(dg, dotsMat));
 
-    return { R, base, tilt, spin, line, dotsMat, labels, phase: i * 0.9 };
+    return { R, base, tilt, spin, orbit, line, dotsMat, labels, phase: i * 0.9 };
   });
 
   // nucleo: cristallo low-poly con spigoli viola e un cuore luminoso
@@ -184,6 +200,7 @@ export default async function create(canvas, { groups = [], reducedMotion }) {
   let stretch = 1; // su schermi verticali l'orbita a fuoco diventa un'ellisse alta, che riempie lo spazio
   let compact = false;
   function layout(s) {
+    lineMats.forEach((m) => m.resolution.set(s.w, s.h));
     compact = s.w < 640;
     present = s.aspect < 1.25 ? 1.0 : 0.55;
     stretch = s.aspect < 0.8 ? 1.5 : 1;
@@ -226,14 +243,17 @@ export default async function create(canvas, { groups = [], reducedMotion }) {
 
     rings.forEach((r, i) => {
       const w = smoothstep(0, 1, clamp01(1 - Math.abs(focus - i)));
-      r.spin.scale.setScalar(lerp(r.R, R_FOCUS, w));
+      const R = lerp(r.R, R_FOCUS, w);
+      r.spin.scale.setScalar(R);
+      r.orbit.scale.setScalar(R);
       // l'allungamento sta sul piano fisso dell'orbita: la forma resta ferma, le tecnologie ci scorrono sopra
       r.tilt.scale.set(1, 1, lerp(1, stretch, w));
       // il gruppo a fuoco si raddrizza verso chi guarda; gli anelli restano fermi
       // e sono le tecnologie a scorrere lungo l'orbita (trascinando le sposti tu)
       r.tilt.rotation.set(lerp(r.base.x, present, w), 0, lerp(r.base.z, 0, w));
       r.spin.rotation.y = r.phase + angle * (1 - i * 0.06);
-      r.line.material.opacity = 0.07 + 0.5 * w;
+      r.line.material.opacity = 0.14 + 0.76 * w;
+      r.line.material.linewidth = 1 + 1.6 * w;
       r.dotsMat.uniforms.uSize.value = 60 + 190 * w;
       r.dotsMat.uniforms.uAlpha.value = 0.35 + 0.65 * w;
 
