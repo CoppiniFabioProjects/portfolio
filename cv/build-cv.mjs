@@ -27,7 +27,7 @@ try {
 // font incorporati in base64: il PDF non dipende dai font di sistema né dalla rete
 const font = (file, family, weight) =>
   `@font-face{font-family:"${family}";font-weight:${weight};font-style:normal;` +
-  `src:url(data:font/woff2;base64,${readFileSync(join(here, "fonts", file)).toString("base64")}) format("woff2");}`;
+  `src:url(data:font/woff2;base64,${readFileSync(join(here, "..", "public", "fonts", file)).toString("base64")}) format("woff2");}`;
 const fontsCss = [
   font("Inter.woff2", "Inter", "400 700"),
   font("JetBrainsMono.woff2", "JetBrains Mono", "400 500"),

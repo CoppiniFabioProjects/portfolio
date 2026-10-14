@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, useTransform, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeader } from "./primitives";
-import { useSteps, stepsHeight } from "./useSteps";
+import { useSteps, stepsHeight, StepSnaps } from "./useSteps";
 import { timeline } from "../data/content";
 import { ui } from "../data/ui";
 
@@ -136,7 +136,8 @@ function Tunnel() {
   const world = useTransform(step, (s) => `translateZ(${s * g.d}px)`);
 
   return (
-    <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 60) }}>
+    <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 48) }}>
+      <StepSnaps n={N} />
       <div className="sticky top-0 h-[100svh] overflow-hidden flex flex-col pt-24 pb-20 md:pb-10">
         <div className="relative flex-1 min-h-0 overflow-hidden" style={{ perspective: `${g.persp}px`, perspectiveOrigin: "50% 40%" }}>
           <motion.div className="absolute inset-0 [transform-style:preserve-3d]" style={{ transform: world, "--s": step }}>

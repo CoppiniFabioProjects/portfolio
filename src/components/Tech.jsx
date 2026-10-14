@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { SectionHeader } from "./primitives";
 import Scene3D from "./Scene3D";
-import { useSteps, stepsHeight } from "./useSteps";
+import { useSteps, stepsHeight, StepSnaps } from "./useSteps";
 import { tech } from "../data/content";
 import { ui } from "../data/ui";
 
@@ -91,7 +91,8 @@ export default function Tech() {
       {reduce ? (
         <div ref={ref} className="h-[85svh]">{stage}</div>
       ) : (
-        <div ref={ref} data-steps={n} className="relative" style={{ height: stepsHeight(n, 45) }}>
+        <div ref={ref} data-steps={n} className="relative" style={{ height: stepsHeight(n, 38) }}>
+          <StepSnaps n={n} />
           <div className="sticky top-0 h-[100svh] overflow-hidden">{stage}</div>
         </div>
       )}

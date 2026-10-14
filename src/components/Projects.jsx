@@ -3,7 +3,7 @@ import { motion, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeader } from "./primitives";
 import Scene3D from "./Scene3D";
-import { useSteps, stepsHeight } from "./useSteps";
+import { useSteps, stepsHeight, StepSnaps } from "./useSteps";
 import { flagship, projects } from "../data/content";
 import { ui } from "../data/ui";
 
@@ -43,6 +43,15 @@ function Diagram({ d, className = "" }) {
       </div>
       {d.note && <p className="mt-4 text-center font-mono text-xs text-mist">✓ {d.note}</p>}
     </div>
+  );
+}
+
+// Anteprima piatta del progetto: mentre il 3D si prepara, o se il 3D non c'è
+function Preview({ p }) {
+  return p.image ? (
+    <img src={p.image} alt="" decoding="async" className="absolute inset-0 m-auto max-h-[78%] max-w-[86%] rounded-2xl object-contain shadow-2xl shadow-black/60" />
+  ) : (
+    <Diagram d={p.screen.diagram} className="absolute inset-0 m-auto h-fit max-w-[92%]" />
   );
 }
 
@@ -101,7 +110,8 @@ function DeviceStage() {
   const a = ACCENT[p.accent] || ACCENT.purple;
 
   return (
-    <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 80) }}>
+    <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 65) }}>
+      <StepSnaps n={N} />
       <div className="sticky top-0 h-[100svh] overflow-hidden flex flex-col pt-20 lg:pt-24 pb-20 lg:pb-8">
         <div className="container mx-auto px-6 flex-1 min-h-0 flex flex-col lg:grid lg:grid-cols-12 lg:gap-12 lg:items-center">
           <div className="relative h-[30svh] sm:h-[38svh] lg:h-full lg:col-span-7 shrink-0">
@@ -111,7 +121,8 @@ function DeviceStage() {
               options={{ items }}
               progress={step}
               className="absolute inset-0"
-              fallback={p.image ? <img src={p.image} alt="" className="absolute inset-0 m-auto max-h-[85%] max-w-[90%] rounded-2xl object-contain shadow-2xl shadow-black/60" /> : <Diagram d={p.screen.diagram} className="absolute inset-0 m-auto h-fit" />}
+              fallback={<Preview p={p} />}
+              placeholder={<Preview p={items[0]} />}
             />
           </div>
 

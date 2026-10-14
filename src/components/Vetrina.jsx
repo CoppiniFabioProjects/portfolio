@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion, useTransform, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Linkedin } from "lucide-react";
 import { Reveal, SectionHeader, Spotlight } from "./primitives";
 import Icon from "./Icon";
-import { useSteps, stepsHeight } from "./useSteps";
+import { useSteps, stepsHeight, StepSnaps } from "./useSteps";
 import { vetrina, profile } from "../data/content";
 import { ui } from "../data/ui";
 
@@ -58,9 +58,9 @@ function useRingSize() {
     const vw = typeof window !== "undefined" ? window.innerWidth : 1280;
     const vh = typeof window !== "undefined" ? window.innerHeight : 800;
     const w = Math.round(Math.min(vw * 0.84, vw < 768 ? 340 : 460));
-    const h = Math.round(Math.min(vh - 230, vw < 768 ? 500 : 430));
+    const maxH = Math.round(vh - 230); // spazio disponibile nel riquadro
     const r = Math.round(w / 2 / Math.tan(Math.PI / N) + (vw < 768 ? 14 : 34));
-    return { w, h, r, persp: vw < 768 ? 900 : 1700 };
+    return { w, maxH, r, persp: vw < 768 ? 900 : 1700 };
   };
   const [s, set] = useState(get);
   useEffect(() => {
@@ -110,8 +110,27 @@ function PostsRing() {
   useMotionValueEvent(step, "change", (v) => setActive(((Math.round(v) % N) + N) % N));
   const ring = useTransform(step, (s) => `translateZ(${-size.r}px) rotateX(-4deg) rotateY(${-s * STEP_DEG}deg)`);
 
+  // card alte quanto il post più lungo, non di più: niente spazio vuoto in fondo
+  const ringEl = useRef(null);
+  const [fitH, setFitH] = useState(null);
+  useLayoutEffect(() => {
+    const measure = () => {
+      const arts = [...(ringEl.current?.querySelectorAll("article") || [])];
+      if (!arts.length) return;
+      const prev = arts.map((a) => a.style.height);
+      arts.forEach((a) => { a.style.height = "auto"; });
+      const max = Math.max(...arts.map((a) => a.offsetHeight));
+      arts.forEach((a, k) => { a.style.height = prev[k]; });
+      setFitH(Math.ceil(max));
+    };
+    measure();
+    document.fonts?.ready.then(measure); // i font cambiano l'altezza del testo
+  }, [size.w]);
+  const h = Math.min(fitH ?? size.maxH, size.maxH);
+
   return (
-    <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 55) }}>
+    <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 45) }}>
+      <StepSnaps n={N} />
       <div className="sticky top-0 h-[100svh] overflow-hidden flex flex-col pt-24 pb-20 md:pb-10">
         <div className="container mx-auto px-6 flex items-center gap-4">
           <span className="kicker">{ui.vetrina.field}</span>
@@ -131,7 +150,8 @@ function PostsRing() {
           <div className="absolute left-1/2 top-1/2 w-[70vw] max-w-3xl h-24 -translate-x-1/2 translate-y-[38vh] md:translate-y-[30vh] rounded-[50%] bg-purple/20 blur-3xl" />
           <motion.div
             className="absolute left-1/2 top-1/2 [transform-style:preserve-3d]"
-            style={{ width: size.w, height: size.h, marginLeft: -size.w / 2, marginTop: -size.h / 2, transform: ring }}
+            ref={ringEl}
+            style={{ width: size.w, height: h, marginLeft: -size.w / 2, marginTop: -h / 2, transform: ring }}
           >
             {posts.map((p, i) => (
               <RingCard key={p.href} p={p} i={i} step={step} size={size} goTo={goTo} />
