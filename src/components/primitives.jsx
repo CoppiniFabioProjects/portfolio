@@ -3,17 +3,41 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import Lenis from "lenis";
 
 /* Smooth scroll (Lenis) — respects reduced motion */
+let lenis = null;
+
+// Posizione "di layout" di un elemento: ignora le trasformazioni delle animazioni d'ingresso
+// (una sezione che sta ancora salendo di 75px non deve spostare il punto d'arrivo)
+const layoutTop = (el) => {
+  let y = 0;
+  for (let n = el; n; n = n.offsetParent) y += n.offsetTop;
+  return y;
+};
+const target = (el) => Math.max(0, layoutTop(el) - (el.id === "hero" ? 0 : 80));
+
+// Scorre a una sezione (con Lenis se attivo) e ferma/riprende lo scroll sotto i pannelli aperti
+export const smooth = {
+  to(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (lenis) lenis.scrollTo(target(el));
+    else window.scrollTo({ top: target(el), behavior: "smooth" });
+  },
+  stop: () => lenis?.stop(),
+  start: () => lenis?.start(),
+};
+
 export function useSmoothScroll() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const lenis = new Lenis({
+    const l = new Lenis({
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
+    lenis = l;
     let raf;
     const loop = (time) => {
-      lenis.raf(time);
+      l.raf(time);
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
@@ -27,13 +51,14 @@ export function useSmoothScroll() {
       const el = document.querySelector(id);
       if (el) {
         e.preventDefault();
-        lenis.scrollTo(el, { offset: -80 });
+        l.scrollTo(target(el));
       }
     };
     document.addEventListener("click", onClick);
     return () => {
       cancelAnimationFrame(raf);
-      lenis.destroy();
+      l.destroy();
+      if (lenis === l) lenis = null;
       document.removeEventListener("click", onClick);
     };
   }, []);

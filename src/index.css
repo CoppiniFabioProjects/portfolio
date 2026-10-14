@@ -60,11 +60,14 @@ body {
   color: #fff;
 }
 
-/* Keyboard focus — visibile solo per chi naviga da tastiera */
-:focus-visible {
-  outline: 2px solid var(--color-purple-glow);
-  outline-offset: 3px;
-  border-radius: 4px;
+/* Keyboard focus — visibile solo per chi naviga da tastiera.
+   Nel layer base: le classi dei componenti (rounded-*, outline-none) hanno la precedenza */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-purple-glow);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 }
 
 /* Skip link — nascosta finché non riceve focus da tastiera */
@@ -438,20 +441,17 @@ html.lenis body {
   opacity: 0.7;
 }
 
-/* Vertical scroll guide */
-.scroll-guide-rail {
-  width: 2px;
-  background: rgba(255, 255, 255, 0.08);
-  position: relative;
-  overflow: hidden;
-}
-.scroll-guide-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: linear-gradient(var(--color-purple), var(--color-garuda));
-  transform-origin: top;
+/* Isola di navigazione e palette: capsula scura, vetro profondo */
+.island {
+  background: linear-gradient(180deg, rgba(14, 12, 22, 0.82), rgba(7, 7, 12, 0.78));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 18px 50px -18px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 10px 40px -20px rgba(168, 85, 247, 0.35);
 }
 
 /* ============================================================

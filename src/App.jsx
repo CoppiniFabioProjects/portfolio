@@ -4,7 +4,6 @@ import { ArrowUp } from "lucide-react";
 import { useSmoothScroll, Magnetic } from "./components/primitives";
 import Nav from "./components/Nav";
 import Cursor from "./components/Cursor";
-import ScrollGuide from "./components/ScrollGuide";
 import Hero from "./components/Hero";
 import Manifesto from "./components/Manifesto";
 import Vetrina from "./components/Vetrina";
@@ -63,7 +62,6 @@ export default function App() {
       <div className="vignette" />
       <Cursor />
       <Nav />
-      <ScrollGuide />
       <main>
         <Hero />
         <Manifesto />
