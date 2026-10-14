@@ -72,7 +72,7 @@ function ProjectText({ p }) {
       {p.tagline && <p className={`display-serif italic text-lg md:text-2xl ${a.text} mb-3 md:mb-5`}>{p.tagline}</p>}
       <p className="text-sm md:text-base text-mist leading-relaxed mb-4 md:mb-6">{p.body}</p>
       {p.metrics && (
-        <div className="grid grid-cols-3 gap-3 md:gap-6 mb-4 md:mb-6 border-y border-white/10 py-3 md:py-5">
+        <div className="grid grid-cols-3 gap-3 md:gap-6 mb-4 md:mb-6 [@media(max-height:820px)]:mb-4 border-y border-white/10 py-3 md:py-5 [@media(max-height:820px)]:py-3">
           {p.metrics.map((m) => (
             <div key={m.label}>
               <div className={`font-display text-lg md:text-3xl leading-none ${a.text}`}>{m.value}</div>
@@ -81,7 +81,7 @@ function ProjectText({ p }) {
           ))}
         </div>
       )}
-      <div className="hidden md:flex flex-wrap gap-2 mb-7">
+      <div className="hidden md:flex [@media(max-height:820px)]:hidden flex-wrap gap-2 mb-7">
         {p.tags.map((t) => (
           <span key={t} className="text-[11px] font-mono text-mist border border-white/10 rounded-full px-3 py-1">{t}</span>
         ))}
@@ -112,9 +112,10 @@ function DeviceStage() {
   return (
     <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 65) }}>
       <StepSnaps n={N} />
-      <div className="sticky top-0 h-[100svh] overflow-hidden flex flex-col pt-20 lg:pt-24 pb-20 lg:pb-8">
+      <div className="sticky top-0 h-[100svh] overflow-hidden flex flex-col pt-20 lg:pt-24 pb-5 lg:pb-8">
         <div className="container mx-auto px-6 flex-1 min-h-0 flex flex-col lg:grid lg:grid-cols-12 lg:gap-12 lg:items-center">
-          <div className="relative h-[30svh] sm:h-[38svh] lg:h-full lg:col-span-7 shrink-0">
+          {/* su telefono il dispositivo prende lo spazio che il testo lascia libero (con un minimo e un massimo) */}
+          <div className="relative flex-1 min-h-[15svh] max-h-[40svh] lg:max-h-none lg:h-full lg:col-span-7">
             <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] rounded-full blur-[100px] transition-colors duration-700 ${a.glow}`} />
             <Scene3D
               load={loadDevices}
@@ -128,7 +129,7 @@ function DeviceStage() {
 
           {/* tutti i testi nella pagina (per motori di ricerca e AI), uno sopra l'altro:
               si vede ed è raggiungibile solo quello del progetto mostrato */}
-          <div className="relative flex-1 min-h-0 lg:col-span-5 mt-4 lg:mt-0 grid">
+          <div className="relative shrink-0 lg:col-span-5 mt-3 lg:mt-0 grid">
             {items.map((it, i) => (
               <motion.div
                 key={it.title}
@@ -165,7 +166,7 @@ function DeviceStage() {
             </button>
           ))}
         </nav>
-        <p className="mt-2 text-center text-[11px] font-mono text-mist/50">{ui.projects.hint}</p>
+        <p className="hidden lg:block mt-2 text-center text-[11px] font-mono text-mist/50">{ui.projects.hint}</p>
       </div>
     </div>
   );
