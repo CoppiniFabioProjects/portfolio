@@ -1,6 +1,8 @@
-// Tech — le tecnologie orbitano in 3D su tre anelli attorno a un nucleo low-poly.
-// Le etichette sono testo HTML proiettato dal 3D (nitido, col font del sito);
-// l'orbita si trascina col mouse/dito con inerzia.
+// Tech — ogni gruppo di competenze è un'orbita attorno al nucleo.
+// Il gruppo "a fuoco" (scelto scorrendo o dai pulsanti) si porta davanti, si allarga
+// e mostra tutte le sue tecnologie: etichette HTML proiettate dal 3D (nitide, col font del sito).
+// Gli altri gruppi restano orbite tenui, per dare l'idea dell'insieme.
+// L'orbita si trascina col mouse/dito con inerzia.
 import {
   Group, Object3D, BufferGeometry, Float32BufferAttribute, LineLoop, LineBasicMaterial,
   IcosahedronGeometry, EdgesGeometry, LineSegments, Mesh, MeshStandardMaterial,
@@ -8,11 +10,11 @@ import {
 } from "three";
 import { createStage, trackPointer, damp, clamp01, smoothstep } from "./stage";
 
-const RADII = [1.9, 2.75, 3.6];
-// inclinazioni piccole: anelli quasi orizzontali visti di taglio (ellissi, come Saturno)
-const TILTS = [[0.42, 0.16], [0.26, -0.24], [0.56, 0.34]];
-const SPEEDS = [0.3, -0.2, 0.14];
-const AUTO = 0.1; // rotazione automatica (rad/s)
+const COLORS = { purple: "#c084fc", garuda: "#5eead4" };
+const R_MIN = 1.45;
+const R_MAX = 3.3;
+const R_FOCUS = 3.75; // il gruppo a fuoco si allarga fino a qui
+const AUTO = 0.07; // rotazione automatica (rad/s)
 
 const glowVertex = /* glsl */ `
   attribute vec3 aColor;
@@ -27,16 +29,19 @@ const glowVertex = /* glsl */ `
   }
 `;
 const glowFragment = /* glsl */ `
+  uniform float uAlpha;
   varying vec3 vColor;
   void main() {
     float d = length(gl_PointCoord - 0.5);
-    float a = pow(smoothstep(0.5, 0.0, d), 2.0);
+    float a = pow(smoothstep(0.5, 0.0, d), 2.0) * uAlpha;
     if (a < 0.01) discard;
     gl_FragColor = vec4(vColor * a, a);
   }
 `;
 
-export default async function create(canvas, { rings = [], reducedMotion }) {
+const lerp = (a, b, t) => a + (b - a) * t;
+
+export default async function create(canvas, { groups = [], reducedMotion }) {
   const pointer = trackPointer(canvas);
   const stage = createStage(canvas, { fov: 35, reducedMotion, onResize: layout, onFrame: frame });
   const { scene, camera, renderer, size } = stage;
@@ -48,70 +53,75 @@ export default async function create(canvas, { rings = [], reducedMotion }) {
 
   const system = new Group();
   scene.add(system);
-  const spinners = [];
-  const labels = [];
 
-  rings.forEach((ring, i) => {
-    const R = RADII[i % RADII.length];
-    const color = new Color(ring.color);
+  // cerchio di raggio 1: ogni anello lo scala al suo raggio
+  const SEG = 200;
+  const circle = [];
+  for (let k = 0; k < SEG; k++) {
+    const a = (k / SEG) * Math.PI * 2;
+    circle.push(Math.cos(a), 0, Math.sin(a));
+  }
+  const circleGeo = new BufferGeometry();
+  circleGeo.setAttribute("position", new Float32BufferAttribute(circle, 3));
+
+  const n = groups.length;
+  const rings = groups.map((group, i) => {
+    const hex = COLORS[group.accent] || COLORS.purple;
+    const color = new Color(hex);
+    const R = n > 1 ? lerp(R_MIN, R_MAX, i / (n - 1)) : R_MAX;
+    // inclinazioni diverse per ogni anello: l'insieme sembra un atomo, non una pila di cerchi
+    const base = { x: 0.22 + ((i * 0.41) % 0.75), z: (i % 2 ? -1 : 1) * (0.1 + ((i * 0.13) % 0.32)) };
     const tilt = new Group();
-    tilt.rotation.set(TILTS[i % 3][0], 0, TILTS[i % 3][1]);
     const spin = new Group();
     tilt.add(spin);
     system.add(tilt);
-    spinners.push(spin);
 
-    const pts = [];
-    const SEG = 180;
-    for (let k = 0; k < SEG; k++) {
-      const a = (k / SEG) * Math.PI * 2;
-      pts.push(Math.cos(a) * R, 0, Math.sin(a) * R);
-    }
-    const g = new BufferGeometry();
-    g.setAttribute("position", new Float32BufferAttribute(pts, 3));
-    spin.add(new LineLoop(g, new LineBasicMaterial({ color, transparent: true, opacity: 0.3 })));
+    const line = new LineLoop(circleGeo, new LineBasicMaterial({ color, transparent: true, opacity: 0.12 }));
+    spin.add(line);
 
-    // un punto luminoso per tecnologia, in coordinate dell'anello
-    const ringDots = [];
-    ring.items.forEach((name, j) => {
-      const a = (j / ring.items.length) * Math.PI * 2 + i * 0.6;
+    const pos = [];
+    const labels = group.items.map((name, j) => {
+      const a = (j / group.items.length) * Math.PI * 2;
       const anchor = new Object3D();
-      anchor.position.set(Math.cos(a) * R, 0, Math.sin(a) * R);
+      anchor.position.set(Math.cos(a), 0, Math.sin(a));
       spin.add(anchor);
-      ringDots.push(anchor.position.x, 0, anchor.position.z);
+      pos.push(Math.cos(a), 0, Math.sin(a));
 
       const el = document.createElement("span");
       el.textContent = name;
       el.className = "font-mono whitespace-nowrap";
-      el.style.cssText = `position:absolute;left:0;top:0;padding:3px 10px;border-radius:999px;
-        font-size:12px;letter-spacing:-0.01em;color:${ring.color};border:1px solid ${ring.color}55;
-        background:rgba(8,8,16,0.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-        will-change:transform,opacity;`;
+      el.style.cssText = `position:absolute;left:0;top:0;padding:4px 11px;border-radius:999px;
+        font-size:13px;letter-spacing:-0.01em;color:${hex};border:1px solid ${hex}55;
+        background:rgba(8,8,16,0.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+        will-change:transform,opacity;display:none;`;
       layer.appendChild(el);
-      labels.push({ el, anchor, half: 40 });
+      return { el, anchor, half: 40, shown: false };
     });
+
     const dg = new BufferGeometry();
-    dg.setAttribute("position", new Float32BufferAttribute(ringDots, 3));
-    dg.setAttribute("aColor", new Float32BufferAttribute(ring.items.flatMap(() => [color.r, color.g, color.b]), 3));
-    const dots = new Points(dg, new ShaderMaterial({
+    dg.setAttribute("position", new Float32BufferAttribute(pos, 3));
+    dg.setAttribute("aColor", new Float32BufferAttribute(group.items.flatMap(() => [color.r, color.g, color.b]), 3));
+    const dotsMat = new ShaderMaterial({
       vertexShader: glowVertex,
       fragmentShader: glowFragment,
       transparent: true,
       depthWrite: false,
       blending: AdditiveBlending,
-      uniforms: { uSize: { value: 220 }, uPixelRatio: { value: renderer.getPixelRatio() } },
-    }));
-    spin.add(dots);
+      uniforms: { uSize: { value: 80 }, uAlpha: { value: 0.6 }, uPixelRatio: { value: renderer.getPixelRatio() } },
+    });
+    spin.add(new Points(dg, dotsMat));
+
+    return { R, base, tilt, spin, line, dotsMat, labels, phase: i * 0.9 };
   });
 
   // nucleo: cristallo low-poly con spigoli viola e un cuore luminoso
   const core = new Group();
   core.add(new Mesh(
-    new IcosahedronGeometry(0.72, 1),
+    new IcosahedronGeometry(0.55, 1),
     new MeshStandardMaterial({ color: 0x2b1650, emissive: 0x1c0838, metalness: 0.45, roughness: 0.25, flatShading: true }),
   ));
   core.add(new LineSegments(
-    new EdgesGeometry(new IcosahedronGeometry(0.78, 1)),
+    new EdgesGeometry(new IcosahedronGeometry(0.6, 1)),
     new LineBasicMaterial({ color: 0xc084fc, transparent: true, opacity: 0.45 }),
   ));
   const heartGeo = new BufferGeometry();
@@ -123,7 +133,7 @@ export default async function create(canvas, { rings = [], reducedMotion }) {
     transparent: true,
     depthWrite: false,
     blending: AdditiveBlending,
-    uniforms: { uSize: { value: 2600 }, uPixelRatio: { value: renderer.getPixelRatio() } },
+    uniforms: { uSize: { value: 2200 }, uAlpha: { value: 1 }, uPixelRatio: { value: renderer.getPixelRatio() } },
   })));
   system.add(core);
 
@@ -152,8 +162,7 @@ export default async function create(canvas, { rings = [], reducedMotion }) {
   const onMove = (e) => {
     if (!dragging) return;
     const now = performance.now();
-    const dx = e.clientX - lastX;
-    const delta = dx * 0.008;
+    const delta = (e.clientX - lastX) * 0.008;
     angle += delta;
     vel = delta / Math.max(0.008, (now - lastMove) / 1000);
     lastX = e.clientX;
@@ -169,54 +178,86 @@ export default async function create(canvas, { rings = [], reducedMotion }) {
   canvas.addEventListener("pointerup", onUp);
   canvas.addEventListener("pointercancel", onUp);
 
-  const maxR = RADII[Math.min(rings.length, RADII.length) - 1] || 3.6;
-  let compact = false; // schermi stretti: etichette più piccole e solo quelle davanti
+  // inclinazione con cui si presenta il gruppo a fuoco: su schermi stretti più "di fronte",
+  // così l'ellisse è più alta e le etichette hanno spazio in verticale
+  let present = 0.55;
+  let stretch = 1; // su schermi verticali l'orbita a fuoco diventa un'ellisse alta, che riempie lo spazio
+  let compact = false;
   function layout(s) {
     compact = s.w < 640;
-    for (const l of labels) {
-      l.el.style.fontSize = compact ? "10px" : "12px";
-      l.el.style.padding = compact ? "2px 7px" : "3px 10px";
+    present = s.aspect < 1.25 ? 1.0 : 0.55;
+    stretch = s.aspect < 0.8 ? 1.5 : 1;
+    for (const r of rings) {
+      for (const l of r.labels) {
+        l.el.style.fontSize = compact ? "11px" : "13px";
+        l.el.style.padding = compact ? "3px 8px" : "4px 11px";
+        const was = l.el.style.display;
+        l.el.style.display = "block";
+        l.half = l.el.offsetWidth / 2; // larghezza misurata una volta: tiene le etichette dentro i bordi
+        l.el.style.display = was;
+      }
     }
-    // larghezze misurate una volta sola: servono a tenere le etichette dentro i bordi
-    for (const l of labels) l.half = l.el.offsetWidth / 2;
-
-    // tutti gli anelli (e le etichette) devono stare nel riquadro, in larghezza e in altezza
-    const fitW = (maxR * 1.22) / (s.tanV * s.aspect);
-    const fitH = (maxR * 0.9 + 0.4) / s.tanV;
-    camera.position.set(0, 0.6, Math.max(8.5, fitW, fitH));
+    // l'anello a fuoco (con le etichette) deve stare nel riquadro, in larghezza e in altezza
+    const fitW = (R_FOCUS * (compact ? 1.12 : 1.3)) / (s.tanV * s.aspect);
+    const fitH = (R_FOCUS * stretch * Math.sin(present) + 0.9) / s.tanV;
+    camera.position.set(0, 0.35, Math.max(7, fitW, fitH));
     camera.lookAt(0, 0, 0);
   }
 
+  let focus = 0;
+  let target = 0;
   const v = new Vector3();
+  const c = new Vector3();
   const tiltNow = { x: 0 };
   function frame(t, dt) {
+    const step = dt || 1;
     if (!dragging && dt) {
       angle += vel * dt;
       vel = damp(vel, AUTO, 1.2, dt); // l'inerzia torna alla rotazione lenta
     }
-    tiltNow.x = damp(tiltNow.x, pointer.inside ? -pointer.y * 0.12 : 0, 3, dt || 1);
-    system.rotation.set(0.12 + tiltNow.x, angle, 0);
-    spinners.forEach((s, i) => { s.rotation.y = t * SPEEDS[i % SPEEDS.length]; });
+    focus = reducedMotion ? target : damp(focus, target, 7, step);
+    tiltNow.x = damp(tiltNow.x, pointer.inside ? -pointer.y * 0.08 : 0, 3, step);
+    system.rotation.set(tiltNow.x, 0, 0);
     core.rotation.set(t * 0.2, t * 0.32, 0);
 
-    // proiezione delle etichette: davanti grandi e nitide, dietro piccole e sbiadite
     scene.updateMatrixWorld();
     camera.updateMatrixWorld();
     const camDist = camera.position.length();
-    for (const l of labels) {
-      const { el, anchor } = l;
-      anchor.getWorldPosition(v);
-      const depth = v.clone().applyMatrix4(camera.matrixWorldInverse).z + camDist; // >0 = davanti
-      const k = clamp01(0.5 + depth / (2 * maxR));
-      v.project(camera);
-      const scale = 0.74 + k * 0.38;
-      const edge = l.half * scale + 4;
-      const x = Math.min(Math.max((v.x * 0.5 + 0.5) * size.w, edge), size.w - edge);
-      const y = (-v.y * 0.5 + 0.5) * size.h;
-      el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) translate(-50%,-140%) scale(${scale.toFixed(3)})`;
-      el.style.opacity = (compact ? smoothstep(0.45, 0.65, k) : 0.22 + k * 0.78).toFixed(3);
-      el.style.zIndex = String(Math.round(k * 100));
-    }
+
+    rings.forEach((r, i) => {
+      const w = smoothstep(0, 1, clamp01(1 - Math.abs(focus - i)));
+      r.spin.scale.setScalar(lerp(r.R, R_FOCUS, w));
+      // l'allungamento sta sul piano fisso dell'orbita: la forma resta ferma, le tecnologie ci scorrono sopra
+      r.tilt.scale.set(1, 1, lerp(1, stretch, w));
+      // il gruppo a fuoco si raddrizza verso chi guarda; gli anelli restano fermi
+      // e sono le tecnologie a scorrere lungo l'orbita (trascinando le sposti tu)
+      r.tilt.rotation.set(lerp(r.base.x, present, w), 0, lerp(r.base.z, 0, w));
+      r.spin.rotation.y = r.phase + angle * (1 - i * 0.06);
+      r.line.material.opacity = 0.07 + 0.5 * w;
+      r.dotsMat.uniforms.uSize.value = 60 + 190 * w;
+      r.dotsMat.uniforms.uAlpha.value = 0.35 + 0.65 * w;
+
+      // etichette: solo per il gruppo a fuoco (e quello che entra/esce durante il passaggio)
+      for (const l of r.labels) {
+        if (w < 0.03) {
+          if (l.shown) { l.el.style.display = "none"; l.shown = false; }
+          continue;
+        }
+        if (!l.shown) { l.el.style.display = "block"; l.shown = true; }
+        l.anchor.getWorldPosition(v);
+        c.copy(v).applyMatrix4(camera.matrixWorldInverse);
+        const depth = c.z + camDist; // >0 = davanti al centro
+        const k = clamp01(0.5 + depth / (2 * R_FOCUS));
+        v.project(camera);
+        const scale = 0.8 + k * 0.3;
+        const edge = l.half * scale + 6;
+        const x = Math.min(Math.max((v.x * 0.5 + 0.5) * size.w, edge), size.w - edge);
+        const y = (-v.y * 0.5 + 0.5) * size.h;
+        l.el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) translate(-50%,-135%) scale(${scale.toFixed(3)})`;
+        l.el.style.opacity = (w * (0.38 + k * 0.62)).toFixed(3);
+        l.el.style.zIndex = String(Math.round(k * 100));
+      }
+    });
   }
 
   await stage.warmup();
@@ -224,6 +265,11 @@ export default async function create(canvas, { rings = [], reducedMotion }) {
 
   return {
     setVisible: stage.setVisible,
+    // posizione continua del gruppo a fuoco (0..n-1), dallo scroll o dai pulsanti
+    setProgress(f) {
+      target = f;
+      if (reducedMotion) stage.invalidate();
+    },
     dispose() {
       canvas.removeEventListener("pointerdown", onDown);
       canvas.removeEventListener("pointermove", onMove);

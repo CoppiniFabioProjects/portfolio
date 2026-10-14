@@ -40,7 +40,7 @@ html {
 
 /* overflow-x: clip (non hidden): taglia l'eccedenza orizzontale senza trasformare
    html/body in contenitori di scroll, altrimenti position: sticky smette di funzionare
-   (la sezione Manifesto non resterebbe "pinnata"). hidden resta come ripiego. */
+   (le sezioni 3D non resterebbero "pinnate"). hidden resta come ripiego. */
 html {
   overflow-x: hidden;
   overflow-x: clip;
@@ -439,6 +439,24 @@ html.lenis body {
   letter-spacing: 0.3em;
   color: var(--color-purple-glow);
   opacity: 0.7;
+}
+
+/* Righe scorrevoli in orizzontale senza barra (es. i pulsanti dei gruppi Tech su mobile) */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card dei post e delle tappe nelle scene 3D: fondo pieno (niente blur: in 3D costa troppo) */
+.post-card {
+  background: linear-gradient(180deg, rgba(22, 18, 36, 0.97), rgba(10, 9, 17, 0.97));
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 30px 60px -30px rgba(0, 0, 0, 0.9),
+    0 0 40px -18px rgba(168, 85, 247, 0.35);
 }
 
 /* Isola di navigazione e palette: capsula scura, vetro profondo */

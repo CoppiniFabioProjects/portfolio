@@ -30,33 +30,7 @@ export const nav = [
   { id: "contact", label: "Contatti" },
 ];
 
-// Manifesto — righe rivelate allo scroll (sezione pinnata stile Longbow)
-export const manifesto = {
-  kicker: "Celeritas · Levitas",
-  lines: [
-    "Non chiedo",
-    "più potenza.",
-    "Tolgo peso.",
-  ],
-  body:
-    "Come le auto che ammiro, credo nella leggerezza: meno complessità, più reattività. Codice che non distrae, che unisce la precisione dell'algoritmo alla bellezza della cultura umana.",
-};
-
 export const vetrina = {
-  main: {
-    title: "Informatica Umanistica",
-    subtitle: "Università di Pisa",
-    body:
-      "Tesi in Linguistica Computazionale: analisi NLP dei testi delle medaglie d'oro, sviluppata in Python con NLTK — tokenizzazione, POS tagging e named entity recognition. Il percorso dove gli algoritmi incontrano la lingua e la cultura umana.",
-    stats: [
-      { value: "NLP", label: "Tesi" },
-      { value: "98", label: "Voto" },
-    ],
-    link: {
-      href: "https://drive.google.com/drive/folders/171K8z4jlj_PbVp7bJ7IUweG75Hj5ZixM?usp=sharing",
-      label: "Leggi la Tesi",
-    },
-  },
   // Storie dal lavoro: ognuna viene da un post LinkedIn, con il link all'originale
   stories: [
     {
@@ -149,12 +123,6 @@ export const vetrina = {
       accent: "garuda",
     },
   ],
-  // Numeri presi dai post: migrazioni di spostiamoci, soci di DigitaLions, follower
-  stats: [
-    { value: "~180", label: "Migrazioni DB" },
-    { value: "3.000", label: "Soci gestiti" },
-    { value: "7.7k", label: "Follower LinkedIn" },
-  ],
 };
 
 export const tech = [
@@ -194,13 +162,6 @@ export const tech = [
     accent: "garuda",
     items: ["Claude Code", "Cursor", "Agenti in parallelo", "Vercel", "Docker", "Linux", "Vite", "GitHub Pages"],
   },
-];
-
-// Orbita 3D della sezione Tech: tre anelli attorno al nucleo
-export const techOrbit = [
-  { name: "Frontend", color: "#c084fc", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Three.js", "Framer Motion"] },
-  { name: "Backend & Dati", color: "#5eead4", items: ["Supabase", "PostgreSQL", "PostGIS", "Java", "DB2", "SQL Server"] },
-  { name: "Cloud, AI & NLP", color: "#e2e8f0", items: ["Vercel", "Docker", "GitHub Actions", "Linux", "Python", "Claude Code"] },
 ];
 
 export const linux = {
@@ -248,6 +209,9 @@ export const timeline = [
     org: "Università di Pisa",
     role: "Laurea in Informatica Umanistica",
     body: "Voto 98/110. Tesi in Linguistica Computazionale: analisi NLP in Python/NLTK dei testi delle medaglie d'oro. Codifica di testi con XML/XSLT/TEI.",
+    link: "https://drive.google.com/drive/folders/171K8z4jlj_PbVp7bJ7IUweG75Hj5ZixM?usp=sharing",
+    linkLabel: "Leggi la tesi",
+    thesis: true, // la tesi: la usa anche il comando «tesi» del terminale
   },
   {
     period: "2013 — 2018",

@@ -5,7 +5,6 @@ import { useSmoothScroll, Magnetic } from "./components/primitives";
 import Nav from "./components/Nav";
 import Cursor from "./components/Cursor";
 import Hero from "./components/Hero";
-import Manifesto from "./components/Manifesto";
 import Vetrina from "./components/Vetrina";
 import Tech from "./components/Tech";
 import Linux from "./components/Linux";
@@ -64,12 +63,9 @@ export default function App() {
       <Nav />
       <main>
         <Hero />
-        <Manifesto />
         <Vetrina />
         <KineticText text={ui.app.kinetic} baseVelocity={2} />
-        <SectionReveal>
-          <Tech />
-        </SectionReveal>
+        <Tech />
         <SectionReveal>
           <Linux />
         </SectionReveal>

@@ -7,5 +7,5 @@ import { lang } from "../i18n";
 const c = lang === "en" ? en : it;
 
 export const {
-  profile, nav, manifesto, vetrina, tech, techOrbit, linux, timeline, flagship, projects, interests,
+  profile, nav, vetrina, tech, linux, timeline, flagship, projects, interests,
 } = c;

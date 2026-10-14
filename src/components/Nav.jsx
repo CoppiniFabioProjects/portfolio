@@ -15,7 +15,7 @@ import CommandPalette from "./CommandPalette";
 const other = lang === "en" ? "it" : "en";
 const EASE = [0.22, 1, 0.36, 1];
 const MORPH = { type: "spring", stiffness: 420, damping: 38, mass: 0.9 };
-const NEUTRAL = ["hero", "manifesto"]; // lì l'isola mostra il nome, non una sezione
+const NEUTRAL = ["hero"]; // lì l'isola mostra il nome, non una sezione
 
 function useMedia(query) {
   const [match, setMatch] = useState(() => typeof window !== "undefined" && window.matchMedia(query).matches);
@@ -29,7 +29,7 @@ function useMedia(query) {
   return match;
 }
 
-// Scroll-spy: id della sezione visibile ("" in hero e manifesto)
+// Scroll-spy: id della sezione visibile ("" nella hero)
 function useActiveSection() {
   const [active, setActive] = useState("");
   useEffect(() => {

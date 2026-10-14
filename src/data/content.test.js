@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { profile, nav, tech, techOrbit, flagship, projects, timeline, vetrina } from "./content";
+import { profile, nav, tech, flagship, projects, timeline, vetrina } from "./content";
 
 describe("content — integrità dei dati", () => {
   it("il profilo ha i campi essenziali", () => {
@@ -32,13 +32,13 @@ describe("content — integrità dei dati", () => {
     );
   });
 
-  it("l'orbita 3D ha al massimo 3 anelli, con colore e almeno 3 tecnologie", () => {
-    expect(techOrbit.length).toBeGreaterThan(0);
-    expect(techOrbit.length).toBeLessThanOrEqual(3); // la scena ha 3 raggi/inclinazioni
-    techOrbit.forEach((ring) => {
-      expect(ring.color).toMatch(/^#[0-9a-f]{6}$/i);
-      expect(ring.items.length).toBeGreaterThanOrEqual(3);
+  it("ogni gruppo tech è un anello dell'orbita 3D: colore noto e nomi distinti", () => {
+    // la scena colora gli anelli da `accent` e dà un'etichetta a ogni tecnologia
+    tech.forEach((g) => {
+      expect(["purple", "garuda"]).toContain(g.accent);
+      expect(new Set(g.items).size).toBe(g.items.length);
     });
+    expect(tech.length).toBeLessThanOrEqual(8); // oltre, gli anelli si affollano
   });
 
   it("i progetti di punta hanno link validi e status", () => {
@@ -61,8 +61,10 @@ describe("content — integrità dei dati", () => {
     expect(uni.body.toLowerCase()).toMatch(/nlp|nltk/);
   });
 
-  it("la vetrina evidenzia la tesi in Python/NLTK", () => {
-    expect(vetrina.main.body.toLowerCase()).toContain("nltk");
+  it("la timeline evidenzia la tesi in Python/NLTK, con il link", () => {
+    const thesis = timeline.find((t) => t.thesis);
+    expect(thesis.body.toLowerCase()).toContain("nltk");
+    expect(thesis.link).toMatch(/^https:\/\//);
   });
 
   it("ogni storia della vetrina ha titolo, lezione e link al post LinkedIn", () => {

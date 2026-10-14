@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { profile, flagship, projects, timeline, tech, vetrina } from "../data/content";
+import { profile, flagship, projects, timeline, tech } from "../data/content";
 import { ui } from "../data/ui";
 
 const T = ui.terminal;
 
 const openable = [...flagship, ...projects].filter((p) => p.link);
+const thesis = timeline.find((t) => t.thesis);
 
 // Link cliccabile nell'output del terminale
 const L = ({ href, children }) => (
@@ -87,7 +88,7 @@ const COMMANDS = {
     <span key="t1" className="text-purple-glow">{T.thesisTitle}</span>,
     <span key="t2" className="text-mist">{T.thesisBody[0]}<span className="text-white">{T.thesisBody[1]}</span>{T.thesisBody[2]}</span>,
     <span key="t3" className="text-mist">{T.thesisDegree[0]}<span className="text-white">{T.thesisDegree[1]}</span></span>,
-    <span key="t4" className="text-mist">→ <L href={vetrina.main.link.href}>{vetrina.main.link.label}</L></span>,
+    <span key="t4" className="text-mist">→ <L href={thesis.link}>{thesis.linkLabel}</L></span>,
   ],
   nlp: () => COMMANDS.tesi(),
   thesis: () => COMMANDS.tesi(),

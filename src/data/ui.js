@@ -53,11 +53,17 @@ export const uiDict = {
       fieldNote: "dai miei post su LinkedIn",
       readPost: "Leggi il post",
       offCode: "Fuori dal codice",
+      prev: "Post precedente",
+      next: "Post successivo",
+      hint: "Scorri per sfogliare i post",
     },
     tech: {
       eyebrow: "Arsenale Tecnologico",
       title: "Cosa uso per costruire",
       sub: "Quello che uso davvero, dalla web app al gestionale.",
+      groups: "Gruppi di competenze",
+      hint: "Scorri per passare al gruppo successivo · trascina l'orbita per girarla",
+      count: "tecnologie",
     },
     linux: {
       eyebrow: "🐧 Ecosistema",
@@ -72,6 +78,8 @@ export const uiDict = {
       sub: "Dove ho imparato, costruito e insegnato.",
       current: "In corso",
       document: "Documento",
+      hint: "Scorri per tornare indietro nel tempo",
+      years: "Anni del percorso",
     },
     projects: {
       eyebrow: "Lavori",
@@ -230,11 +238,17 @@ export const uiDict = {
       fieldNote: "from my LinkedIn posts (in Italian)",
       readPost: "Read the post",
       offCode: "Beyond code",
+      prev: "Previous post",
+      next: "Next post",
+      hint: "Scroll to flip through the posts",
     },
     tech: {
       eyebrow: "Tech Arsenal",
       title: "What I build with",
       sub: "What I actually use, from web apps to ERP systems.",
+      groups: "Skill groups",
+      hint: "Scroll to move to the next group · drag the orbit to spin it",
+      count: "technologies",
     },
     linux: {
       eyebrow: "🐧 Ecosystem",
@@ -249,6 +263,8 @@ export const uiDict = {
       sub: "Where I learned, built and taught.",
       current: "Ongoing",
       document: "Document",
+      hint: "Scroll to travel back in time",
+      years: "Years of the journey",
     },
     projects: {
       eyebrow: "Work",

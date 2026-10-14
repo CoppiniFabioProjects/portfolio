@@ -1,50 +1,106 @@
-import { Reveal, SectionHeader, Spotlight } from "./primitives";
-import Icon from "./Icon";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useMotionValue, useMotionValueEvent, useReducedMotion } from "framer-motion";
+import { SectionHeader } from "./primitives";
 import Scene3D from "./Scene3D";
-import { tech, techOrbit } from "../data/content";
+import { useSteps, stepsHeight } from "./useSteps";
+import { tech } from "../data/content";
 import { ui } from "../data/ui";
 
 const loadOrbit = () => import("../three/techOrbit");
+const pad = (i) => String(i).padStart(2, "0");
+const EASE = [0.22, 1, 0.36, 1];
 
+// Le competenze sono l'orbita: ogni gruppo è un anello, scorrendo si passa da un gruppo
+// all'altro e quello a fuoco mostra tutte le sue tecnologie. Niente elenchi doppi:
+// l'elenco testuale c'è solo per screen reader e motori di ricerca.
 export default function Tech() {
-  return (
-    <section id="skills" className="relative py-20 md:py-28">
-      <div className="container mx-auto px-6">
-        <SectionHeader
-          index="02"
-          eyebrow={ui.tech.eyebrow}
-          title={ui.tech.title}
-          sub={ui.tech.sub}
-        />
+  const reduce = useReducedMotion();
+  const n = tech.length;
+  const { ref, step, goTo } = useSteps(n);
+  const manual = useMotionValue(0); // con "riduci movimento": niente scroll a tappe, si sceglie dai pulsanti
+  const focus = reduce ? manual : step;
+  const [active, setActive] = useState(0);
+  useMotionValueEvent(focus, "change", (v) => setActive(Math.min(n - 1, Math.max(0, Math.round(v)))));
+  const choose = (i) => (reduce ? manual.set(i) : goTo(i));
+  const g = tech[active];
 
-        {/* Orbita 3D: trascinala per girarla */}
-        <Scene3D
-          load={loadOrbit}
-          options={{ rings: techOrbit }}
-          className="relative h-[360px] md:h-[480px] -mt-6 mb-10"
-        />
+  // su mobile i pulsanti stanno in una riga scorrevole: quello attivo va portato in vista
+  // (scorrendo solo la riga, non la pagina)
+  const chips = useRef(null);
+  useEffect(() => {
+    const row = chips.current;
+    const btn = row?.children[active];
+    if (!row || !btn || row.scrollWidth <= row.clientWidth) return;
+    row.scrollTo({ left: btn.offsetLeft - (row.clientWidth - btn.offsetWidth) / 2, behavior: "smooth" });
+  }, [active]);
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tech.map((group, i) => (
-            <Reveal key={group.title} delay={i * 0.08}>
-              <Spotlight className="glass card-hover rounded-3xl p-6 h-full">
-                <div className={`w-12 h-12 rounded-2xl grid place-items-center mb-5 border ${group.accent === "garuda" ? "bg-garuda/15 border-garuda/30 text-garuda" : "bg-purple/15 border-purple/30 text-purple-glow"}`}>
-                  <Icon name={group.icon} className="w-6 h-6" />
-                </div>
-                <h3 className="font-display text-lg text-white mb-4">{group.title}</h3>
-                <ul className="space-y-2">
-                  {group.items.map((it) => (
-                    <li key={it} className="flex items-center gap-2 text-sm text-mist">
-                      <span className={`w-1 h-1 rounded-full ${group.accent === "garuda" ? "bg-garuda" : "bg-purple"}`} />
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </Spotlight>
-            </Reveal>
-          ))}
+  const stage = (
+    <div className="container mx-auto px-6 h-full flex flex-col lg:grid lg:grid-cols-12 lg:gap-10 lg:items-center">
+      <div className="lg:col-span-4 shrink-0 pt-24 lg:pt-0">
+        <div className="font-mono text-xs text-mist">
+          <span className="text-purple-glow">.{pad(active + 1)}</span> / {pad(n)}
         </div>
+        <div className="relative h-[2.6rem] md:h-[3.6rem] mt-2">
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.h3
+              key={active}
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.45, delay: 0.12, ease: EASE } }}
+              exit={{ opacity: 0, y: -14, transition: { duration: 0.16 } }}
+              className="absolute inset-x-0 top-0 font-display text-3xl md:text-[2.75rem] leading-tight text-white tracking-tight whitespace-nowrap"
+            >
+              {g.title}
+            </motion.h3>
+          </AnimatePresence>
+        </div>
+        <p className="text-sm text-mist">
+          <span className={g.accent === "garuda" ? "text-garuda" : "text-purple-glow"}>{g.items.length}</span> {ui.tech.count}
+        </p>
+
+        <nav ref={chips} aria-label={ui.tech.groups} className="relative mt-5 lg:mt-8 -mx-6 px-6 lg:mx-0 lg:px-0 flex lg:flex-col lg:items-start gap-2 overflow-x-auto no-scrollbar">
+          {tech.map((t, i) => (
+            <button
+              key={t.title}
+              type="button"
+              onClick={() => choose(i)}
+              aria-pressed={i === active}
+              className={`shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm whitespace-nowrap border transition-colors duration-300 ${
+                i === active ? "bg-white/[0.08] border-white/20 text-white" : "border-white/[0.08] text-mist hover:text-white"
+              }`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${t.accent === "garuda" ? "bg-garuda" : "bg-purple-glow"} ${i === active ? "opacity-100" : "opacity-40"}`} />
+              {t.title}
+            </button>
+          ))}
+        </nav>
+        <p className="hidden lg:block mt-8 text-xs font-mono text-mist/60 max-w-xs">{ui.tech.hint}</p>
       </div>
+
+      <div className="relative flex-1 min-h-0 lg:col-span-8 lg:h-full">
+        <Scene3D load={loadOrbit} options={{ groups: tech }} progress={focus} className="absolute inset-0" />
+      </div>
+    </div>
+  );
+
+  return (
+    <section id="skills" className="relative pt-20 md:pt-28">
+      <div className="container mx-auto px-6">
+        <SectionHeader index="02" eyebrow={ui.tech.eyebrow} title={ui.tech.title} sub={ui.tech.sub} />
+      </div>
+
+      {reduce ? (
+        <div ref={ref} className="h-[85svh]">{stage}</div>
+      ) : (
+        <div ref={ref} data-steps={n} className="relative" style={{ height: stepsHeight(n, 45) }}>
+          <div className="sticky top-0 h-[100svh] overflow-hidden">{stage}</div>
+        </div>
+      )}
+
+      <ul className="sr-only">
+        {tech.map((t) => (
+          <li key={t.title}>{t.title}: {t.items.join(", ")}</li>
+        ))}
+      </ul>
     </section>
   );
 }

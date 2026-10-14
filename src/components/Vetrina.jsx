@@ -1,102 +1,180 @@
-import { GraduationCap, FileText, Award, ArrowUpRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion, useTransform, useMotionValueEvent, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Linkedin } from "lucide-react";
 import { Reveal, SectionHeader, Spotlight } from "./primitives";
 import Icon from "./Icon";
-import { vetrina } from "../data/content";
+import { useSteps, stepsHeight } from "./useSteps";
+import { vetrina, profile } from "../data/content";
 import { ui } from "../data/ui";
 
-export default function Vetrina() {
+const posts = vetrina.stories;
+const N = posts.length;
+const STEP_DEG = 360 / N;
+const pad = (i) => String(i).padStart(2, "0");
+
+// distanza (in posti) tra la card i e quella davanti, sull'anello
+const ringDist = (i, s) => {
+  const d = Math.abs((((i - s) % N) + N) % N);
+  return Math.min(d, N - d);
+};
+
+// Un post LinkedIn: la card è il contenuto, il 3D è solo il modo di sfogliarli
+function Post({ p, i, className = "" }) {
+  const garuda = p.accent === "garuda";
   return (
-    <section id="about" className="relative py-20 md:py-28">
-      <div className="container mx-auto px-6">
-        <SectionHeader
-          index="01"
-          eyebrow={ui.vetrina.eyebrow}
-          title={ui.vetrina.title}
-          sub={ui.vetrina.sub}
-        />
+    <article className={`h-full flex flex-col rounded-[1.75rem] p-6 md:p-7 ${className}`}>
+      <header className="flex items-center gap-3">
+        <img src="/portfolio/fabio-portrait.webp" alt="" className="w-10 h-10 rounded-full object-cover object-top bg-ink-2" loading="lazy" decoding="async" />
+        <div className="min-w-0">
+          <div className="text-sm font-semibold text-white leading-tight">{profile.name}</div>
+          <div className="text-[11px] text-mist truncate">{p.tag}</div>
+        </div>
+        <span className={`ml-auto w-9 h-9 shrink-0 rounded-xl grid place-items-center border ${garuda ? "bg-garuda/10 border-garuda/30 text-garuda" : "bg-purple/10 border-purple/30 text-purple-glow"}`}>
+          <Icon name={p.icon} className="w-4 h-4" />
+        </span>
+      </header>
+      <h3 className="mt-5 font-display text-[1.45rem] md:text-[1.65rem] leading-snug text-white tracking-tight">{p.title}</h3>
+      <p className="mt-3 text-[13.5px] md:text-sm text-mist leading-relaxed">{p.body}</p>
+      <p className={`mt-4 pl-3 border-l-2 text-sm italic ${garuda ? "border-garuda/50 text-garuda" : "border-purple/50 text-purple-glow"}`}>{p.lesson}</p>
+      <footer className="mt-auto pt-5 flex items-center justify-between">
+        <a
+          href={p.href}
+          target="_blank"
+          rel="noreferrer"
+          className={`inline-flex items-center gap-1.5 text-sm font-semibold ${garuda ? "text-garuda" : "text-purple-glow"} hover:gap-2.5 transition-all`}
+          data-post={i}
+        >
+          <Linkedin className="w-4 h-4" /> {ui.vetrina.readPost} <ArrowUpRight className="w-4 h-4" />
+        </a>
+        <span className="font-mono text-[11px] text-mist/60">{pad(i + 1)} / {pad(N)}</span>
+      </footer>
+    </article>
+  );
+}
 
-        {/* Main card */}
-        <Reveal>
-          <Spotlight className="glass-violet card-hover rounded-3xl p-8 md:p-12 mb-14">
-            <div className="grid lg:grid-cols-2 gap-10 items-center">
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple to-purple-dark grid place-items-center shadow-lg shadow-purple/30">
-                    <GraduationCap className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl md:text-3xl font-display text-white">{vetrina.main.title}</h3>
-                    <p className="text-purple-glow text-sm font-mono">{vetrina.main.subtitle}</p>
-                  </div>
-                </div>
-                <p className="text-mist leading-relaxed">{vetrina.main.body}</p>
-                <a
-                  href={vetrina.main.link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-ghost inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wider text-white"
-                >
-                  <ArrowUpRight className="w-4 h-4" /> {vetrina.main.link.label}
-                </a>
-              </div>
+// Dimensioni dell'anello in base allo schermo: larghezza card, altezza, raggio
+function useRingSize() {
+  const get = () => {
+    const vw = typeof window !== "undefined" ? window.innerWidth : 1280;
+    const vh = typeof window !== "undefined" ? window.innerHeight : 800;
+    const w = Math.round(Math.min(vw * 0.84, vw < 768 ? 340 : 460));
+    const h = Math.round(Math.min(vh - 230, vw < 768 ? 500 : 430));
+    const r = Math.round(w / 2 / Math.tan(Math.PI / N) + (vw < 768 ? 14 : 34));
+    return { w, h, r, persp: vw < 768 ? 900 : 1700 };
+  };
+  const [s, set] = useState(get);
+  useEffect(() => {
+    const on = () => set(get());
+    window.addEventListener("resize", on);
+    return () => window.removeEventListener("resize", on);
+  }, []);
+  return s;
+}
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-2xl border border-purple/25 bg-gradient-to-br from-purple/20 to-transparent p-6 text-center">
-                  <FileText className="w-6 h-6 text-purple-glow mx-auto mb-3" />
-                  <div className="text-3xl font-black text-white">{vetrina.main.stats[0].value}</div>
-                  <div className="text-[9px] font-bold uppercase tracking-widest text-mist mt-1">{vetrina.main.stats[0].label}</div>
-                </div>
-                <div className="rounded-2xl border border-garuda/25 bg-gradient-to-br from-garuda/20 to-transparent p-6 text-center">
-                  <Award className="w-6 h-6 text-garuda mx-auto mb-3" />
-                  <div className="text-3xl font-black text-white">{vetrina.main.stats[1].value}</div>
-                  <div className="text-[9px] font-bold uppercase tracking-widest text-mist mt-1">{vetrina.main.stats[1].label}</div>
-                </div>
-              </div>
-            </div>
-          </Spotlight>
-        </Reveal>
+function RingCard({ p, i, step, size, goTo }) {
+  const opacity = useTransform(step, (s) => {
+    const d = ringDist(i, s);
+    return d < 1 ? 1 - 0.5 * d : Math.max(0, 0.5 - 0.32 * (d - 1));
+  });
+  const pointer = useTransform(step, (s) => (ringDist(i, s) < 0.5 ? "auto" : "none"));
+  return (
+    <motion.div
+      className="absolute inset-0 [backface-visibility:hidden]"
+      style={{ transform: `rotateY(${i * STEP_DEG}deg) translateZ(${size.r}px)`, opacity, pointerEvents: pointer }}
+      // con la tastiera: il link di una card dietro la porta davanti
+      onFocus={() => goTo(i)}
+    >
+      <Post p={p} i={i} className="post-card" />
+    </motion.div>
+  );
+}
 
-        {/* Storie dal lavoro: ognuna rimanda al post LinkedIn da cui viene */}
-        <Reveal>
-          <div className="flex items-center gap-4 mb-6">
-            <span className="kicker">{ui.vetrina.field}</span>
-            <span className="flex-1 h-px bg-white/10" />
-            <span className="hidden sm:block text-xs font-mono text-mist/70">{ui.vetrina.fieldNote}</span>
-          </div>
-        </Reveal>
+function PostsRing() {
+  const { ref, step, goTo } = useSteps(N);
+  const size = useRingSize();
+  const [active, setActive] = useState(0);
+  useMotionValueEvent(step, "change", (v) => setActive(((Math.round(v) % N) + N) % N));
+  const ring = useTransform(step, (s) => `translateZ(${-size.r}px) rotateX(-4deg) rotateY(${-s * STEP_DEG}deg)`);
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
-          {vetrina.stories.map((s, i) => {
-            const garuda = s.accent === "garuda";
-            return (
-              <Reveal key={s.title} delay={i * 0.06}>
-                <Spotlight className="group glass card-hover rounded-3xl p-6 h-full flex flex-col">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className={`w-10 h-10 rounded-xl grid place-items-center border ${garuda ? "bg-garuda/15 border-garuda/30 text-garuda" : "bg-purple/15 border-purple/30 text-purple-glow"}`}>
-                      <Icon name={s.icon} className="w-5 h-5" />
-                    </div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-mist">{s.tag}</span>
-                  </div>
-                  <h3 className="font-display text-xl text-white mb-3 leading-snug">{s.title}</h3>
-                  <p className="text-sm text-mist leading-relaxed flex-1">{s.body}</p>
-                  <p className={`mt-4 pl-3 border-l-2 text-sm italic ${garuda ? "border-garuda/50 text-garuda" : "border-purple/50 text-purple-glow"}`}>
-                    {s.lesson}
-                  </p>
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`mt-4 inline-flex items-center gap-1.5 text-sm font-semibold ${garuda ? "text-garuda" : "text-purple-glow"} hover:gap-2.5 transition-all`}
-                  >
-                    {ui.vetrina.readPost} <ArrowUpRight className="w-4 h-4" />
-                  </a>
-                </Spotlight>
-              </Reveal>
-            );
-          })}
+  return (
+    <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 55) }}>
+      <div className="sticky top-0 h-[100svh] overflow-hidden flex flex-col pt-24 pb-20 md:pb-10">
+        <div className="container mx-auto px-6 flex items-center gap-4">
+          <span className="kicker">{ui.vetrina.field}</span>
+          <span className="flex-1 h-px bg-white/10" />
+          <span className="hidden sm:block text-xs font-mono text-mist/70">{ui.vetrina.fieldNote}</span>
         </div>
 
-        {/* Fuori dal codice */}
+        {/* l'anello: card disposte su un cilindro, ruota con lo scroll */}
+        <div
+          className="relative flex-1 min-h-0"
+          style={{ perspective: `${size.persp}px`, perspectiveOrigin: "50% 42%" }}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowRight") goTo(Math.min(N - 1, active + 1));
+            if (e.key === "ArrowLeft") goTo(Math.max(0, active - 1));
+          }}
+        >
+          <div className="absolute left-1/2 top-1/2 w-[70vw] max-w-3xl h-24 -translate-x-1/2 translate-y-[38vh] md:translate-y-[30vh] rounded-[50%] bg-purple/20 blur-3xl" />
+          <motion.div
+            className="absolute left-1/2 top-1/2 [transform-style:preserve-3d]"
+            style={{ width: size.w, height: size.h, marginLeft: -size.w / 2, marginTop: -size.h / 2, transform: ring }}
+          >
+            {posts.map((p, i) => (
+              <RingCard key={p.href} p={p} i={i} step={step} size={size} goTo={goTo} />
+            ))}
+          </motion.div>
+        </div>
+
+        <div className="container mx-auto px-6 flex items-center justify-center gap-5">
+          <button
+            type="button"
+            onClick={() => goTo(Math.max(0, active - 1))}
+            disabled={active === 0}
+            aria-label={ui.vetrina.prev}
+            className="w-10 h-10 grid place-items-center rounded-full border border-white/10 text-mist hover:text-white hover:border-white/25 disabled:opacity-30 transition"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <div className="flex items-center gap-2" aria-hidden="true">
+            {posts.map((p, i) => (
+              <span key={p.href} className={`h-1.5 rounded-full transition-all duration-500 ${i === active ? "w-6 bg-purple-glow" : "w-1.5 bg-white/20"}`} />
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => goTo(Math.min(N - 1, active + 1))}
+            disabled={active === N - 1}
+            aria-label={ui.vetrina.next}
+            className="w-10 h-10 grid place-items-center rounded-full border border-white/10 text-mist hover:text-white hover:border-white/25 disabled:opacity-30 transition"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+        <p className="mt-3 text-center text-[11px] font-mono text-mist/50">{ui.vetrina.hint}</p>
+      </div>
+    </div>
+  );
+}
+
+export default function Vetrina() {
+  const reduce = useReducedMotion();
+  return (
+    <section id="about" className="relative pt-20 md:pt-28 pb-20 md:pb-28">
+      <div className="container mx-auto px-6">
+        <SectionHeader index="01" eyebrow={ui.vetrina.eyebrow} title={ui.vetrina.title} sub={ui.vetrina.sub} />
+      </div>
+
+      {/* Storie dal lavoro: ognuna rimanda al post LinkedIn da cui viene */}
+      {reduce ? (
+        <div className="container mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((p, i) => <Post key={p.href} p={p} i={i} className="post-card" />)}
+        </div>
+      ) : (
+        <PostsRing />
+      )}
+
+      {/* Fuori dal codice */}
+      <div className="container mx-auto px-6 mt-16 md:mt-20">
         <Reveal>
           <div className="flex items-center gap-4 mb-6">
             <span className="kicker">{ui.vetrina.offCode}</span>
@@ -134,18 +212,6 @@ export default function Vetrina() {
                   </a>
                 </div>
               </Spotlight>
-            </Reveal>
-          ))}
-        </div>
-
-        {/* Stats strip */}
-        <div className="grid grid-cols-3 gap-6 mt-12">
-          {vetrina.stats.map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.08}>
-              <div className="text-center glass rounded-2xl py-8">
-                <div className="text-4xl md:text-5xl font-display text-gradient-purple">{s.value}</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-mist mt-2">{s.label}</div>
-              </div>
             </Reveal>
           ))}
         </div>

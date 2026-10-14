@@ -31,33 +31,7 @@ export const nav = [
   { id: "contact", label: "Contact" },
 ];
 
-// Manifesto — lines revealed on scroll (pinned section)
-export const manifesto = {
-  kicker: "Celeritas · Levitas",
-  lines: [
-    "I don't ask",
-    "for more power.",
-    "I shed weight.",
-  ],
-  body:
-    "Like the cars I admire, I believe in lightness: less complexity, more responsiveness. Code that stays out of the way, joining the precision of the algorithm with the beauty of human culture.",
-};
-
 export const vetrina = {
-  main: {
-    title: "Digital Humanities",
-    subtitle: "University of Pisa",
-    body:
-      "Thesis in Computational Linguistics: NLP analysis of gold-medal texts, built in Python with NLTK — tokenisation, POS tagging and named entity recognition. The path where algorithms meet language and human culture.",
-    stats: [
-      { value: "NLP", label: "Thesis" },
-      { value: "98", label: "Grade" },
-    ],
-    link: {
-      href: "https://drive.google.com/drive/folders/171K8z4jlj_PbVp7bJ7IUweG75Hj5ZixM?usp=sharing",
-      label: "Read the thesis (IT)",
-    },
-  },
   // Stories from work: each one comes from a LinkedIn post (in Italian)
   stories: [
     {
@@ -150,12 +124,6 @@ export const vetrina = {
       accent: "garuda",
     },
   ],
-  // Numbers from the posts: spostiamoci migrations, DigitaLions members, followers
-  stats: [
-    { value: "~180", label: "DB migrations" },
-    { value: "3,000", label: "Members managed" },
-    { value: "7.7k", label: "LinkedIn followers" },
-  ],
 };
 
 export const tech = [
@@ -195,13 +163,6 @@ export const tech = [
     accent: "garuda",
     items: ["Claude Code", "Cursor", "Parallel agents", "Vercel", "Docker", "Linux", "Vite", "GitHub Pages"],
   },
-];
-
-// 3D orbit in the Tech section: three rings around the core
-export const techOrbit = [
-  { name: "Frontend", color: "#c084fc", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Three.js", "Framer Motion"] },
-  { name: "Backend & Data", color: "#5eead4", items: ["Supabase", "PostgreSQL", "PostGIS", "Java", "DB2", "SQL Server"] },
-  { name: "Cloud, AI & NLP", color: "#e2e8f0", items: ["Vercel", "Docker", "GitHub Actions", "Linux", "Python", "Claude Code"] },
 ];
 
 export const linux = {
@@ -249,6 +210,9 @@ export const timeline = [
     org: "University of Pisa",
     role: "BA in Digital Humanities",
     body: "Grade 98/110. Thesis in Computational Linguistics: NLP analysis in Python/NLTK of gold-medal texts. Text encoding with XML/XSLT/TEI.",
+    link: "https://drive.google.com/drive/folders/171K8z4jlj_PbVp7bJ7IUweG75Hj5ZixM?usp=sharing",
+    linkLabel: "Read the thesis (IT)",
+    thesis: true, // the thesis: the terminal's «thesis» command links it too
   },
   {
     period: "2013 — 2018",

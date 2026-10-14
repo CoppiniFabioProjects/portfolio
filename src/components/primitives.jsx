@@ -7,7 +7,7 @@ let lenis = null;
 
 // Posizione "di layout" di un elemento: ignora le trasformazioni delle animazioni d'ingresso
 // (una sezione che sta ancora salendo di 75px non deve spostare il punto d'arrivo)
-const layoutTop = (el) => {
+export const layoutTop = (el) => {
   let y = 0;
   for (let n = el; n; n = n.offsetParent) y += n.offsetTop;
   return y;
@@ -21,6 +21,10 @@ export const smooth = {
     if (!el) return;
     if (lenis) lenis.scrollTo(target(el));
     else window.scrollTo({ top: target(el), behavior: "smooth" });
+  },
+  toY(y) {
+    if (lenis) lenis.scrollTo(Math.max(0, y));
+    else window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
   },
   stop: () => lenis?.stop(),
   start: () => lenis?.start(),
@@ -148,34 +152,6 @@ export function AnimatedLines({ lines, className = "", delay = 0, stagger = 0.12
             }}
           >
             {line}
-          </motion.span>
-        </span>
-      ))}
-    </motion.span>
-  );
-}
-
-/* Word-by-word reveal — the "guided reading" effect */
-export function WordReveal({ text, className = "", stagger = 0.045 }) {
-  const words = text.split(" ");
-  return (
-    <motion.span
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ staggerChildren: stagger }}
-    >
-      {words.map((w, i) => (
-        <span key={i} className="inline-block overflow-hidden align-bottom">
-          <motion.span
-            className="inline-block"
-            variants={{
-              hidden: { y: "100%", opacity: 0 },
-              show: { y: "0%", opacity: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
-            }}
-          >
-            {w}&nbsp;
           </motion.span>
         </span>
       ))}
