@@ -229,7 +229,7 @@ export const flagship = [
     title: "spostiamoci",
     tagline: "Il LinkedIn della mobilità quotidiana",
     body:
-      "Il carpooling tra sconosciuti non decolla: manca la fiducia. spostiamoci lo risolve facendoti viaggiare solo con la tua rete — gli «amoci», a 1°, 2° e 3° grado. C'è samo, l'assistente che sorteggia con giustizia chi guida, divide le spese in automatico e trova i compagni giusti su rotte reali (PostGIS) con chat in tempo reale. Meno traffico, meno CO₂ e relazioni che si rafforzano a ogni viaggio. PWA installabile, login in un tocco.",
+      "Il carpooling tra sconosciuti non decolla: manca la fiducia. Con spostiamoci viaggi solo con la tua rete, gli «amoci» fino al 3° grado. samo, l'assistente, sorteggia con giustizia chi guida, divide le spese e trova compagni su rotte reali, con chat in tempo reale.",
     metrics: [
       { value: "33", label: "Early-amoci in rete" },
       { value: "fino a 103€", label: "Risparmio mensile / utente" },
@@ -237,7 +237,7 @@ export const flagship = [
     ],
     tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime", "PWA"],
     image: "/portfolio/spostiamoci-poster.webp",
-    phone3d: true, // il poster (9:16) va sullo schermo di uno smartphone 3D
+    device: "phone", // il poster (9:16) va sullo schermo dello smartphone 3D
     link: "https://spostiamoci.vercel.app",
     linkLabel: "Apri l'app",
     status: "Live",
@@ -248,7 +248,7 @@ export const flagship = [
     title: "DigitaLions",
     tagline: "Tecnologia al servizio del bene",
     body:
-      "Gestionale enterprise per il Lions Club — Distretto 108 LA (Toscana). Ogni socio accede col proprio numero di matricola e registra le attività di servizio; senior e presidenti di distretto le revisionano e validano in una gerarchia di ruoli e permessi. Dashboard e statistiche trasformano migliaia di ore di volontariato in dati misurabili, e ogni notte si aggiornano da sole dalle statistiche ufficiali di Lions International. Evoluzione del progetto ServiceScore, oggi con dominio proprio.",
+      "Il gestionale dei Lions Club del Distretto 108 LA (Toscana): i soci registrano le attività di servizio, senior e presidenti le validano in una gerarchia di ruoli. Dashboard e statistiche si aggiornano ogni notte dai dati ufficiali di Lions International.",
     metrics: [
       { value: "3.000", label: "Soci" },
       { value: "7.000+", label: "Attività gestite" },
@@ -265,25 +265,11 @@ export const flagship = [
 
 export const projects = [
   {
-    title: "FitTracker App",
-    tagline: "Il futuro del fitness intelligente",
-    body: "Monitoraggio biometrico e AI personalizzata. Coming soon.",
-    tags: ["Mobile", "AI"],
-    image: "/portfolio/portfolio.webp",
-    status: "Coming Soon",
-  },
-  {
-    title: "01 Informatica",
-    body: "Gestione siti web, sviluppo CMS e software gestionale interno all'azienda.",
-    tags: ["CMS", "Web Design", "Java"],
-    image: "/portfolio/logo_01informatica.webp",
-    link: "https://www.info01.it/",
-  },
-  {
     title: "Middleware Logistica",
-    body: "Web app per la gestione dei flussi di magazzino e interfacciamento hardware automatizzato con sistemi ERP (Ciampalini ModulaV2 / MGM). Architettura ibrida con error handling avanzato. Progetto aziendale (01 Informatica) — codice proprietario.",
+    body: "Web app che collega il gestionale ai magazzini automatici (DB2 e SQL Server) e resta operativa anche con uno dei due database fermo. Progetto aziendale di 01 Informatica: codice proprietario, non pubblico.",
     tags: ["React", "ERP", "Hardware"],
-    image: "/portfolio/modula.webp",
+    // sullo schermo 3D uno schema di come funziona (senza nomi interni: il codice è proprietario)
+    screen: { diagram: { from: ["Gestionale", "DB2 su IBM i"], via: "Middleware", to: ["Magazzino automatico", "SQL Server"], note: "operativo anche con un database fermo" } },
   },
   {
     title: "First Lego League USA",
@@ -291,6 +277,7 @@ export const projects = [
     tags: ["Robotica", "Team Lead"],
     image: "/portfolio/CHALLENGE_2.webp",
     link: "https://www.youtube.com/watch?v=S2FbYDwy31o",
+    linkLabel: "Guarda il video",
   },
 ];
 

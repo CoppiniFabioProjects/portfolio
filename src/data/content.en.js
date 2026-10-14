@@ -230,7 +230,7 @@ export const flagship = [
     title: "spostiamoci",
     tagline: "The LinkedIn of everyday commuting",
     body:
-      "Carpooling between strangers never takes off: trust is missing. spostiamoci fixes that by letting you travel only with your own network — the «amoci», at 1st, 2nd and 3rd degree. There's samo, the assistant that fairly draws who drives, splits costs automatically and finds the right companions along real routes (PostGIS), with real-time chat. Less traffic, less CO₂, and relationships that grow stronger with every ride. Installable PWA, one-tap login.",
+      "Carpooling between strangers never takes off: trust is missing. With spostiamoci you only travel with your own network, the «amoci» up to the 3rd degree. samo, the assistant, fairly picks who drives, splits the costs and finds companions along real routes, with real-time chat.",
     metrics: [
       { value: "33", label: "Early amoci in the network" },
       { value: "up to €103", label: "Monthly savings / user" },
@@ -238,7 +238,7 @@ export const flagship = [
     ],
     tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime", "PWA"],
     image: "/portfolio/spostiamoci-poster.webp",
-    phone3d: true, // the 9:16 poster goes on the screen of a 3D smartphone
+    device: "phone", // the 9:16 poster goes on the screen of the 3D smartphone
     link: "https://spostiamoci.vercel.app",
     linkLabel: "Open the app",
     status: "Live",
@@ -249,7 +249,7 @@ export const flagship = [
     title: "DigitaLions",
     tagline: "Technology in the service of good",
     body:
-      "Enterprise management platform for Lions Clubs — District 108 LA (Tuscany). Every member signs in with their membership number and logs service activities; seniors and district officers review and validate them within a hierarchy of roles and permissions. Dashboards and statistics turn thousands of volunteering hours into measurable data, refreshed automatically every night from Lions International's official statistics. The evolution of the ServiceScore project, now on its own domain.",
+      "The management system of the Lions Clubs of District 108 LA (Tuscany): members log their service activities, senior members and presidents validate them through a hierarchy of roles. Dashboards and statistics update every night from Lions International's official data.",
     metrics: [
       { value: "3,000", label: "Members" },
       { value: "7,000+", label: "Activities managed" },
@@ -266,25 +266,11 @@ export const flagship = [
 
 export const projects = [
   {
-    title: "FitTracker App",
-    tagline: "The future of smart fitness",
-    body: "Biometric tracking and personalised AI. Coming soon.",
-    tags: ["Mobile", "AI"],
-    image: "/portfolio/portfolio.webp",
-    status: "Coming Soon",
-  },
-  {
-    title: "01 Informatica",
-    body: "Website management, CMS development and the company's internal management software.",
-    tags: ["CMS", "Web Design", "Java"],
-    image: "/portfolio/logo_01informatica.webp",
-    link: "https://www.info01.it/",
-  },
-  {
     title: "Logistics Middleware",
-    body: "Web app managing warehouse flows and automated hardware integration with ERP systems (Ciampalini ModulaV2 / MGM). Hybrid architecture with advanced error handling. Company project (01 Informatica) — proprietary code.",
+    body: "Web app connecting the ERP to automated warehouses (DB2 and SQL Server), still working when one of the two databases is down. A 01 Informatica company project: proprietary code, not public.",
     tags: ["React", "ERP", "Hardware"],
-    image: "/portfolio/modula.webp",
+    // on the 3D screen, a diagram of how it works (no internal names: the code is proprietary)
+    screen: { diagram: { from: ["ERP", "DB2 on IBM i"], via: "Middleware", to: ["Automated warehouse", "SQL Server"], note: "keeps working with one database down" } },
   },
   {
     title: "First Lego League USA",
@@ -292,6 +278,7 @@ export const projects = [
     tags: ["Robotics", "Team Lead"],
     image: "/portfolio/CHALLENGE_2.webp",
     link: "https://www.youtube.com/watch?v=S2FbYDwy31o",
+    linkLabel: "Watch the video",
   },
 ];
 

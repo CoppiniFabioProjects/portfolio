@@ -41,6 +41,17 @@ describe("content — integrità dei dati", () => {
     expect(tech.length).toBeLessThanOrEqual(8); // oltre, gli anelli si affollano
   });
 
+  it("ogni progetto ha qualcosa da mostrare sullo schermo del dispositivo 3D", () => {
+    [...flagship, ...projects].forEach((p) => {
+      expect(Boolean(p.image) || Boolean(p.screen?.diagram)).toBe(true);
+      if (p.device) expect(["phone", "laptop"]).toContain(p.device);
+    });
+  });
+
+  it("nessun nome di clienti di 01 Informatica nei progetti", () => {
+    expect(JSON.stringify(projects)).not.toMatch(/ciampalini/i);
+  });
+
   it("i progetti di punta hanno link validi e status", () => {
     expect(flagship.length).toBeGreaterThanOrEqual(2);
     flagship.forEach((p) => {

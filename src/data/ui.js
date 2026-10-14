@@ -89,6 +89,8 @@ export const uiDict = {
       others: "Altri lavori",
       open: "Apri",
       preview: "Anteprima del progetto",
+      list: "Progetti",
+      hint: "Scorri per passare al progetto successivo",
     },
     game: {
       eyebrow: "🎮 Pausa",
@@ -274,6 +276,8 @@ export const uiDict = {
       others: "Other work",
       open: "Open",
       preview: "Preview of the project",
+      list: "Projects",
+      hint: "Scroll to move to the next project",
     },
     game: {
       eyebrow: "🎮 Break",
