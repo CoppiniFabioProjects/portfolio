@@ -13,7 +13,7 @@
     "cv": "node cv/build-cv.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.110.7",
+    "@supabase/supabase-js": "^2.110.8",
     "framer-motion": "^11.3.0",
     "lenis": "^1.1.9",
     "lucide-react": "^0.416.0",
