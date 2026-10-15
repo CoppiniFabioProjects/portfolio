@@ -56,6 +56,7 @@ export const uiDict = {
       prev: "Post precedente",
       next: "Post successivo",
       hint: "Scorri per sfogliare i post",
+      swipe: "Sfoglia di lato per leggere gli altri post",
     },
     tech: {
       eyebrow: "Arsenale Tecnologico",
@@ -64,6 +65,9 @@ export const uiDict = {
       groups: "Gruppi di competenze",
       hint: "Scorri per passare al gruppo successivo · trascina l'orbita per girarla",
       count: "tecnologie",
+      swipe: "Scorri di lato sull'orbita o tocca un gruppo",
+      prev: "Gruppo precedente",
+      next: "Gruppo successivo",
     },
     linux: {
       eyebrow: "🐧 Ecosistema",
@@ -79,6 +83,9 @@ export const uiDict = {
       current: "In corso",
       document: "Documento",
       hint: "Scorri per tornare indietro nel tempo",
+      swipe: "Sfoglia di lato per tornare indietro nel tempo",
+      prev: "Tappa più recente",
+      next: "Tappa precedente",
       years: "Anni del percorso",
     },
     projects: {
@@ -91,6 +98,9 @@ export const uiDict = {
       preview: "Anteprima del progetto",
       list: "Progetti",
       hint: "Scorri per passare al progetto successivo",
+      swipe: "Sfoglia di lato: il dispositivo gira e cambia progetto",
+      prev: "Progetto precedente",
+      next: "Progetto successivo",
     },
     game: {
       eyebrow: "🎮 Pausa",
@@ -243,6 +253,7 @@ export const uiDict = {
       prev: "Previous post",
       next: "Next post",
       hint: "Scroll to flip through the posts",
+      swipe: "Swipe sideways to read the other posts",
     },
     tech: {
       eyebrow: "Tech Arsenal",
@@ -251,6 +262,9 @@ export const uiDict = {
       groups: "Skill groups",
       hint: "Scroll to move to the next group · drag the orbit to spin it",
       count: "technologies",
+      swipe: "Swipe across the orbit or tap a group",
+      prev: "Previous group",
+      next: "Next group",
     },
     linux: {
       eyebrow: "🐧 Ecosystem",
@@ -266,6 +280,9 @@ export const uiDict = {
       current: "Ongoing",
       document: "Document",
       hint: "Scroll to travel back in time",
+      swipe: "Swipe sideways to travel back in time",
+      prev: "More recent step",
+      next: "Earlier step",
       years: "Years of the journey",
     },
     projects: {
@@ -278,6 +295,9 @@ export const uiDict = {
       preview: "Preview of the project",
       list: "Projects",
       hint: "Scroll to move to the next project",
+      swipe: "Swipe sideways: the device turns and changes project",
+      prev: "Previous project",
+      next: "Next project",
     },
     game: {
       eyebrow: "🎮 Break",

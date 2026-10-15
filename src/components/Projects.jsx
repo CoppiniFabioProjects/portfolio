@@ -3,7 +3,9 @@ import { motion, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeader } from "./primitives";
 import Scene3D from "./Scene3D";
-import { useSteps, stepsHeight, StepSnaps } from "./useSteps";
+import { useSteps, stepsHeight } from "./useSteps";
+import { useTouchLayout } from "./useMedia";
+import { useSwipe, SwipeTrack, SwipeDots } from "./Swipe";
 import { flagship, projects } from "../data/content";
 import { ui } from "../data/ui";
 
@@ -61,7 +63,7 @@ function ProjectText({ p }) {
     <div>
       <div className="flex items-center gap-3 mb-3 md:mb-5">
         <span className="section-index">.{p.index}</span>
-        <span className="kicker">{p.flagship ? ui.projects.flagship : ui.projects.others}</span>
+        <span className="kicker whitespace-nowrap max-md:tracking-[0.2em]">{p.flagship ? ui.projects.flagship : ui.projects.others}</span>
         {p.status && (
           <span className={`ml-auto lg:ml-2 inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest border ${a.border} ${a.bg} ${a.text} px-2.5 py-0.5 rounded-full`}>
             <span className={`w-1.5 h-1.5 rounded-full ${a.dot} animate-pulse`} /> {p.status}
@@ -111,7 +113,6 @@ function DeviceStage() {
 
   return (
     <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 65) }}>
-      <StepSnaps n={N} />
       <div className="sticky top-0 h-[100svh] overflow-hidden flex flex-col pt-20 lg:pt-24 pb-5 lg:pb-8">
         <div className="container mx-auto px-6 flex-1 min-h-0 flex flex-col lg:grid lg:grid-cols-12 lg:gap-12 lg:items-center">
           {/* su telefono il dispositivo prende lo spazio che il testo lascia libero (con un minimo e un massimo) */}
@@ -172,14 +173,51 @@ function DeviceStage() {
   );
 }
 
+// Telefono: il dispositivo 3D in alto e sotto i progetti da sfogliare col dito.
+// Il dispositivo segue il dito: a metà swipe gira, e diventa il progetto successivo.
+function DeviceSwipe() {
+  const swipe = useSwipe(N);
+  const a = ACCENT[items[swipe.active].accent] || ACCENT.purple;
+  return (
+    <div className="pb-16">
+      <div className="relative h-[40svh]">
+        <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full blur-[90px] transition-colors duration-700 ${a.glow}`} />
+        <Scene3D
+          load={loadDevices}
+          options={{ items }}
+          progress={swipe.progress}
+          className="absolute inset-0"
+          fallback={<Preview p={items[swipe.active]} />}
+          placeholder={<Preview p={items[0]} />}
+        />
+      </div>
+      <SwipeTrack
+        swipe={swipe}
+        items={items}
+        label={ui.projects.list}
+        render={(p) => (
+          <div className="post-card rounded-[1.75rem] p-6">
+            <ProjectText p={p} />
+          </div>
+        )}
+      />
+      <SwipeDots swipe={swipe} n={N} prev={ui.projects.prev} next={ui.projects.next} />
+      <p className="mt-3 text-center text-[11px] font-mono text-mist/60 px-6">{ui.projects.swipe}</p>
+    </div>
+  );
+}
+
 export default function Projects() {
   const reduce = useReducedMotion();
+  const touch = useTouchLayout();
   return (
     <section id="projects" className="relative pt-20 md:pt-28">
       <div className="container mx-auto px-6">
         <SectionHeader index="05" eyebrow={ui.projects.eyebrow} title={ui.projects.title} sub={ui.projects.sub} />
       </div>
-      {reduce ? (
+      {touch ? (
+        <DeviceSwipe />
+      ) : reduce ? (
         <div className="container mx-auto px-6 space-y-16 pb-20">
           {items.map((p) => (
             <div key={p.title} className="grid lg:grid-cols-12 gap-8 items-center">

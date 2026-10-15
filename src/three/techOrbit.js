@@ -11,7 +11,7 @@ import {
 import { Line2 } from "three/addons/lines/Line2.js";
 import { LineMaterial } from "three/addons/lines/LineMaterial.js";
 import { LineGeometry } from "three/addons/lines/LineGeometry.js";
-import { createStage, trackPointer, damp, clamp01, smoothstep } from "./stage";
+import { createStage, trackPointer, damp, clamp01, smoothstep, isTouch } from "./stage";
 
 const COLORS = { purple: "#c084fc", garuda: "#5eead4" };
 const R_MIN = 1.45;
@@ -44,7 +44,10 @@ const glowFragment = /* glsl */ `
 
 const lerp = (a, b, t) => a + (b - a) * t;
 
-export default async function create(canvas, { groups = [], reducedMotion }) {
+export default async function create(canvas, { groups = [], reducedMotion, swipe = false }) {
+  // su touch (o quando il gruppo si cambia con lo swipe) l'orbita sta ferma finché non cambi gruppo:
+  // niente trascinamento, niente rotazione continua, e la GPU riposa
+  const still = swipe || isTouch();
   const pointer = trackPointer(canvas);
   const stage = createStage(canvas, { fov: 35, reducedMotion, onResize: layout, onFrame: frame });
   const { scene, camera, renderer, size } = stage;
@@ -162,12 +165,12 @@ export default async function create(canvas, { groups = [], reducedMotion }) {
 
   // --- Trascinamento con inerzia (orizzontale; in verticale scorre la pagina) ---
   let angle = 0;
-  let vel = AUTO;
+  let vel = still ? 0 : AUTO;
   let dragging = false;
   let lastX = 0;
   let lastMove = 0;
   canvas.style.touchAction = "pan-y";
-  canvas.style.cursor = "grab";
+  if (!still) canvas.style.cursor = "grab";
   const onDown = (e) => {
     dragging = true;
     lastX = e.clientX;
@@ -189,10 +192,12 @@ export default async function create(canvas, { groups = [], reducedMotion }) {
     dragging = false;
     canvas.style.cursor = "grab";
   };
-  canvas.addEventListener("pointerdown", onDown);
-  canvas.addEventListener("pointermove", onMove);
-  canvas.addEventListener("pointerup", onUp);
-  canvas.addEventListener("pointercancel", onUp);
+  if (!still) {
+    canvas.addEventListener("pointerdown", onDown);
+    canvas.addEventListener("pointermove", onMove);
+    canvas.addEventListener("pointerup", onUp);
+    canvas.addEventListener("pointercancel", onUp);
+  }
 
   // inclinazione con cui si presenta il gruppo a fuoco: su schermi stretti più "di fronte",
   // così l'ellisse è più alta e le etichette hanno spazio in verticale
@@ -206,8 +211,8 @@ export default async function create(canvas, { groups = [], reducedMotion }) {
     stretch = s.aspect < 0.8 ? 1.5 : 1;
     for (const r of rings) {
       for (const l of r.labels) {
-        l.el.style.fontSize = compact ? "11px" : "13px";
-        l.el.style.padding = compact ? "3px 8px" : "4px 11px";
+        l.el.style.fontSize = compact ? "12.5px" : "13px";
+        l.el.style.padding = compact ? "4px 10px" : "4px 11px";
         const was = l.el.style.display;
         l.el.style.display = "block";
         l.half = l.el.offsetWidth / 2; // larghezza misurata una volta: tiene le etichette dentro i bordi
@@ -226,16 +231,27 @@ export default async function create(canvas, { groups = [], reducedMotion }) {
   const v = new Vector3();
   const c = new Vector3();
   const tiltNow = { x: 0 };
+  let quiet = 0;
   function frame(t, dt) {
     const step = dt || 1;
     if (!dragging && dt) {
       angle += vel * dt;
-      vel = damp(vel, AUTO, 1.2, dt); // l'inerzia torna alla rotazione lenta
+      vel = damp(vel, still ? 0 : AUTO, 1.2, dt); // l'inerzia torna alla rotazione lenta
     }
+    const prevFocus = focus;
+    const prevTilt = tiltNow.x;
     focus = reducedMotion ? target : damp(focus, target, 7, step);
     tiltNow.x = damp(tiltNow.x, pointer.inside ? -pointer.y * 0.08 : 0, 3, step);
+    if (still) {
+      // ferma: si ridisegna solo mentre passa da un gruppo all'altro
+      const moving = Math.abs(focus - prevFocus) > 1e-5 || Math.abs(tiltNow.x - prevTilt) > 1e-5 || Math.abs(vel) > 1e-4;
+      quiet = moving ? 0 : quiet + 1;
+      if (quiet > 2) return false;
+    }
     system.rotation.set(tiltNow.x, 0, 0);
-    core.rotation.set(t * 0.2, t * 0.32, 0);
+    // il nucleo gira sempre sul desktop; da ferma ruota solo mentre cambi gruppo
+    if (still) core.rotation.set(focus * 0.9, focus * 1.4, 0);
+    else core.rotation.set(t * 0.2, t * 0.32, 0);
 
     scene.updateMatrixWorld();
     camera.updateMatrixWorld();

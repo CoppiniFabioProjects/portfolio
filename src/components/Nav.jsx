@@ -5,6 +5,7 @@ import { nav, profile } from "../data/content";
 import { ui } from "../data/ui";
 import { lang, HOME } from "../i18n";
 import CommandPalette from "./CommandPalette";
+import { useMedia } from "./useMedia";
 
 // L'isola: un'unica capsula fluttuante che cambia forma.
 // Desktop: aperta in cima alla pagina (tutte le sezioni), si stringe scorrendo
@@ -16,18 +17,6 @@ const other = lang === "en" ? "it" : "en";
 const EASE = [0.22, 1, 0.36, 1];
 const MORPH = { type: "spring", stiffness: 420, damping: 38, mass: 0.9 };
 const NEUTRAL = ["hero"]; // lì l'isola mostra il nome, non una sezione
-
-function useMedia(query) {
-  const [match, setMatch] = useState(() => typeof window !== "undefined" && window.matchMedia(query).matches);
-  useEffect(() => {
-    const mq = window.matchMedia(query);
-    const on = () => setMatch(mq.matches);
-    on();
-    mq.addEventListener?.("change", on);
-    return () => mq.removeEventListener?.("change", on);
-  }, [query]);
-  return match;
-}
 
 // Scroll-spy: id della sezione visibile ("" nella hero)
 function useActiveSection() {

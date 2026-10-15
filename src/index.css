@@ -483,19 +483,18 @@ html.lenis body {
   opacity: 0.7;
 }
 
-/* Sezioni a tappe sui dispositivi touch: ogni scorrimento si ferma su una tappa intera */
-@media (pointer: coarse) {
-  html {
-    scroll-snap-type: y proximity;
-  }
+/* File da sfogliare di lato (telefono): la card al centro, le vicine che si intravedono */
+.swipe-track {
+  --card: min(80vw, 400px);
+  padding-inline: calc((100% - var(--card)) / 2);
+  overscroll-behavior-x: contain;
+  scroll-padding-inline: calc((100% - var(--card)) / 2);
 }
-.step-snap {
-  position: absolute;
-  left: 0;
-  width: 1px;
-  height: 1px;
-  pointer-events: none;
-  scroll-snap-align: start;
+.swipe-card {
+  width: var(--card);
+}
+.swipe-card > * {
+  width: 100%;
 }
 
 /* Righe scorrevoli in orizzontale senza barra (es. i pulsanti dei gruppi Tech su mobile) */

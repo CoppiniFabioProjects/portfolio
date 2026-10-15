@@ -1,4 +1,4 @@
-import { useRef, createElement } from "react";
+import { useRef } from "react";
 import { useScroll, useTransform } from "framer-motion";
 import { smooth, layoutTop } from "./primitives";
 
@@ -16,19 +16,6 @@ export const plateau = (x) => {
 
 // Altezza del contenitore: lo schermo più `perStep` vh per ogni tappa dopo la prima
 export const stepsHeight = (n, perStep) => `calc(100svh + ${(n - 1) * perStep}vh)`;
-
-// Punti di aggancio, uno per tappa: sui dispositivi touch ogni scorrimento si ferma su una tappa
-// (scroll-snap "proximity" in index.css, solo con pointer: coarse). Vanno dentro il contenitore alto.
-export function StepSnaps({ n }) {
-  return Array.from({ length: n }, (_, i) =>
-    createElement("span", {
-      key: i,
-      "aria-hidden": "true",
-      className: "step-snap",
-      style: { top: n > 1 ? `calc((100% - 100svh) * ${i / (n - 1)})` : 0 },
-    }),
-  );
-}
 
 export function useSteps(n) {
   const ref = useRef(null);

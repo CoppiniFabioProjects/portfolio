@@ -3,7 +3,9 @@ import { motion, useTransform, useMotionValueEvent, useReducedMotion } from "fra
 import { ArrowUpRight, ChevronLeft, ChevronRight, Linkedin } from "lucide-react";
 import { Reveal, SectionHeader, Spotlight } from "./primitives";
 import Icon from "./Icon";
-import { useSteps, stepsHeight, StepSnaps } from "./useSteps";
+import { useSteps, stepsHeight } from "./useSteps";
+import { useTouchLayout } from "./useMedia";
+import { useSwipe, SwipeTrack, SwipeDots } from "./Swipe";
 import { vetrina, profile } from "../data/content";
 import { ui } from "../data/ui";
 
@@ -130,7 +132,6 @@ function PostsRing() {
 
   return (
     <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 45) }}>
-      <StepSnaps n={N} />
       <div className="sticky top-0 h-[100svh] overflow-hidden flex flex-col pt-24 pb-20 md:pb-10">
         <div className="container mx-auto px-6 flex items-center gap-4">
           <span className="kicker">{ui.vetrina.field}</span>
@@ -190,8 +191,25 @@ function PostsRing() {
   );
 }
 
+// Telefono: i post in una fila da sfogliare col dito; la pagina scorre normale
+function PostsSwipe() {
+  const swipe = useSwipe(N);
+  return (
+    <div>
+      <div className="container mx-auto px-6 flex items-center gap-4 mb-4">
+        <span className="kicker">{ui.vetrina.field}</span>
+        <span className="flex-1 h-px bg-white/10" />
+      </div>
+      <SwipeTrack swipe={swipe} items={posts} label={ui.vetrina.field} render={(p, i) => <Post p={p} i={i} className="post-card" />} />
+      <SwipeDots swipe={swipe} n={N} prev={ui.vetrina.prev} next={ui.vetrina.next} />
+      <p className="mt-3 text-center text-[11px] font-mono text-mist/60 px-6">{ui.vetrina.swipe}</p>
+    </div>
+  );
+}
+
 export default function Vetrina() {
   const reduce = useReducedMotion();
+  const touch = useTouchLayout();
   return (
     <section id="about" className="relative pt-20 md:pt-28 pb-20 md:pb-28">
       <div className="container mx-auto px-6">
@@ -199,7 +217,9 @@ export default function Vetrina() {
       </div>
 
       {/* Storie dal lavoro: ognuna rimanda al post LinkedIn da cui viene */}
-      {reduce ? (
+      {touch ? (
+        <PostsSwipe />
+      ) : reduce ? (
         <div className="container mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((p, i) => <Post key={p.href} p={p} i={i} className="post-card" />)}
         </div>

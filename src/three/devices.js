@@ -11,7 +11,7 @@ import {
 } from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
-import { createStage, trackPointer, damp } from "./stage";
+import { createStage, trackPointer, damp, isTouch } from "./stage";
 
 function roundedRect(w, h, r) {
   const s = new Shape();
@@ -649,9 +649,16 @@ export default async function create(canvas, { items = [], reducedMotion }) {
     shadow.material.needsUpdate = true;
   }
 
+  const still = isTouch(); // su telefono: niente mouse da seguire, niente ondeggiamento
+  let quiet = 0;
   function frame(t, dt) {
     const step = dt || 1;
-    pos = reducedMotion ? target : damp(pos, target, 7, step);
+    const prevPos = pos;
+    pos = reducedMotion ? target : damp(pos, target, still ? 9 : 7, step);
+    if (still) {
+      quiet = Math.abs(pos - prevPos) > 1e-5 ? 0 : quiet + 1;
+      if (quiet > 2) return false;
+    }
     const k = Math.min(screens.length - 1, Math.max(0, Math.round(pos)));
     show(k);
     const model = screens[k].model;
@@ -670,7 +677,7 @@ export default async function create(canvas, { items = [], reducedMotion }) {
     holder.rotation.set(tilt.x + (phone ? 0.08 : 0.16), tilt.y + rest + turn, phone ? -0.04 : 0);
     const sc = fit[phone ? "phone" : "laptop"] * (1 - 0.92 * away);
     holder.scale.setScalar(sc);
-    holder.position.set(0, -away * 0.6 + Math.sin(t * 1.1) * 0.025, -away * 1.5);
+    holder.position.set(0, -away * 0.6 + (still ? 0 : Math.sin(t * 1.1) * 0.025), -away * 1.5);
     // l'ombra resta a terra sotto il dispositivo e si allarga/sbiadisce con lui
     shadow.position.set(holder.position.x, holder.position.y + model.floor * sc, holder.position.z);
     shadow.scale.set(model.shadow[0] * sc, model.shadow[1] * sc, 1);

@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { motion, useTransform, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeader } from "./primitives";
-import { useSteps, stepsHeight, StepSnaps } from "./useSteps";
+import { useSteps, stepsHeight } from "./useSteps";
+import { useTouchLayout } from "./useMedia";
+import { useSwipe, SwipeTrack, SwipeDots } from "./Swipe";
 import { timeline } from "../data/content";
 import { ui } from "../data/ui";
 
@@ -137,7 +139,6 @@ function Tunnel() {
 
   return (
     <div ref={ref} data-steps={N} className="relative" style={{ height: stepsHeight(N, 48) }}>
-      <StepSnaps n={N} />
       <div className="sticky top-0 h-[100svh] overflow-hidden flex flex-col pt-24 pb-20 md:pb-10">
         <div className="relative flex-1 min-h-0 overflow-hidden" style={{ perspective: `${g.persp}px`, perspectiveOrigin: "50% 40%" }}>
           <motion.div className="absolute inset-0 [transform-style:preserve-3d]" style={{ transform: world, "--s": step }}>
@@ -171,14 +172,43 @@ function Tunnel() {
   );
 }
 
+// Telefono: le tappe in una fila da sfogliare col dito, con la riga degli anni sopra
+function TimelineSwipe() {
+  const swipe = useSwipe(N);
+  return (
+    <div className="pb-16">
+      <nav aria-label={ui.timeline.years} className="container mx-auto px-6 mb-3 flex items-center justify-between">
+        {timeline.map((t, i) => (
+          <button
+            key={t.org + t.period}
+            type="button"
+            onClick={() => swipe.goTo(i)}
+            aria-current={i === swipe.active ? "step" : undefined}
+            aria-label={`${year(t)} · ${t.org}`}
+            className={`px-2 py-1.5 rounded-full font-mono text-xs transition-colors duration-300 ${i === swipe.active ? "bg-white/[0.08] text-white" : "text-mist/60"}`}
+          >
+            {year(t)}
+          </button>
+        ))}
+      </nav>
+      <SwipeTrack swipe={swipe} items={timeline} label={ui.timeline.title} render={(t) => <Stop t={t} className="post-card" />} />
+      <SwipeDots swipe={swipe} n={N} prev={ui.timeline.prev} next={ui.timeline.next} />
+      <p className="mt-3 text-center text-[11px] font-mono text-mist/60 px-6">{ui.timeline.swipe}</p>
+    </div>
+  );
+}
+
 export default function Timeline() {
   const reduce = useReducedMotion();
+  const touch = useTouchLayout();
   return (
     <section id="experience" className="relative pt-20 md:pt-28">
       <div className="container mx-auto px-6">
         <SectionHeader index="04" eyebrow={ui.timeline.eyebrow} title={ui.timeline.title} sub={ui.timeline.sub} />
       </div>
-      {reduce ? (
+      {touch ? (
+        <TimelineSwipe />
+      ) : reduce ? (
         <div className="container mx-auto px-6 max-w-2xl space-y-6 pb-20">
           {timeline.map((t) => <Stop key={t.org + t.period} t={t} className="post-card" />)}
         </div>

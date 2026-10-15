@@ -11,8 +11,12 @@ export const smoothstep = (a, b, x) => {
 // Avvicinamento esponenziale indipendente dal framerate
 export const damp = (current, target, lambda, dt) => current + (target - current) * (1 - Math.exp(-lambda * dt));
 
+// Telefoni e tablet: schermi densi (DPR 3) ma GPU da batteria. Sopra 1.5 la differenza
+// non si vede, il consumo sì.
+export const isTouch = () => typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
+
 export function createStage(canvas, {
-  fov = 35, near = 0.1, far = 100, maxDpr = 2, antialias = true,
+  fov = 35, near = 0.1, far = 100, maxDpr = isTouch() ? 1.5 : 2, antialias = true,
   reducedMotion = false, onFrame, onResize, toneMapping = false, exposure = 1,
 } = {}) {
   const renderer = new WebGLRenderer({ canvas, alpha: true, antialias, powerPreference: "high-performance" });
@@ -34,8 +38,10 @@ export function createStage(canvas, {
   let last = 0;
   let time = 0;
 
-  const draw = (dt) => {
-    onFrame?.(time, dt);
+  // onFrame può restituire false ("niente è cambiato"): il frame non si ridisegna.
+  // Così una scena ferma non tiene la GPU accesa a 60 fotogrammi al secondo.
+  const draw = (dt, force = false) => {
+    if (onFrame?.(time, dt) === false && !force) return;
     renderer.render(scene, camera);
   };
   const loop = (now) => {
@@ -66,6 +72,7 @@ export function createStage(canvas, {
     camera.updateProjectionMatrix();
     onResize?.(size);
     if (!running) draw(0);
+    else draw(0, true); // il ridimensionamento svuota il canvas: va ridisegnato comunque
   };
   // Il ResizeObserver parte solo alla prima resize() esplicita, cioè quando la scena
   // ha finito di costruirsi: prima non deve mai partire un frame (gli oggetti non esistono).
@@ -95,9 +102,9 @@ export function createStage(canvas, {
     },
     get time() { return time; },
     /** Ridisegna un frame quando il loop è fermo (reduced motion, fuori schermo). */
-    invalidate() { if (!running) draw(0); },
+    invalidate() { if (!running) draw(0, true); },
     setVisible(v) {
-      if (v) { start(); if (reducedMotion) draw(0); } else stop();
+      if (v) { start(); if (reducedMotion) draw(0, true); } else stop();
     },
     dispose() {
       stop();
