@@ -1,7 +1,7 @@
 // Service Worker — portfolio Fabio Coppini
 // Strategia: network-first per la navigazione (gli aggiornamenti vincono sempre),
 // cache-first per gli asset immutabili (hashati da Vite). Fallback offline.
-const CACHE = "fc-portfolio-v2";
+const CACHE = "fc-portfolio-v3";
 const BASE = "/portfolio/";
 const EN = BASE + "en/";
 const CORE = [

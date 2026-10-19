@@ -1,148 +1,101 @@
 import { useState } from "react";
-import { Mail, Phone, MapPin, Linkedin, Github, Download, Share2, Check, ArrowUpRight } from "lucide-react";
-import { Reveal, Magnetic } from "./primitives";
+import { ArrowUpRight, ArrowDown, Copy, Check } from "lucide-react";
+import { Reveal, Words, smooth } from "./primitives";
+import { openPanel } from "./Panels";
 import { profile, interests } from "../data/content";
 import { ui } from "../data/ui";
 
-function Marquee() {
-  const row = [...interests, ...interests];
-  return (
-    <div className="marquee-mask overflow-hidden py-10 border-y border-white/5">
-      <div className="flex w-max animate-marquee">
-        {row.map((w, i) => (
-          <span key={i} className="flex items-center gap-8 px-8 font-display text-3xl md:text-5xl text-white/15 whitespace-nowrap">
-            {w}
-            <span className="text-purple/30">✦</span>
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
+const C = ui.contact;
 
 export default function Contact() {
-  const year = new Date().getFullYear();
   const [copied, setCopied] = useState(false);
-
-  const share = async () => {
-    const data = {
-      title: ui.contact.shareTitle,
-      text: ui.contact.shareText,
-      url: ui.contact.siteUrl,
-    };
+  const copy = async () => {
     try {
-      if (navigator.share) { await navigator.share(data); return; }
-    } catch { /* l'utente ha annullato */ return; }
-    try {
-      await navigator.clipboard.writeText(ui.contact.siteUrl);
+      await navigator.clipboard.writeText(profile.email);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2200);
-    } catch { /* clipboard non disponibile */ }
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.location.href = `mailto:${profile.email}`;
+    }
   };
 
+  const links = [
+    { label: "LinkedIn", note: `${profile.linkedinFollowers} ${C.followers}`, href: profile.linkedin, external: true },
+    { label: "GitHub", note: "CoppiniFabioProjects", href: profile.github, external: true },
+    { label: C.cv, note: `PDF · ${ui.cv.file}`, href: ui.cv.href, download: ui.cv.file },
+    { label: C.phone, note: profile.phone, href: `tel:${profile.phone.replace(/\s/g, "")}` },
+  ];
+
   return (
-    <footer id="contact" className="relative bg-ink-2 overflow-hidden">
-      <Marquee />
+    <footer id="contact" className="gutter pt-[14vh] pb-6 min-h-[100svh] flex flex-col">
+      <Reveal y={12} className="label border-t border-line pt-4 flex justify-between">
+        <span>(07)</span>
+        <h2>{C.label}</h2>
+      </Reveal>
 
-      {/* Giant watermark */}
-      <div className="absolute -bottom-6 inset-x-0 text-center pointer-events-none select-none">
-        <span className="font-display font-black text-[22vw] leading-none text-white/[0.03]">GARUDA</span>
-      </div>
+      <div className="flex-1 flex flex-col justify-center py-[10vh]">
+        <p className="text-[clamp(1.6rem,3.6vw,3.6rem)] leading-[1.08] tracking-[-0.035em]">
+          <Words text={C.headline[0]} className="block text-fg" />
+          <Words text={C.headline[1]} className="block text-dim" delay={0.25} />
+        </p>
 
-      <div className="container mx-auto px-6 py-16 md:py-24 relative z-10 text-center">
-        <Reveal>
-          <h2 className="font-display text-4xl md:text-7xl text-white mb-4">
-            {ui.contact.headline[0]}<span className="text-gradient italic">{ui.contact.headline[1]}</span>{ui.contact.headline[2]}
-          </h2>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <p className="text-mist max-w-xl mx-auto mb-12">
-            {ui.contact.sub}
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.15}>
-          <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center mb-8">
-            <Magnetic>
-              <a href={`mailto:${profile.email}`} className="btn-primary inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full text-sm font-bold">
-                <Mail className="w-4 h-4" /> {profile.email}
-              </a>
-            </Magnetic>
-            <Magnetic>
-              <a href={`tel:${profile.phone.replace(/\s/g, "")}`} className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full text-sm font-bold text-white">
-                <Phone className="w-4 h-4" /> {profile.phone}
-              </a>
-            </Magnetic>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-16">
+        <Reveal delay={0.2} className="mt-10 md:mt-16">
+          <div className="flex items-end gap-3 md:gap-6 flex-wrap">
             <a
-              href={ui.cv.href}
-              download={ui.cv.file}
-              className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white"
+              href={`mailto:${profile.email}`}
+              className="u-link text-[clamp(1.55rem,7.1vw,8.4rem)] font-medium leading-[0.95] tracking-[-0.05em] text-fg break-all md:break-normal"
             >
-              <Download className="w-4 h-4" /> {ui.contact.downloadCv}
+              {profile.email}
             </a>
             <button
-              onClick={share}
-              className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white"
+              type="button"
+              onClick={copy}
+              className="mb-1 md:mb-4 inline-flex items-center gap-2 rounded-full btn-ghost px-4 py-2 text-[12px] text-fg"
+              aria-live="polite"
             >
-              {copied ? <><Check className="w-4 h-4 text-garuda" /> {ui.contact.copied}</> : <><Share2 className="w-4 h-4" /> {ui.contact.share}</>}
+              {copied ? <Check className="w-3.5 h-3.5 text-violet" /> : <Copy className="w-3.5 h-3.5" />}
+              {copied ? C.copied : C.copy}
             </button>
           </div>
         </Reveal>
 
-        <Reveal delay={0.18}>
-          <a
-            href={profile.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            className="group glass card-hover rounded-3xl p-6 md:p-7 mb-16 max-w-2xl mx-auto flex flex-col sm:flex-row items-center gap-5 text-left"
-          >
-            <div className="shrink-0 w-14 h-14 rounded-2xl bg-[#0a66c2]/15 border border-[#0a66c2]/40 grid place-items-center text-[#4aa3ff]">
-              <Linkedin className="w-7 h-7" />
-            </div>
-            <div className="flex-1 text-center sm:text-left">
-              <div className="flex items-center gap-2 justify-center sm:justify-start flex-wrap">
-                <span className="font-display text-xl text-white">{ui.contact.linkedinTitle}</span>
-                <span className="text-[10px] font-bold uppercase tracking-wider bg-garuda/15 text-garuda border border-garuda/30 px-2 py-0.5 rounded-full">
-                  {profile.linkedinFollowers} {ui.contact.followers}
-                </span>
-              </div>
-              <p className="text-sm text-mist mt-1">{ui.contact.linkedinBody}</p>
-            </div>
-            <span className="shrink-0 btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest group-hover:gap-3 transition-all">
-              {ui.contact.follow} <ArrowUpRight className="w-4 h-4" />
-            </span>
-          </a>
-        </Reveal>
-
-        <Reveal delay={0.2}>
-          <div className="grid sm:grid-cols-3 gap-8 text-left border-t border-white/10 pt-12 max-w-4xl mx-auto text-sm">
-            <div>
-              <strong className="text-white flex items-center gap-2 mb-2"><MapPin className="w-4 h-4 text-purple-glow" /> {ui.contact.location}</strong>
-              <p className="text-mist">{profile.location}<br />{ui.contact.driving}</p>
-            </div>
-            <div>
-              <strong className="text-white block mb-2">{ui.contact.social}</strong>
-              <div className="flex gap-3">
-                <a href={profile.linkedin} target="_blank" rel="noreferrer" className="w-10 h-10 grid place-items-center rounded-xl glass text-mist hover:text-purple-glow hover:border-purple/40 transition-colors">
-                  <Linkedin className="w-4 h-4" />
+        <Reveal delay={0.3} className="mt-14 md:mt-20">
+          <ul className="grid grid-cols-2 md:grid-cols-4 border-t border-line dim-others">
+            {links.map((l) => (
+              <li key={l.label} className="border-b border-line odd:border-r md:border-b-0 md:border-r md:last:border-r-0">
+                <a
+                  href={l.href}
+                  {...(l.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                  {...(l.download ? { download: l.download } : {})}
+                  className="group flex items-start justify-between gap-3 p-4 md:p-6 h-full"
+                >
+                  <span>
+                    <span className="block text-[17px] md:text-xl tracking-[-0.02em] text-fg">{l.label}</span>
+                    <span className="block mt-1 text-[12px] text-dim">{l.note}</span>
+                  </span>
+                  {l.download ? (
+                    <ArrowDown className="w-4 h-4 mt-1 text-dim group-hover:text-fg transition-colors" />
+                  ) : (
+                    <ArrowUpRight className="w-4 h-4 mt-1 text-dim group-hover:text-fg transition-[color,transform] duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  )}
                 </a>
-                <a href={profile.github} target="_blank" rel="noreferrer" className="w-10 h-10 grid place-items-center rounded-xl glass text-mist hover:text-purple-glow hover:border-purple/40 transition-colors">
-                  <Github className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-            <div>
-              <strong className="text-white block mb-2">{ui.contact.privacy}</strong>
-              <p className="text-mist">{ui.contact.privacyText}</p>
-            </div>
-          </div>
+              </li>
+            ))}
+          </ul>
         </Reveal>
+      </div>
 
-        <p className="mt-14 text-xs text-white/30 font-mono">
-          © {year} Fabio Coppini · Code forged in fire &amp; logic.
+      <div className="label normal-case tracking-normal text-[12px] grid gap-3 md:grid-cols-12 md:gap-6 border-t border-line pt-5">
+        <p className="md:col-span-4 text-fg/80">
+          © {new Date().getFullYear()} {profile.name} · <span className="serif-i text-[14px] text-fg">{C.signature}</span>
         </p>
+        <p className="md:col-span-4">{interests.join(" · ")}</p>
+        <p className="md:col-span-2">{profile.location} · {C.driving}</p>
+        <div className="md:col-span-2 flex md:justify-end gap-4">
+          <button type="button" onClick={() => openPanel("game")} className="u-link text-fg/80">{ui.panel.game}</button>
+          <button type="button" onClick={() => smooth.to("hero")} className="u-link text-fg/80">{C.top} ↑</button>
+        </div>
+        <p className="md:col-span-12 text-dim/70 text-[11px]">{C.privacyText}</p>
       </div>
     </footer>
   );

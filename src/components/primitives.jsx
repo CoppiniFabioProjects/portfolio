@@ -1,25 +1,26 @@
-import { useEffect, useRef } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { Fragment, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Lenis from "lenis";
 
-/* Smooth scroll (Lenis) — respects reduced motion */
+const EASE = [0.22, 1, 0.36, 1];
+
+/* Scroll morbido (Lenis) su desktop; su touch resta quello nativo. Rispetta "riduci movimento". */
 let lenis = null;
 
 // Posizione "di layout" di un elemento: ignora le trasformazioni delle animazioni d'ingresso
-// (una sezione che sta ancora salendo di 75px non deve spostare il punto d'arrivo)
 export const layoutTop = (el) => {
   let y = 0;
   for (let n = el; n; n = n.offsetParent) y += n.offsetTop;
   return y;
 };
-const target = (el) => Math.max(0, layoutTop(el) - (el.id === "hero" ? 0 : 80));
+const target = (el) => Math.max(0, layoutTop(el) - (el.id === "hero" ? 0 : 24));
 
 // Scorre a una sezione (con Lenis se attivo) e ferma/riprende lo scroll sotto i pannelli aperti
 export const smooth = {
   to(id) {
     const el = document.getElementById(id);
     if (!el) return;
-    if (lenis) lenis.scrollTo(target(el));
+    if (lenis) lenis.scrollTo(target(el), { duration: 1.6 });
     else window.scrollTo({ top: target(el), behavior: "smooth" });
   },
   toY(y) {
@@ -33,11 +34,7 @@ export const smooth = {
 export function useSmoothScroll() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const l = new Lenis({
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
+    const l = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
     lenis = l;
     let raf;
     const loop = (time) => {
@@ -46,7 +43,7 @@ export function useSmoothScroll() {
     };
     raf = requestAnimationFrame(loop);
 
-    // Anchor links → smooth scroll via Lenis
+    // link interni (#sezione) → scroll morbido
     const onClick = (e) => {
       const a = e.target.closest('a[href^="#"]');
       if (!a) return;
@@ -55,7 +52,7 @@ export function useSmoothScroll() {
       const el = document.querySelector(id);
       if (el) {
         e.preventDefault();
-        l.scrollTo(target(el));
+        l.scrollTo(target(el), { duration: 1.6 });
       }
     };
     document.addEventListener("click", onClick);
@@ -68,150 +65,86 @@ export function useSmoothScroll() {
   }, []);
 }
 
-/* Cinematic reveal-on-scroll */
-const variants = {
-  hidden: (d) => ({
-    opacity: 0,
-    y: d === "up" ? 40 : 0,
-    x: d === "left" ? 40 : d === "right" ? -40 : 0,
-    filter: "blur(6px)",
-  }),
-  show: {
-    opacity: 1,
-    y: 0,
-    x: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-export function Reveal({ children, direction = "up", delay = 0, className = "", as = "div" }) {
-  const MotionTag = motion[as] || motion.div;
+/* Compare salendo appena entra nello schermo */
+export function Reveal({ children, delay = 0, className = "", as = "div", y = 28 }) {
+  const Tag = motion[as] || motion.div;
   return (
-    <MotionTag
+    <Tag
       className={className}
-      custom={direction}
-      variants={variants}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ delay }}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-8% 0px" }}
+      transition={{ duration: 1, ease: EASE, delay }}
     >
       {children}
-    </MotionTag>
+    </Tag>
   );
 }
 
-/* Section eyebrow + title — editorial (Longbow-inspired) with index number */
-export function SectionHeader({ eyebrow, title, sub, align = "left", index }) {
+/* Titolo che sale parola per parola da dietro una maschera */
+export function Words({ text, className = "", delay = 0, stagger = 0.06, immediate = false, as = "span" }) {
+  const Tag = motion[as] || motion.span;
+  const trigger = immediate ? { animate: "show" } : { whileInView: "show", viewport: { once: true, margin: "-6% 0px" } };
   return (
-    <div className={`mb-14 ${align === "center" ? "text-center mx-auto max-w-2xl" : ""}`}>
-      <Reveal>
-        <div className={`flex items-center gap-3 mb-4 ${align === "center" ? "justify-center" : ""}`}>
-          {index && (
-            <span className="font-mono text-xs text-purple-glow/70 tracking-widest">.{index}</span>
-          )}
-          <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-mist">
-            {eyebrow}
+    <Tag className={className} initial="hidden" {...trigger}>
+      <span className="sr-only">{text}</span>
+      {text.split(" ").map((w, i) => (
+        <Fragment key={i}>
+          {i > 0 && " "}
+          <span aria-hidden="true" className="inline-block overflow-hidden align-bottom pb-[0.1em] -mb-[0.1em]">
+            <motion.span
+              className="inline-block"
+              variants={{
+                hidden: { y: "105%" },
+                show: { y: "0%", transition: { duration: 1, ease: EASE, delay: delay + i * stagger } },
+              }}
+            >
+              {w}
+            </motion.span>
           </span>
-        </div>
-      </Reveal>
-      <Reveal delay={0.05}>
-        <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-light text-white tracking-tight text-balance leading-[0.95]">
-          {title}
-        </h2>
-      </Reveal>
-      {sub && (
-        <Reveal delay={0.1}>
-          <p className="mt-5 text-mist text-base md:text-lg max-w-xl leading-relaxed">{sub}</p>
-        </Reveal>
-      )}
-      <div className={`hairline w-24 mt-6 ${align === "center" ? "mx-auto" : ""}`} />
-    </div>
-  );
-}
-
-/* Masked line reveal — each line slides up from behind a clip, staggered on scroll.
-   `immediate` = anima al montaggio (per contenuti above-the-fold come la hero).
-   Il trigger "in vista" sta sul contenitore esterno: la singola riga parte nascosta
-   sotto una maschera overflow:hidden, quindi per l'IntersectionObserver non sarebbe
-   mai visibile e non si rivelerebbe mai. */
-export function AnimatedLines({ lines, className = "", delay = 0, stagger = 0.12, immediate = false }) {
-  const trigger = immediate
-    ? { animate: "show" }
-    : { whileInView: "show", viewport: { once: true, margin: "-60px" } };
-  return (
-    <motion.span className="block" initial="hidden" {...trigger}>
-      {lines.map((line, i) => (
-        <span key={i} className="line-mask">
-          <motion.span
-            className={`block ${className}`}
-            variants={{
-              hidden: { y: "110%" },
-              show: { y: "0%", transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: delay + i * stagger } },
-            }}
-          >
-            {line}
-          </motion.span>
-        </span>
+        </Fragment>
       ))}
-    </motion.span>
+    </Tag>
   );
 }
 
-/* Magnetic — l'elemento segue leggermente il cursore all'hover (micro-interazione).
-   Si disattiva su touch e con prefers-reduced-motion; su un wrapper inline-block
-   così avvolge CTA/icone senza rompere il layout. */
-export function Magnetic({ children, strength = 0.35, className = "" }) {
+/* Un paragrafo che si accende parola per parola mentre lo si scorre */
+function Word({ progress, from, to, children }) {
+  const opacity = useTransform(progress, [from, to], [0.16, 1]);
+  return <motion.span style={{ opacity }}>{children} </motion.span>;
+}
+export function ScrollWords({ text, className = "" }) {
   const ref = useRef(null);
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const x = useSpring(mx, { stiffness: 220, damping: 18, mass: 0.4 });
-  const y = useSpring(my, { stiffness: 220, damping: 18, mass: 0.4 });
-
-  const onMove = (e) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    mx.set((e.clientX - (r.left + r.width / 2)) * strength);
-    my.set((e.clientY - (r.top + r.height / 2)) * strength);
-  };
-  const reset = () => {
-    mx.set(0);
-    my.set(0);
-  };
-
-  useEffect(() => {
-    const noFine = window.matchMedia("(hover: none), (prefers-reduced-motion: reduce)").matches;
-    if (noFine) return;
-    const el = ref.current;
-    if (!el) return;
-    el.addEventListener("mousemove", onMove);
-    el.addEventListener("mouseleave", reset);
-    return () => {
-      el.removeEventListener("mousemove", onMove);
-      el.removeEventListener("mouseleave", reset);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [strength]);
-
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.5"] });
+  const words = text.split(" ");
   return (
-    <motion.span ref={ref} style={{ x, y }} className={`inline-block ${className}`}>
-      {children}
-    </motion.span>
+    <p ref={ref} className={className}>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
+        {words.map((w, i) => (
+          <Word key={i} progress={scrollYProgress} from={i / words.length} to={(i + 1) / words.length}>
+            {w}
+          </Word>
+        ))}
+      </span>
+    </p>
   );
 }
 
-/* Spotlight wrapper — tracks cursor for the radial glow */
-export function Spotlight({ children, className = "" }) {
-  const onMove = (e) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
-  };
+/* Testata di sezione: numero, nome e una riga sottile; sotto, il titolo grande (se c'è) */
+export function SectionHead({ index, label, sub, title = true }) {
   return (
-    <div onMouseMove={onMove} className={`spotlight ${className}`}>
-      {children}
-    </div>
+    <header className="mb-14 md:mb-20">
+      <Reveal y={12} className="flex items-baseline justify-between gap-6 border-t border-line pt-4 text-[13px]">
+        <span className="font-mono text-dim">({index})</span>
+        {sub && <span className="hidden md:block text-dim max-w-md text-right">{sub}</span>}
+      </Reveal>
+      {title && (
+        <h2 className="mt-6 md:mt-8 text-[clamp(3rem,10vw,10rem)] font-medium leading-[0.86] tracking-[-0.055em] text-fg">
+          <Words text={label} />
+        </h2>
+      )}
+      {sub && <p className="md:hidden mt-5 text-dim text-[15px] leading-relaxed max-w-md">{sub}</p>}
+    </header>
   );
 }

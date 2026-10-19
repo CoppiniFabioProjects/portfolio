@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Play, RotateCcw, Trophy, Gamepad2, Volume2, VolumeX, Send, Loader2, Medal } from "lucide-react";
-import { SectionHeader } from "./primitives";
 import { getSupabase, hasLeaderboard } from "../lib/supabase";
 import { ui } from "../data/ui";
 
@@ -355,17 +354,8 @@ export default function Game() {
   };
 
   return (
-    <section id="gioca" className="relative py-20 md:py-28 overflow-hidden">
-      <div className="blob bg-garuda w-[30rem] h-[30rem] -left-40 top-1/2 opacity-15" />
-      <div className="container mx-auto px-6 relative">
-        <SectionHeader
-          index="06"
-          eyebrow={ui.game.eyebrow}
-          title={ui.game.title}
-          sub={ui.game.sub}
-        />
-
-        <div className="max-w-3xl mx-auto">
+    <div>
+        <div>
           <div
             ref={wrapRef}
             tabIndex={0}
@@ -490,8 +480,7 @@ export default function Game() {
             </div>
           )}
         </div>
-      </div>
-    </section>
+    </div>
   );
 }
 

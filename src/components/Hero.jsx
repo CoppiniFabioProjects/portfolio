@@ -1,118 +1,105 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown } from "lucide-react";
-import { AnimatedLines, Magnetic } from "./primitives";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { DustImage } from "../dust/Dust";
 import { profile } from "../data/content";
 import { ui } from "../data/ui";
+import { lang } from "../i18n";
+
+const EASE = [0.22, 1, 0.36, 1];
+
+// l'ora di Pistoia, aggiornata ogni minuto
+function useClock() {
+  const fmt = () =>
+    new Intl.DateTimeFormat(lang === "en" ? "en-GB" : "it-IT", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Rome" }).format(new Date());
+  const [t, set] = useState(fmt);
+  useEffect(() => {
+    const id = setInterval(() => set(fmt()), 30_000);
+    return () => clearInterval(id);
+  }, []);
+  return t;
+}
+
+// Il nome lettera per lettera, che sale da sotto la riga
+function Name() {
+  const [first, last] = profile.name.split(" ");
+  const letters = (w, base) =>
+    [...w].map((ch, i) => (
+      <span key={i} className="inline-block overflow-hidden align-bottom pb-[0.06em] -mb-[0.06em]">
+        <motion.span
+          className="inline-block"
+          initial={{ y: "102%" }}
+          animate={{ y: "0%" }}
+          transition={{ duration: 1.25, ease: EASE, delay: 0.55 + (base + i) * 0.045 }}
+        >
+          {ch}
+        </motion.span>
+      </span>
+    ));
+  return (
+    <h1 className="text-fg font-medium leading-[0.8] tracking-[-0.065em] text-[24vw] md:text-[14.8vw] md:whitespace-nowrap -ml-[0.04em]">
+      <span className="sr-only">{profile.name}</span>
+      <span aria-hidden="true" className="block md:inline">{letters(first, 0)}</span>
+      <span aria-hidden="true" className="hidden md:inline"> </span>
+      <span aria-hidden="true" className="block md:inline">{letters(last, first.length)}</span>
+    </h1>
+  );
+}
 
 export default function Hero() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const garudaY = useTransform(scrollYProgress, [0, 1], [0, 260]);
-  const garudaScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-  const titleY = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const fade = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
-
+  const time = useClock();
+  const [touch] = useState(() => typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches);
   return (
-    <section ref={ref} id="hero" className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-28 pb-16">
-      {/* Garuda */}
-      <motion.div style={{ y: garudaY, scale: garudaScale }} className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-        <img
-          src="/portfolio/garuda.png"
-          alt=""
-          aria-hidden="true"
-          className="w-[92vw] md:w-[620px] max-w-none object-contain opacity-[0.12] animate-pulse-slow drop-shadow-[0_0_60px_rgba(168,85,247,0.35)]"
-        />
-      </motion.div>
-
-      {/* Ritratto — sfuma nel fondo scuro (desktop e mobile) */}
-      <motion.div
-        style={{ y: garudaY }}
-        className="block absolute right-0 bottom-0 top-0 w-[85%] sm:w-[62%] lg:w-[46%] pointer-events-none z-0 select-none"
-      >
-        <div className="absolute right-[6%] bottom-[16%] w-[20rem] h-[20rem] lg:w-[26rem] lg:h-[26rem] rounded-full bg-purple/25 blur-3xl" />
-        <img
-          src="/portfolio/fabio-portrait.webp"
-          alt=""
-          aria-hidden="true"
-          className="absolute right-0 bottom-0 h-[44vh] sm:h-[58vh] lg:h-[86vh] w-auto object-contain object-bottom opacity-80 lg:opacity-90
-            [filter:grayscale(0.25)_contrast(1.02)]
-            [-webkit-mask-image:linear-gradient(to_bottom,#000_74%,transparent_98%),linear-gradient(to_left,#000_55%,transparent_100%)]
-            [-webkit-mask-composite:source-in] [mask-composite:intersect]
-            [mask-image:linear-gradient(to_bottom,#000_74%,transparent_98%),linear-gradient(to_left,#000_55%,transparent_100%)]"
-        />
-      </motion.div>
-
-      {/* Kicker row */}
-      <motion.div style={{ opacity: fade }} className="container mx-auto px-6 relative z-10 mb-6">
-        <div className="flex items-center justify-between">
-          <span className="kicker">{profile.role}</span>
-          <span className="hidden md:block kicker text-mist/60">{ui.hero.place}</span>
+    <section id="hero" className="relative h-[100svh] min-h-[560px] flex flex-col">
+      <div className="relative flex-1 min-h-0 grid place-items-center pt-16">
+        <div className="relative">
+          <DustImage
+            id="garuda"
+            src="/portfolio/garuda.png"
+            alt=""
+            width={460}
+            height={460}
+            fetchPriority="high"
+            interactive
+            className="block w-[min(80vw,40svh,500px)] md:w-[min(46vw,50svh,520px)] h-auto select-none"
+            draggable={false}
+          />
+          <motion.span
+            className="label absolute left-1/2 -translate-x-1/2 -bottom-2 whitespace-nowrap"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.8 }}
+            transition={{ delay: 3.2, duration: 1.2 }}
+            aria-hidden="true"
+          >
+            ({touch ? ui.hero.touch : ui.hero.hover})
+          </motion.span>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Giant name */}
-      <motion.div style={{ y: titleY, opacity: fade }} className="container mx-auto px-6 relative z-10">
-        <h1 className="display-xl text-white">
-          <AnimatedLines lines={["Fabio"]} immediate />
-          <span className="block text-outline">
-            <AnimatedLines lines={["Coppini"]} delay={0.12} immediate />
-          </span>
-        </h1>
-
-        {/* Sottotitolo concreto — brand poetico + keyword cercabili (SEO/GEO) */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-5 md:mt-7 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm md:text-base"
+      <div className="gutter pb-6 md:pb-9">
+        <motion.ul
+          className="grid gap-y-1.5 md:grid-cols-4 md:gap-x-6 mb-5 md:mb-7 text-[13px] leading-snug"
+          initial="hidden"
+          animate="show"
+          variants={{ show: { transition: { staggerChildren: 0.08, delayChildren: 1.15 } } }}
         >
-          <span className="font-semibold text-white tracking-tight">{profile.headline}</span>
-          <span className="w-1 h-1 rounded-full bg-purple-glow/70" />
-          <span className="font-mono text-mist tracking-tight">{profile.stack}</span>
-        </motion.p>
-
-        {/* Editorial bottom row */}
-        <div className="mt-10 md:mt-14 grid md:grid-cols-2 gap-8 items-end">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-md text-base md:text-lg text-mist leading-relaxed"
+          {ui.hero.lines.map(([a, b]) => (
+            <motion.li
+              key={a}
+              variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE } } }}
+            >
+              <span className="text-fg">{a}</span>
+              <span className="text-dim"> — {b}</span>
+            </motion.li>
+          ))}
+          <motion.li
+            className="hidden md:block text-right text-dim tabular-nums"
+            variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.9 } } }}
           >
-            {profile.intro}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.65, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="md:justify-self-end text-left md:text-right"
-          >
-            <p className="display-serif italic text-2xl md:text-3xl text-purple-glow mb-5">“{profile.tagline}”</p>
-            <div className="flex flex-col sm:flex-row gap-3 md:justify-end">
-              <Magnetic>
-                <a href="#projects" className="btn-primary group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest">
-                  {ui.hero.explore} <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
-                </a>
-              </Magnetic>
-              <Magnetic>
-                <a href="#contact" className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white">
-                  {ui.hero.contact}
-                </a>
-              </Magnetic>
-            </div>
-          </motion.div>
-        </div>
-      </motion.div>
-
-      {/* Scroll cue */}
-      <motion.div style={{ opacity: fade }} className="container mx-auto px-6 relative z-10 mt-14">
-        <div className="flex items-center gap-3 text-mist/60">
-          <span className="w-10 h-px bg-mist/40" />
-          <span className="kicker">{ui.hero.scroll}</span>
-        </div>
-      </motion.div>
+            {ui.hero.place} · {time}
+          </motion.li>
+        </motion.ul>
+        <Name />
+      </div>
     </section>
   );
 }

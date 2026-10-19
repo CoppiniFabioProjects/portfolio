@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileDown, Mail, Copy, Linkedin, Github, SquareTerminal, Languages, ArrowUp, CornerDownLeft } from "lucide-react";
+import { FileDown, Mail, Copy, Linkedin, Github, SquareTerminal, Gamepad2, Languages, ArrowUp, CornerDownLeft } from "lucide-react";
 import { nav, profile } from "../data/content";
 import { ui } from "../data/ui";
 import { lang, HOME } from "../i18n";
 import { smooth } from "./primitives";
+import { openPanel } from "./Panels";
 
 const P = ui.palette;
 const other = lang === "en" ? "it" : "en";
@@ -37,11 +38,8 @@ function buildItems() {
     } },
     { id: "linkedin", icon: Linkedin, label: P.linkedin, keywords: "linkedin social post", run: () => openUrl(profile.linkedin) },
     { id: "github", icon: Github, label: P.github, keywords: "github codice code repo", run: () => openUrl(profile.github) },
-    { id: "terminal", icon: SquareTerminal, label: P.terminal, keywords: "terminale terminal shell linux zsh comandi commands", run: () => {
-      smooth.to("linux");
-      // a scroll finito, il cursore nel terminale
-      setTimeout(() => document.querySelector("#linux input")?.focus({ preventScroll: true }), 1100);
-    } },
+    { id: "terminal", icon: SquareTerminal, label: P.terminal, keywords: "terminale terminal shell linux zsh comandi commands", run: () => openPanel("terminal") },
+    { id: "game", icon: Gamepad2, label: P.game, keywords: "gioco gioca game play garuda aquila eagle pausa break", run: () => openPanel("game") },
     { id: "lang", icon: Languages, label: P.lang, keywords: "english inglese italiano italian lingua language en it", run: () => {
       window.location.href = HOME[other] + window.location.hash;
     } },
@@ -145,12 +143,12 @@ export default function CommandPalette({ open, onClose }) {
               <span className="w-2.5 h-2.5 rounded-full bg-lions-red/70" />
               <span className="w-2.5 h-2.5 rounded-full bg-lions-gold/70" />
               <span className="w-2.5 h-2.5 rounded-full bg-garuda/70" />
-              <span className="ml-2 font-mono text-[11px] text-mist">{P.prompt}</span>
-              <kbd className="ml-auto font-mono text-[10px] text-mist/70 border border-white/10 rounded px-1.5 py-0.5">esc</kbd>
+              <span className="ml-2 font-mono text-[11px] text-dim">{P.prompt}</span>
+              <kbd className="ml-auto font-mono text-[10px] text-dim/70 border border-white/10 rounded px-1.5 py-0.5">esc</kbd>
             </div>
 
             <div className="flex items-center gap-3 px-4 py-3.5 border-b border-white/[0.06]">
-              <span className="font-mono text-garuda" aria-hidden="true">➜</span>
+              <span className="font-mono text-violet" aria-hidden="true">➜</span>
               <input
                 ref={inputRef}
                 value={q}
@@ -165,14 +163,14 @@ export default function CommandPalette({ open, onClose }) {
                 placeholder={P.placeholder}
                 spellCheck={false}
                 autoComplete="off"
-                className="flex-1 min-w-0 bg-transparent outline-none text-white font-mono text-sm caret-garuda placeholder:text-mist/45"
+                className="flex-1 min-w-0 bg-transparent outline-none text-white font-mono text-sm caret-violet placeholder:text-dim/45"
               />
             </div>
 
             <ul id="cmdk-list" role="listbox" aria-label={P.title} data-lenis-prevent className="max-h-[min(52vh,420px)] overflow-y-auto p-2">
               {groups.map(([title, list]) => (
                 <li key={title} role="presentation">
-                  <div className="px-3 pt-2.5 pb-1.5 kicker text-[10px] text-mist/60">{title}</div>
+                  <div className="px-3 pt-2.5 pb-1.5 kicker text-[10px] text-dim/60">{title}</div>
                   <ul role="presentation">
                     {list.map((it) => {
                       const on = current?.id === it.id;
@@ -185,7 +183,7 @@ export default function CommandPalette({ open, onClose }) {
                           aria-selected={on}
                           onMouseMove={() => setSel(results.indexOf(it))}
                           onClick={() => runItem(it)}
-                          className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer transition-colors ${on ? "text-white" : "text-mist"}`}
+                          className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer transition-colors ${on ? "text-white" : "text-dim"}`}
                         >
                           {on && (
                             <motion.span
@@ -195,10 +193,10 @@ export default function CommandPalette({ open, onClose }) {
                             />
                           )}
                           <span className="relative w-7 grid place-items-center shrink-0">
-                            {Icon ? <Icon className={`w-4 h-4 ${on ? "text-purple-glow" : ""}`} /> : <span className={`font-mono text-[11px] ${on ? "text-purple-glow" : "text-purple-glow/60"}`}>{it.index}</span>}
+                            {Icon ? <Icon className={`w-4 h-4 ${on ? "text-violet" : ""}`} /> : <span className={`font-mono text-[11px] ${on ? "text-violet" : "text-violet/60"}`}>{it.index}</span>}
                           </span>
                           <span className="relative flex-1 text-sm">{it.label}</span>
-                          {on && <CornerDownLeft className="relative w-3.5 h-3.5 text-mist/70" aria-hidden="true" />}
+                          {on && <CornerDownLeft className="relative w-3.5 h-3.5 text-dim/70" aria-hidden="true" />}
                         </li>
                       );
                     })}
@@ -206,20 +204,20 @@ export default function CommandPalette({ open, onClose }) {
                 </li>
               ))}
               {!results.length && (
-                <li role="presentation" className="px-3 py-6 text-center font-mono text-xs text-mist">
+                <li role="presentation" className="px-3 py-6 text-center font-mono text-xs text-dim">
                   {P.empty} «{q}»
                 </li>
               )}
             </ul>
 
-            <div className="flex items-center gap-4 px-4 py-2.5 border-t border-white/[0.06] font-mono text-[10px] text-mist/60">
+            <div className="flex items-center gap-4 px-4 py-2.5 border-t border-white/[0.06] font-mono text-[10px] text-dim/60">
               {note ? (
-                <span className="text-garuda" role="status">✓ {note}</span>
+                <span className="text-violet" role="status">✓ {note}</span>
               ) : (
                 <>
-                  <span><kbd className="text-mist">↑↓</kbd> {P.move}</span>
-                  <span><kbd className="text-mist">↵</kbd> {P.run}</span>
-                  <span><kbd className="text-mist">esc</kbd> {P.close}</span>
+                  <span><kbd className="text-dim">↑↓</kbd> {P.move}</span>
+                  <span><kbd className="text-dim">↵</kbd> {P.run}</span>
+                  <span><kbd className="text-dim">esc</kbd> {P.close}</span>
                 </>
               )}
             </div>

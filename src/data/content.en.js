@@ -23,11 +23,10 @@ export const profile = {
 
 export const nav = [
   { id: "about", label: "About" },
-  { id: "skills", label: "Tech" },
-  { id: "linux", label: "Linux" },
-  { id: "experience", label: "Timeline" },
   { id: "projects", label: "Projects" },
-  { id: "gioca", label: "Play" },
+  { id: "writing", label: "From the field" },
+  { id: "experience", label: "Path" },
+  { id: "skills", label: "Toolkit" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -238,7 +237,6 @@ export const flagship = [
     ],
     tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime", "PWA"],
     image: "/portfolio/spostiamoci-poster.webp",
-    device: "phone", // the 9:16 poster goes on the screen of the 3D smartphone
     link: "https://spostiamoci.vercel.app",
     linkLabel: "Open the app",
     status: "Live",

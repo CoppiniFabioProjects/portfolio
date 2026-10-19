@@ -11,7 +11,7 @@ describe("Palette dei comandi", () => {
   it("mostra sezioni e azioni", () => {
     render(<CommandPalette open onClose={() => {}} />);
     expect(screen.getByRole("dialog")).toBeInTheDocument();
-    expect(options()).toEqual(expect.arrayContaining(["Vetrina", "Progetti", "Scarica il CV (PDF)"]));
+    expect(options()).toEqual(expect.arrayContaining(["Chi sono", "Progetti", "Dal campo", "Scarica il CV (PDF)"]));
   });
 
   it("filtra per parola chiave, anche in inglese e senza accenti", () => {

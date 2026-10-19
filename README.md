@@ -7,6 +7,7 @@ Portfolio personale. **Informatico Umanista** — all'intersezione tra la precis
 - **Tailwind CSS v4**
 - **Framer Motion** (animazioni cinematiche allo scroll)
 - **Lenis** (smooth scroll)
+- **Polvere** ([`src/dust/`](src/dust/)): WebGL puro, senza librerie. L'aquila, il ritratto e le immagini dei progetti si compongono da granelli di luce; scorrendo, un'immagine si sbriciola e si versa nella successiva. Il motore lavora solo durante le transizioni: a riposo si vede l'immagine vera e la GPU è ferma. Con "riduci movimento", risparmio dati o senza WebGL le immagini si vedono e basta.
 - Deploy automatico su **GitHub Pages** via GitHub Actions
 
 ## Sviluppo

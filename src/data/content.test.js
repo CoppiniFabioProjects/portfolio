@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { profile, nav, tech, flagship, projects, timeline, vetrina } from "./content";
 
 describe("content — integrità dei dati", () => {
@@ -32,19 +34,15 @@ describe("content — integrità dei dati", () => {
     );
   });
 
-  it("ogni gruppo tech è un anello dell'orbita 3D: colore noto e nomi distinti", () => {
-    // la scena colora gli anelli da `accent` e dà un'etichetta a ogni tecnologia
-    tech.forEach((g) => {
-      expect(["purple", "garuda"]).toContain(g.accent);
-      expect(new Set(g.items).size).toBe(g.items.length);
-    });
-    expect(tech.length).toBeLessThanOrEqual(8); // oltre, gli anelli si affollano
-  });
-
-  it("ogni progetto ha qualcosa da mostrare sullo schermo del dispositivo 3D", () => {
+  it("ogni progetto ha qualcosa da mostrare: un'immagine o lo schema", () => {
     [...flagship, ...projects].forEach((p) => {
       expect(Boolean(p.image) || Boolean(p.screen?.diagram)).toBe(true);
-      if (p.device) expect(["phone", "laptop"]).toContain(p.device);
+    });
+  });
+
+  it("le immagini dei progetti esistono davvero nella cartella public", () => {
+    [...flagship, ...projects].filter((p) => p.image).forEach((p) => {
+      expect(existsSync(resolve("public", p.image.replace("/portfolio/", "")))).toBe(true);
     });
   });
 

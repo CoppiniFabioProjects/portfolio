@@ -21,12 +21,11 @@ export const profile = {
 };
 
 export const nav = [
-  { id: "about", label: "Vetrina" },
-  { id: "skills", label: "Tech" },
-  { id: "linux", label: "Linux" },
-  { id: "experience", label: "Timeline" },
+  { id: "about", label: "Chi sono" },
   { id: "projects", label: "Progetti" },
-  { id: "gioca", label: "Gioca" },
+  { id: "writing", label: "Dal campo" },
+  { id: "experience", label: "Percorso" },
+  { id: "skills", label: "Strumenti" },
   { id: "contact", label: "Contatti" },
 ];
 
@@ -237,7 +236,6 @@ export const flagship = [
     ],
     tags: ["Next.js 15", "React 19", "Supabase", "PostGIS", "Realtime", "PWA"],
     image: "/portfolio/spostiamoci-poster.webp",
-    device: "phone", // il poster (9:16) va sullo schermo dello smartphone 3D
     link: "https://spostiamoci.vercel.app",
     linkLabel: "Apri l'app",
     status: "Live",

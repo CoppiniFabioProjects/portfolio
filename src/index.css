@@ -44,75 +44,70 @@
 }
 
 /* ============================================================
-   DESIGN TOKENS — Editoriale cinematico
+   TOKEN — nero, un solo bianco caldo, un solo accento (il violetto dell'aquila)
    ============================================================ */
 @theme {
-  --font-display: "Fraunces", Georgia, serif;
-  --font-sans: "Space Grotesk", "Inter", sans-serif;
-  --font-body: "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
 
-  --color-ink: #050509;
-  --color-ink-2: #0a0a12;
-  --color-paper: #f4f1ea;
+  --color-ink: #0a0a0b;
+  --color-ink-2: #121214;
+  --color-fg: #edece8;
+  --color-dim: #8e8d95;
+  --color-line: rgb(237 236 232 / 0.13);
+  --color-violet: #a78bfa;
+
+  /* colori del terminale, della palette e del gioco */
   --color-purple: #a855f7;
   --color-purple-glow: #c084fc;
-  --color-purple-dark: #7e22ce;
   --color-garuda: #2dd4bf;
-  --color-garuda-glow: #5eead4;
-  --color-lions-blue: #0033a0;
   --color-lions-red: #e31837;
   --color-lions-gold: #ffc72c;
   --color-mist: #94a3b8;
 }
 
-/* ============================================================
-   BASE
-   ============================================================ */
 :root {
   color-scheme: dark;
+  --gutter: clamp(20px, 4vw, 56px);
 }
 
 html {
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  /* niente riquadro nero di tap su mobile (iOS/Android) */
   -webkit-tap-highlight-color: transparent;
-}
-
-/* overflow-x: clip (non hidden): taglia l'eccedenza orizzontale senza trasformare
-   html/body in contenitori di scroll, altrimenti position: sticky smette di funzionare
-   (le sezioni 3D non resterebbero "pinnate"). hidden resta come ripiego. */
-html {
   overflow-x: hidden;
   overflow-x: clip;
 }
 
 body {
   background-color: var(--color-ink);
-  color: #e8e6f0;
-  font-family: var(--font-body);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
   overflow-x: hidden;
   overflow-x: clip;
-  max-width: 100vw;
 }
 
 ::selection {
-  background: var(--color-purple);
-  color: #fff;
+  background: var(--color-violet);
+  color: var(--color-ink);
 }
 
-/* Keyboard focus — visibile solo per chi naviga da tastiera.
-   Nel layer base: le classi dei componenti (rounded-*, outline-none) hanno la precedenza */
 @layer base {
   :focus-visible {
-    outline: 2px solid var(--color-purple-glow);
-    outline-offset: 3px;
-    border-radius: 4px;
+    outline: 1.5px solid var(--color-violet);
+    outline-offset: 4px;
+    border-radius: 3px;
   }
 }
 
-/* Skip link — nascosta finché non riceve focus da tastiera */
+.gutter {
+  padding-inline: var(--gutter);
+}
+
 .skip-link {
   position: fixed;
   top: 0.75rem;
@@ -120,10 +115,10 @@ body {
   z-index: 300;
   padding: 0.6rem 1rem;
   border-radius: 9999px;
-  background: var(--color-purple);
-  color: #fff;
+  background: var(--color-fg);
+  color: var(--color-ink);
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 600;
   transform: translateY(-160%);
   transition: transform 0.25s ease;
 }
@@ -131,275 +126,189 @@ body {
   transform: translateY(0);
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--color-ink);
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(var(--color-purple-dark), var(--color-purple));
-  border-radius: 99px;
-}
-
-/* Lenis smooth scroll */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
+  background: #2a2a2e;
+  border-radius: 8px;
 }
 
 /* ============================================================
-   TYPOGRAPHY HELPERS
+   POLVERE — il canvas sta dietro al contenuto, le immagini aspettano di essere composte
    ============================================================ */
-.font-display {
-  font-family: var(--font-display);
-  font-optical-sizing: auto;
+.dust-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  pointer-events: none;
+  z-index: 0;
 }
-.text-balance {
-  text-wrap: balance;
+.dust-on [data-dust] {
+  opacity: 0;
 }
-
-/* Gradient text */
-.text-gradient {
-  background: linear-gradient(120deg, #fff 0%, var(--color-purple-glow) 55%, var(--color-garuda) 120%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.text-gradient-purple {
-  background: linear-gradient(120deg, var(--color-purple-glow), var(--color-purple-dark));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* ============================================================
-   GLASS / CARDS
-   ============================================================ */
-.glass {
-  background: linear-gradient(145deg, rgba(168, 85, 247, 0.07), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  backdrop-filter: blur(16px) saturate(145%);
-  -webkit-backdrop-filter: blur(16px) saturate(145%);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-}
-
-/* Vetro viola premium — riflesso di luce diagonale, bordo luminoso */
-.glass-violet {
+main,
+footer {
   position: relative;
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.13) 0%, rgba(126, 34, 206, 0.05) 48%, rgba(45, 212, 191, 0.05) 100%);
-  border: 1px solid rgba(192, 132, 252, 0.28);
-  backdrop-filter: blur(22px) saturate(165%);
-  -webkit-backdrop-filter: blur(22px) saturate(165%);
-  box-shadow:
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.16),
-    inset 0 0 44px -22px rgba(192, 132, 252, 0.35),
-    0 24px 60px -28px rgba(126, 34, 206, 0.5);
+  z-index: 1;
 }
-.glass-violet::after {
+
+/* la cornice che aspetta un'immagine: un filo sottile, coperto dall'immagine quando c'è */
+.frame {
+  position: relative;
+  border-radius: 14px;
+}
+.frame::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  pointer-events: none;
-  background: linear-gradient(130deg, rgba(255, 255, 255, 0.16), transparent 42%);
-  mix-blend-mode: screen;
+  border: 1px solid var(--color-line);
 }
-
-.card-hover {
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.5s ease, box-shadow 0.5s ease;
-}
-.card-hover:hover {
-  transform: translateY(-6px);
-  border-color: rgba(168, 85, 247, 0.35);
-  box-shadow: 0 30px 60px -20px rgba(168, 85, 247, 0.25);
-}
-
-/* Spotlight card — follows cursor via --mx / --my set in JS */
-.spotlight {
+.frame > [data-dust] {
   position: relative;
-  overflow: hidden;
-}
-.spotlight::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  background: radial-gradient(
-    600px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(168, 85, 247, 0.12),
-    transparent 40%
-  );
-  pointer-events: none;
-}
-.spotlight:hover::before {
-  opacity: 1;
+  border-radius: inherit;
 }
 
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-.btn-primary {
-  position: relative;
-  background: linear-gradient(120deg, var(--color-purple), var(--color-purple-dark));
-  color: #fff;
-  box-shadow: 0 0 0 1px rgba(192, 132, 252, 0.4),
-    0 20px 40px -12px rgba(168, 85, 247, 0.5);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
-}
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 0 1px rgba(192, 132, 252, 0.7),
-    0 28px 50px -12px rgba(168, 85, 247, 0.7);
-}
-.btn-ghost {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.02);
-  transition: all 0.35s ease;
-}
-.btn-ghost:hover {
-  border-color: var(--color-purple);
-  background: rgba(168, 85, 247, 0.08);
-}
-
-/* ============================================================
-   DECOR
-   ============================================================ */
+/* grana da pellicola, appena percettibile */
 .grain {
   position: fixed;
-  inset: 0;
+  inset: -50%;
   pointer-events: none;
-  z-index: 100;
-  opacity: 0.04;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 60;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Aurora — luce soffusa di sfondo, lenta e profonda (sostituisce i blob) */
-.aurora {
-  position: fixed;
-  inset: -25%;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(38% 46% at 22% 24%, rgba(168, 85, 247, 0.20), transparent 68%),
-    radial-gradient(34% 42% at 80% 28%, rgba(45, 212, 191, 0.12), transparent 70%),
-    radial-gradient(44% 48% at 62% 82%, rgba(126, 34, 206, 0.17), transparent 70%);
-  filter: blur(64px) saturate(135%);
-  animation: auroraDrift 26s ease-in-out infinite alternate;
-  will-change: transform;
+@layer components {
+/* ============================================================
+   TIPOGRAFIA
+   ============================================================ */
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-dim);
 }
-@keyframes auroraDrift {
-  0%   { transform: translate3d(-2%, -2%, 0) scale(1.04); }
-  50%  { transform: translate3d(2%, 2%, 0) scale(1.12); }
-  100% { transform: translate3d(3%, -2%, 0) scale(1.06); }
-}
-
-/* Vignetta — profondità cinematografica ai bordi */
-.vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 95;
-  pointer-events: none;
-  background: radial-gradient(135% 125% at 50% 38%, transparent 56%, rgba(5, 5, 9, 0.55) 100%);
+.serif-i {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 350;
+  font-variation-settings: "opsz" 72;
+  letter-spacing: -0.01em;
 }
 
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.35;
-  pointer-events: none;
-  will-change: transform;
+/* link con il filo che si disegna da sinistra */
+.u-link {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.u-link:hover,
+.u-link:focus-visible {
+  background-size: 100% 1px;
+}
+.u-link-on {
+  background: linear-gradient(currentColor, currentColor) 100% 100% / 100% 1px no-repeat;
+  transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.u-link-on:hover {
+  background-size: 0 1px;
 }
 
-@keyframes blobFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -40px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.95); }
-}
-.animate-blob {
-  animation: blobFloat 18s ease-in-out infinite;
-}
-
-@keyframes pulseSlow {
-  0%, 100% { opacity: 0.18; transform: scale(1); }
-  50% { opacity: 0.3; transform: scale(1.04); }
-}
-.animate-pulse-slow {
-  animation: pulseSlow 7s ease-in-out infinite;
-}
-
-/* Marquee */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee 40s linear infinite;
-}
-.marquee-mask {
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-}
-
-/* Reveal (fallback for reduced motion) */
-@media (prefers-reduced-motion: reduce) {
-  .animate-blob,
-  .animate-pulse-slow,
-  .animate-marquee,
-  .aurora {
-    animation: none !important;
+/* nelle liste, la riga sotto il cursore resta accesa e le altre si spengono */
+@media (hover: hover) {
+  .dim-others:hover > * {
+    opacity: 0.38;
   }
-  * {
-    scroll-behavior: auto !important;
+  .dim-others:hover > *:hover {
+    opacity: 1;
   }
 }
+.dim-others > * {
+  transition: opacity 0.4s ease;
+}
 
-.hairline {
-  height: 1px;
-  background: linear-gradient(90deg, var(--color-purple), transparent);
-  box-shadow: 0 0 12px var(--color-purple);
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* ============================================================
-   INTRO — l'aquila plana e apre la hero
+   PANNELLI (palette, terminale, gioco) — vetro scuro
    ============================================================ */
-@keyframes introEagle {
-  0%   { transform: scale(0.12) translateY(-30px); opacity: 0; filter: blur(10px); }
-  18%  { opacity: 1; filter: blur(0); }
-  45%  { transform: scale(0.9) translateY(0); opacity: 1; filter: blur(0); }
-  80%  { transform: scale(2.4) translateY(10px); opacity: 1; filter: blur(0); }
-  100% { transform: scale(7) translateY(46px); opacity: 0; filter: blur(8px); }
+.island {
+  background: rgba(16, 16, 18, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.9);
 }
-@keyframes introGlow {
-  0%   { transform: scale(0); opacity: 0; }
-  55%  { transform: scale(1); opacity: 0.55; }
-  100% { transform: scale(2.6); opacity: 0; }
+.glass {
+  background: rgba(18, 18, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
-@keyframes introSign {
-  0%, 100% { opacity: 0; letter-spacing: 0.5em; }
-  35%, 70% { opacity: 1; letter-spacing: 0.55em; }
+.btn-primary {
+  background: var(--color-fg);
+  color: var(--color-ink);
+  transition: transform 0.3s ease, background 0.3s ease;
 }
-@keyframes introBg {
-  0%, 80% { opacity: 1; }
-  100%    { opacity: 0; }
+.btn-primary:hover {
+  background: #fff;
 }
-.intro-overlay { animation: introBg 2.4s ease-in forwards; }
-.intro-eagle   { animation: introEagle 2.4s cubic-bezier(0.5, 0, 0.4, 1) forwards; will-change: transform, opacity; }
-.intro-glow    { animation: introGlow 2.4s ease-in forwards; will-change: transform, opacity; }
-.intro-sign    { animation: introSign 2.4s ease-in-out forwards; }
-@media (prefers-reduced-motion: reduce) {
-  .intro-overlay, .intro-eagle, .intro-glow, .intro-sign { animation: none !important; }
+.btn-ghost {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.btn-ghost:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.04);
+}
+.kicker {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68rem;
+  color: var(--color-dim);
+}
+
+}
+
+/* ============================================================
+   CURSORE (solo desktop): un punto che si allarga sugli elementi cliccabili
+   ============================================================ */
+@media (hover: hover) and (pointer: fine) {
+  body.has-custom-cursor,
+  body.has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 9999px;
+  background: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: 250;
+  opacity: 0;
+  transform: scale(0.2);
+  transition: opacity 0.3s ease;
+  will-change: transform;
 }
 
 /* ============================================================
@@ -429,162 +338,16 @@ html.lenis body {
   z-index: 210;
   animation: eggToast 5s ease forwards;
 }
+
+@keyframes blink {
+  50% { opacity: 0.25; }
+}
+.blink {
+  animation: blink 2.4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .egg-emoji { display: none; }
-}
-
-/* ============================================================
-   EXTREME EDITORIAL (Longbow-inspired)
-   ============================================================ */
-.kicker {
-  font-family: var(--font-sans);
-  text-transform: uppercase;
-  letter-spacing: 0.4em;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--color-mist);
-}
-
-/* Giant kinetic display type */
-.display-xl {
-  font-family: var(--font-sans);
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 0.82;
-  font-size: clamp(2.75rem, 13vw, 13rem);
-  overflow-wrap: break-word;
-}
-.display-serif {
-  font-family: var(--font-display);
-  font-weight: 300;
-  line-height: 0.92;
-  letter-spacing: -0.025em;
-}
-
-/* Outline / stroked text */
-.text-outline {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(244, 241, 234, 0.5);
-}
-
-/* Line-mask reveal: child slides up from behind a clip */
-.line-mask {
-  overflow: hidden;
-  display: block;
-}
-
-/* Big section index number */
-.section-index {
-  font-family: var(--font-mono);
-  font-size: clamp(0.75rem, 1vw, 0.9rem);
-  letter-spacing: 0.3em;
-  color: var(--color-purple-glow);
-  opacity: 0.7;
-}
-
-/* File da sfogliare di lato (telefono): la card al centro, le vicine che si intravedono */
-.swipe-track {
-  --card: min(80vw, 400px);
-  padding-inline: calc((100% - var(--card)) / 2);
-  overscroll-behavior-x: contain;
-  scroll-padding-inline: calc((100% - var(--card)) / 2);
-}
-.swipe-card {
-  width: var(--card);
-}
-.swipe-card > * {
-  width: 100%;
-}
-
-/* Righe scorrevoli in orizzontale senza barra (es. i pulsanti dei gruppi Tech su mobile) */
-.no-scrollbar {
-  scrollbar-width: none;
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Card dei post e delle tappe nelle scene 3D: fondo pieno (niente blur: in 3D costa troppo) */
-.post-card {
-  background: linear-gradient(180deg, rgba(22, 18, 36, 0.97), rgba(10, 9, 17, 0.97));
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 30px 60px -30px rgba(0, 0, 0, 0.9),
-    0 0 40px -18px rgba(168, 85, 247, 0.35);
-}
-
-/* Isola di navigazione e palette: capsula scura, vetro profondo */
-.island {
-  background: linear-gradient(180deg, rgba(14, 12, 22, 0.82), rgba(7, 7, 12, 0.78));
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(22px) saturate(160%);
-  -webkit-backdrop-filter: blur(22px) saturate(160%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 18px 50px -18px rgba(0, 0, 0, 0.9),
-    0 0 0 1px rgba(0, 0, 0, 0.35),
-    0 10px 40px -20px rgba(168, 85, 247, 0.35);
-}
-
-/* ============================================================
-   CUSTOM CURSOR (solo desktop)
-   ============================================================ */
-@media (hover: hover) and (pointer: fine) {
-  body.has-custom-cursor,
-  body.has-custom-cursor * {
-    cursor: none !important;
-  }
-}
-.cursor-dot,
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 200;
-  border-radius: 9999px;
-  opacity: 0;
-  will-change: transform;
-}
-.cursor-dot {
-  width: 7px;
-  height: 7px;
-  background: var(--color-purple-glow);
-  transition: opacity 0.25s ease, width 0.25s ease, height 0.25s ease;
-  box-shadow: 0 0 12px rgba(192, 132, 252, 0.9);
-}
-.cursor-ring {
-  width: 34px;
-  height: 34px;
-  border: 1.5px solid rgba(192, 132, 252, 0.6);
-  mix-blend-mode: difference;
-  transition: opacity 0.3s ease, width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    height 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease;
-}
-/* Su elementi interattivi: anello si espande, punto si allarga */
-body.cursor-hover .cursor-ring {
-  width: 56px;
-  height: 56px;
-  background: rgba(45, 212, 191, 0.15);
-  border-color: rgba(94, 234, 212, 0.8);
-}
-body.cursor-hover .cursor-dot {
-  width: 4px;
-  height: 4px;
-}
-/* Click: contrazione */
-body.cursor-down .cursor-ring {
-  width: 26px;
-  height: 26px;
-}
-
-/* Full-bleed cinematic image treatment */
-.duotone {
-  filter: grayscale(0.4) contrast(1.05) brightness(0.85);
-  transition: filter 0.8s ease, transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.group:hover .duotone {
-  filter: grayscale(0) contrast(1) brightness(1);
+  .blink { animation: none; }
+  * { scroll-behavior: auto !important; }
 }
