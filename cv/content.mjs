@@ -39,7 +39,7 @@ export const cv = {
         intro:
           "Carpooling basato sulla fiducia: si viaggia solo con la propria rete di contatti (gli «amoci»), fino al terzo grado. Progetto ideato da Valentina Elisa Camponovo; responsabile di architettura e sviluppo, dal database al prodotto installabile. In produzione.",
         bullets: [
-          "Frontend: Next.js 15 e React 19; Progressive Web App con notifiche Web Push e mappe Leaflet e Mapbox.",
+          "Frontend: Next.js 15 e React 19; PWA con notifiche Web Push e mappe Leaflet e Mapbox.",
           "Backend: Supabase con PostgreSQL e PostGIS (oltre 150 migrazioni); matching per corridoi di viaggio, grafo di fiducia protetto da Row Level Security su tutte le tabelle, assegnazione equa del guidatore, promemoria pianificati con pg_cron.",
           "samo: assistente AI con function calling lato server, in grado di eseguire azioni nell'applicazione oltre a rispondere alle richieste.",
         ],
@@ -53,7 +53,7 @@ export const cv = {
         bullets: [
           "Sviluppo di nuove funzionalità per ordini, bolle fornitore, spedizioni, etichette e fatturazione: riallineamento automatico dell'abbinamento ordine-bolla, carrellizzazione con secchi misti, scorporo IVA sulle autofatture attivabile da configurazione.",
           "Ottimizzazione delle prestazioni SQL: riscrittura di query con predicati non sargable e spostamento della logica di stagionalità da SQL a Java.",
-          "Tentata vendita: correzione e rilascio dell'app legacy in eMbedded Visual Basic per Windows CE (ambiente di build ricostruito in macchina virtuale), avviamento presso un cliente e analisi degli errori dei terminali.",
+          "Tentata vendita: correzione e rilascio dell'app legacy in eMbedded Visual Basic per Windows CE (build ricostruita in VM), avvio presso un cliente e analisi degli errori dei terminali.",
           "j01modula: web app di integrazione tra il gestionale e i magazzini automatici (DB2 e SQL Server), che resta operativa anche quando uno dei due database non è disponibile.",
           "Metodo di lavoro: oltre 30 documenti tra analisi funzionali, piani di test e manuali utente e circa 40 note tecniche; un branch per ticket, pull request e code review su Bitbucket; redazione di una guida interna di 12 pagine sull'uso di Claude Code nell'analisi dei ticket.",
         ],
@@ -143,9 +143,9 @@ export const cv = {
         period: "Jun 2026 — present",
         link: { label: "spostiamoci.vercel.app", href: "https://spostiamoci.vercel.app" },
         intro:
-          "Trust-based carpooling: users travel only within their own network of contacts (the «amoci»), up to the third degree. Conceived by Valentina Elisa Camponovo; responsible for architecture and development, from the database to the installable product. Live in production.",
+          "Trust-based carpooling: users travel only with their own network of contacts (the «amoci»), up to the third degree. Conceived by Valentina Elisa Camponovo; responsible for architecture and development, from database to installable product. Live in production.",
         bullets: [
-          "Frontend: Next.js 15 and React 19; Progressive Web App with Web Push notifications and Leaflet and Mapbox maps.",
+          "Frontend: Next.js 15 and React 19; PWA with Web Push notifications, Leaflet/Mapbox maps.",
           "Backend: Supabase with PostgreSQL and PostGIS (150+ migrations); travel-corridor matching, a trust graph secured by Row Level Security on every table, fair driver assignment, scheduled reminders with pg_cron.",
           "samo: AI assistant with server-side function calling, able to perform actions within the app as well as answer requests.",
         ],
@@ -159,7 +159,7 @@ export const cv = {
         bullets: [
           "Developed new features for orders, supplier delivery notes, shipping, labels and invoicing: self-realigning order/delivery-note matching, trolley loading with mixed buckets, configurable VAT separation on self-invoices.",
           "SQL performance optimisation: rewrote queries with non-sargable predicates, moving the seasonality logic from SQL to Java.",
-          "Van sales: fixed and released the legacy eMbedded Visual Basic application for Windows CE (build environment rebuilt in a virtual machine), carried out the on-site rollout at a customer and analysed handheld-terminal errors.",
+          "Van sales: fixed and released the legacy eMbedded Visual Basic app for Windows CE (build environment rebuilt in a VM), rolled it out at a customer's site and analysed terminal errors.",
           "j01modula: web application integrating the ERP with automated warehouses (DB2 and SQL Server), which remains operational when either database is unavailable.",
           "Working method: 30+ documents including functional analyses, test plans and user manuals, plus around 40 technical notes; one branch per ticket, pull requests and code review on Bitbucket; authored a 12-page internal guide on using Claude Code for ticket analysis.",
         ],

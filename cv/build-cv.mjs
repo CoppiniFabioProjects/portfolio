@@ -62,12 +62,19 @@ for (const d of Object.values(cv)) {
     console.error(`✗ ${d.file}: il contenuto supera la pagina di ${worst}px`);
   }
 
-  await page.pdf({ path: join(root, "public", d.file), printBackground: true, preferCSSPageSize: true });
+  // la misura sopra è sullo schermo, ma in stampa Chromium impagina il testo qualche pixel più alto:
+  // conta le pagine del PDF vero (basta un margine che sfora per aggiungere una pagina bianca)
+  const pdf = await page.pdf({ path: join(root, "public", d.file), printBackground: true, preferCSSPageSize: true });
+  const pages = (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length;
+  if (pages !== 1) {
+    ok = false;
+    console.error(`✗ ${d.file}: il PDF ha ${pages} pagine invece di una`);
+  }
   if (previewDir) {
     mkdirSync(previewDir, { recursive: true });
     await page.screenshot({ path: join(previewDir, d.file.replace(/\.pdf$/, ".png")) });
   }
-  console.log(`${worst > 0 ? "!" : "✓"} public/${d.file} (spazio libero: colonna laterale ${free.side}px, principale ${free.main}px)`);
+  console.log(`${worst > 0 || pages !== 1 ? "!" : "✓"} public/${d.file} (${pages} pag., spazio libero: colonna laterale ${free.side}px, principale ${free.main}px)`);
 }
 
 await browser.close();
