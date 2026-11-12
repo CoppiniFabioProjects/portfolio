@@ -1,7 +1,7 @@
 // Contenuti del CV di Fabio Coppini, in italiano e in inglese.
-// Fonte: i testi del profilo LinkedIn approvati da Fabio (ottobre 2026).
+// Fonte: i testi del profilo LinkedIn approvati da Fabio (ottobre 2026), in registro professionale.
 // Le due lingue devono avere la stessa struttura: lo verifica cv/content.test.mjs.
-// Per rigenerare i PDF: `npm run cv` (vedi cv/build-cv.mjs).
+// Per rigenerare i PDF: `npm run cv` (vedi cv/build-cv.mjs). La foto è cv/foto.jpg.
 
 // Contatti: valori autoesplicativi, uno per riga (il luogo sta sotto al nome)
 const contacts = (portfolioUrl) => [
@@ -20,17 +20,16 @@ export const cv = {
     name: ["Fabio", "Coppini"],
     role: "Full-Stack Developer",
     stack: "React · Next.js · Supabase",
-    sub: "Co-founder di spostiamoci · Informatico Umanista (UniPi)",
-    tagline: "Libero come un'aquila.",
+    sub: "Co-founder di spostiamoci · Informatico Umanista (Università di Pisa)",
     labels: {
-      contacts: "Contatti", skills: "Competenze", languages: "Lingue", extra: "Altro",
-      experience: "Esperienza", project: "Progetto", education: "Formazione",
-      grade: "voto",
+      contacts: "Contatti", skills: "Competenze tecniche", languages: "Lingue", extra: "Informazioni aggiuntive",
+      experience: "Esperienza professionale", project: "Progetti", education: "Istruzione e formazione",
+      grade: "Votazione",
     },
-    place: "Pistoia / Quarrata",
+    place: "Pistoia / Quarrata (PT)",
     contacts: contacts("https://coppinifabioprojects.github.io/portfolio/"),
     profile:
-      "Sviluppatore full-stack: costruisco web app e PWA con React, Next.js e Supabase, e lavoro ogni giorno su un gestionale ERP in Java e DB2. Co-founder di spostiamoci. Informatico Umanista, laureato all'Università di Pisa con una tesi di linguistica computazionale (NLP in Python). Seguo un lavoro dall'analisi al rilascio — analisi funzionale, nota tecnica, sviluppo, piano di test, manuale — e uso l'AI (Claude Code, Cursor) come sparring partner: le decisioni restano mie.",
+      "Full-Stack Developer con esperienza nello sviluppo di applicazioni web e PWA (React, Next.js, Supabase) e di sistemi gestionali ERP (Java, DB2 su IBM i). Laureato in Informatica Umanistica all'Università di Pisa, con una tesi in linguistica computazionale (NLP in Python). Seguo l'intero ciclo di vita del software, dall'analisi funzionale al rilascio, con documentazione tecnica, piani di test e manuali utente. Utilizzo strumenti di AI (Claude Code, Cursor) a supporto di analisi e sviluppo, restando responsabile delle scelte tecniche.",
     experience: [
       {
         role: "Co-founder & Full-Stack Developer",
@@ -38,11 +37,11 @@ export const cv = {
         period: "Giu 2026 — oggi",
         link: { label: "spostiamoci.vercel.app", href: "https://spostiamoci.vercel.app" },
         intro:
-          "Carpooling basato sulla fiducia: si viaggia solo con la propria rete di contatti (gli «amoci»), fino al 3° grado. Idea e visione di Valentina Elisa Camponovo; io curo architettura e sviluppo, dal database al prodotto installabile. In produzione.",
+          "Carpooling basato sulla fiducia: si viaggia solo con la propria rete di contatti (gli «amoci»), fino al terzo grado. Progetto ideato da Valentina Elisa Camponovo; responsabile di architettura e sviluppo, dal database al prodotto installabile. In produzione.",
         bullets: [
-          "Frontend: Next.js 15 e React 19, PWA con notifiche Web Push, mappe Leaflet + Mapbox.",
-          "Backend: Supabase, PostgreSQL + PostGIS, oltre 150 migrazioni. Matching a corridoi di viaggio, grafo di fiducia con Row Level Security su tutte le tabelle, sorteggio equo del guidatore, promemoria con pg_cron.",
-          "samo: assistente AI con function calling lato server, che esegue le azioni invece di limitarsi a rispondere.",
+          "Frontend: Next.js 15 e React 19; Progressive Web App con notifiche Web Push e mappe Leaflet e Mapbox.",
+          "Backend: Supabase con PostgreSQL e PostGIS (oltre 150 migrazioni); matching per corridoi di viaggio, grafo di fiducia protetto da Row Level Security su tutte le tabelle, assegnazione equa del guidatore, promemoria pianificati con pg_cron.",
+          "samo: assistente AI con function calling lato server, in grado di eseguire azioni nell'applicazione oltre a rispondere alle richieste.",
         ],
       },
       {
@@ -50,13 +49,13 @@ export const cv = {
         org: "01 INFORMATICA S.r.l.",
         period: "Mag 2025 — oggi",
         intro:
-          "Sviluppo e assistenza su Codice01, il gestionale ERP dell'azienda (Java, DB2 su IBM i): seguo i lavori dall'analisi al rilascio. Curo anche siti web e supporto ai clienti (WordPress, PHP).",
+          "Sviluppo e assistenza su Codice01, il gestionale ERP aziendale (Java, DB2 su IBM i), dall'analisi al rilascio. Siti web e supporto ai clienti (WordPress, PHP).",
         bullets: [
-          "Nuove funzioni su ordini, bolle fornitore, spedizioni, etichette e fatture: abbinamento ordine-bolla che si riallinea da solo, carrellizzazione con secchi misti, scorporo IVA sulle autofatture attivabile da configurazione.",
-          "Prestazioni SQL: riscrittura di query con predicati non sargable, spostando la logica di stagionalità da SQL a Java.",
-          "Tentata vendita: correzione e rilascio dell'app legacy in eMbedded Visual Basic per Windows CE (ambiente di build ricostruito in macchina virtuale), avvio sul campo presso un cliente e analisi degli errori dei terminali.",
-          "j01modula: web app che collega il gestionale ai magazzini automatici (DB2 e SQL Server), operativa anche con uno dei due database fermo.",
-          "Metodo: oltre 30 documenti tra analisi funzionali, piani di test e manuali d'uso, una quarantina di note tecniche; un branch per ticket, pull request e code review su Bitbucket; una guida interna di 12 pagine per usare Claude Code nell'analisi dei ticket.",
+          "Sviluppo di nuove funzionalità per ordini, bolle fornitore, spedizioni, etichette e fatturazione: riallineamento automatico dell'abbinamento ordine-bolla, carrellizzazione con secchi misti, scorporo IVA sulle autofatture attivabile da configurazione.",
+          "Ottimizzazione delle prestazioni SQL: riscrittura di query con predicati non sargable e spostamento della logica di stagionalità da SQL a Java.",
+          "Tentata vendita: correzione e rilascio dell'app legacy in eMbedded Visual Basic per Windows CE (ambiente di build ricostruito in macchina virtuale), avviamento presso un cliente e analisi degli errori dei terminali.",
+          "j01modula: web app di integrazione tra il gestionale e i magazzini automatici (DB2 e SQL Server), che resta operativa anche quando uno dei due database non è disponibile.",
+          "Metodo di lavoro: oltre 30 documenti tra analisi funzionali, piani di test e manuali utente e circa 40 note tecniche; un branch per ticket, pull request e code review su Bitbucket; redazione di una guida interna di 12 pagine sull'uso di Claude Code nell'analisi dei ticket.",
         ],
       },
       {
@@ -64,21 +63,21 @@ export const cv = {
         org: "Scienza Ludica APS",
         period: "Set 2024 — oggi",
         intro:
-          "Laboratori di robotica educativa e programmazione nelle scuole primarie e secondarie di Prato e Pistoia, con LEGO Spike, Ozobot e Scratch. Socio dell'associazione.",
+          "Conduzione di laboratori di robotica educativa e programmazione nelle scuole primarie e secondarie di Prato e Pistoia, con LEGO Spike, Ozobot e Scratch. Socio dell'associazione.",
         bullets: [],
       },
     ],
     project: {
       name: "DigitaLions",
-      note: "ex ServiceScore",
+      note: "già ServiceScore",
       period: "Mar 2026 — oggi",
       link: { label: "digitalions108la.it", href: "https://digitalions108la.it" },
       intro:
-        "La piattaforma del Distretto Lions 108 LA (Toscana), progettata e sviluppata per intero da me: database, permessi, interfaccia e messa in produzione. Circa 3.000 soci, 92 club, oltre 7.000 attività di service.",
+        "Piattaforma del Distretto Lions 108 LA (Toscana), progettata e sviluppata interamente in autonomia: database, modello dei permessi, interfaccia e messa in produzione. Circa 3.000 soci, 92 club e oltre 7.000 attività di service registrate.",
       bullets: [
-        "Permessi a matrice ruolo/pagina applicati dal database (Row Level Security, privilegi di colonna): ogni officer vede il proprio club, la propria zona o tutto il distretto.",
-        "Dashboard aggiornata ogni notte dalle statistiche ufficiali di Lions International, con riprova automatica; import completo dal portale ufficiale con controllo dei totali.",
-        "«La Sfida dei Leoni»: motore di punteggio e classifica fra i club secondo il regolamento del Distretto.",
+        "Permessi per ruolo e pagina applicati dal database (Row Level Security, privilegi di colonna): ogni officer accede ai dati del proprio club, della propria zona o dell'intero distretto.",
+        "Dashboard aggiornata ogni notte dalle statistiche ufficiali di Lions International, con retry automatico; importazione completa dal portale ufficiale con verifica dei totali.",
+        "«La Sfida dei Leoni»: motore di calcolo dei punteggi e della classifica tra i club, conforme al regolamento distrettuale.",
       ],
       stack: "Next.js · React · TypeScript · Tailwind CSS · Supabase (PostgreSQL) · Vercel",
     },
@@ -89,35 +88,35 @@ export const cv = {
         period: "Nov 2018 — Apr 2023",
         grade: "98/110",
         body:
-          "Tesi in Linguistica Computazionale: analisi NLP dei testi delle medaglie d'oro in Python con NLTK (tokenizzazione, POS tagging, named entity recognition). Codifica di testi con XML, XSLT e TEI.",
+          "Tesi in Linguistica Computazionale: analisi NLP di un corpus di testi delle medaglie d'oro, in Python con NLTK (tokenizzazione, POS tagging, named entity recognition). Codifica dei testi con XML, XSLT e TEI.",
       },
       {
         title: "Diploma di Perito Informatico",
         org: "ITTS «Fedi-Fermi»",
         period: "Set 2013 — Giu 2018",
         grade: "78/100",
-        body: "Tesina: «La Rivoluzione Digitale confrontata con l'Anarchia».",
+        body: "",
       },
     ],
     skills: [
       { group: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Three.js", "PWA"] },
-      { group: "Backend & dati", items: ["Supabase", "PostgreSQL", "PostGIS", "Row Level Security", "Node.js"] },
-      { group: "Gestionali", items: ["Java", "DB2 su IBM i", "SQL Server", "ERP", "eVB · Windows CE"] },
-      { group: "Metodo", items: ["Analisi funzionale", "Piani di test", "Code review", "Documentazione", "Git · Bitbucket"] },
-      { group: "Strumenti & AI", items: ["Claude Code", "Cursor", "Docker", "Linux", "Vercel"] },
-      { group: "NLP", items: ["Python", "NLTK", "XML · XSLT · TEI"] },
+      { group: "Backend e database", items: ["Supabase", "PostgreSQL", "PostGIS", "Row Level Security", "Node.js"] },
+      { group: "Sistemi gestionali (ERP)", items: ["Java", "DB2 su IBM i", "SQL Server", "eVB · Windows CE"] },
+      { group: "Metodologia", items: ["Analisi funzionale", "Piani di test", "Code review", "Documentazione tecnica", "Git · Bitbucket"] },
+      { group: "Strumenti e AI", items: ["Claude Code", "Cursor", "Docker", "Linux", "Vercel"] },
+      { group: "NLP e Digital Humanities", items: ["Python", "NLTK", "XML · XSLT · TEI"] },
     ],
     languages: [
       { name: "Italiano", level: "Madrelingua" },
       { name: "Inglese", level: "B2" },
     ],
     extra: [
-      "Patente B · Automunito",
-      "Volontariato: socio di Vento e Vertigine APS, dal 2024",
-      "Padel agonistico · Scacchi",
+      "Patente B, automunito",
+      "Volontariato: socio di Vento e Vertigine APS dal 2024",
+      "Interessi: padel a livello agonistico, scacchi",
     ],
     privacy:
-      "Autorizzo il trattamento dei dati personali contenuti nel presente curriculum ai sensi del Regolamento UE 2016/679 (GDPR).",
+      "Autorizzo il trattamento dei dati personali contenuti nel presente curriculum vitae ai sensi del D.Lgs. 196/2003 e del Regolamento UE 2016/679 (GDPR).",
   },
 
   en: {
@@ -128,16 +127,15 @@ export const cv = {
     role: "Full-Stack Developer",
     stack: "React · Next.js · Supabase",
     sub: "Co-founder of spostiamoci · Digital Humanities graduate (University of Pisa)",
-    tagline: "Free as an eagle.",
     labels: {
-      contacts: "Contact", skills: "Skills", languages: "Languages", extra: "More",
-      experience: "Experience", project: "Featured project", education: "Education",
-      grade: "grade",
+      contacts: "Contact", skills: "Technical skills", languages: "Languages", extra: "Additional information",
+      experience: "Professional experience", project: "Projects", education: "Education",
+      grade: "Final grade",
     },
     place: "Pistoia / Quarrata, Italy",
     contacts: contacts("https://coppinifabioprojects.github.io/portfolio/en/"),
     profile:
-      "Full-stack developer: I build web apps and PWAs with React, Next.js and Supabase, and every day I work on an ERP system in Java and DB2. Co-founder of spostiamoci. Digital Humanities graduate from the University of Pisa, with a thesis in computational linguistics (NLP in Python). I take work from analysis to release — functional analysis, technical note, development, test plan, user manual — and I use AI (Claude Code, Cursor) as a sparring partner: the decisions stay mine.",
+      "Full-Stack Developer experienced in building web applications and PWAs (React, Next.js, Supabase) and enterprise ERP systems (Java, DB2 on IBM i). Digital Humanities graduate from the University of Pisa, with a thesis in computational linguistics (NLP in Python). I manage the full software lifecycle, from functional analysis to release, including technical documentation, test plans and user manuals. I use AI tools (Claude Code, Cursor) to support analysis and development, while retaining ownership of technical decisions.",
     experience: [
       {
         role: "Co-founder & Full-Stack Developer",
@@ -145,11 +143,11 @@ export const cv = {
         period: "Jun 2026 — present",
         link: { label: "spostiamoci.vercel.app", href: "https://spostiamoci.vercel.app" },
         intro:
-          "Trust-based carpooling: you only travel with your own network (the «amoci»), up to the 3rd degree. Idea and vision by Valentina Elisa Camponovo; I own architecture and development, from the database to the installable product. In production.",
+          "Trust-based carpooling: users travel only within their own network of contacts (the «amoci»), up to the third degree. Conceived by Valentina Elisa Camponovo; responsible for architecture and development, from the database to the installable product. Live in production.",
         bullets: [
-          "Frontend: Next.js 15 and React 19, PWA with Web Push notifications, Leaflet + Mapbox maps.",
-          "Backend: Supabase, PostgreSQL + PostGIS, 150+ migrations. Travel-corridor matching, a trust graph with Row Level Security on every table, fair driver selection, reminders with pg_cron.",
-          "samo: an AI assistant with server-side function calling that takes actions instead of just answering.",
+          "Frontend: Next.js 15 and React 19; Progressive Web App with Web Push notifications and Leaflet and Mapbox maps.",
+          "Backend: Supabase with PostgreSQL and PostGIS (150+ migrations); travel-corridor matching, a trust graph secured by Row Level Security on every table, fair driver assignment, scheduled reminders with pg_cron.",
+          "samo: AI assistant with server-side function calling, able to perform actions within the app as well as answer requests.",
         ],
       },
       {
@@ -157,21 +155,21 @@ export const cv = {
         org: "01 INFORMATICA S.r.l.",
         period: "May 2025 — present",
         intro:
-          "Development and support on Codice01, the company's ERP system (Java, DB2 on IBM i), taking work from analysis to release. I also look after websites and customer support (WordPress, PHP).",
+          "Development and support for Codice01, the company's ERP system (Java, DB2 on IBM i), from analysis through to release. Websites and customer support (WordPress, PHP).",
         bullets: [
-          "New features for orders, supplier delivery notes, shipping, labels and invoices: self-realigning order/delivery-note matching, mixed-bucket trolley loading, configurable VAT split on self-invoices.",
-          "SQL performance: rewrote queries with non-sargable predicates, moving the seasonality logic from SQL to Java.",
-          "Van sales: fixed and released the legacy eMbedded Visual Basic app for Windows CE (build environment rebuilt in a virtual machine), on-site rollout at a customer, analysis of handheld-terminal errors.",
-          "j01modula: web app connecting the ERP to automated warehouses (DB2 and SQL Server), still operational when one of the two databases is down.",
-          "Method: 30+ documents across functional analyses, test plans and user manuals, about forty technical notes; one branch per ticket, pull requests and code review on Bitbucket; an internal 12-page guide on using Claude Code to analyse support tickets.",
+          "Developed new features for orders, supplier delivery notes, shipping, labels and invoicing: self-realigning order/delivery-note matching, trolley loading with mixed buckets, configurable VAT separation on self-invoices.",
+          "SQL performance optimisation: rewrote queries with non-sargable predicates, moving the seasonality logic from SQL to Java.",
+          "Van sales: fixed and released the legacy eMbedded Visual Basic application for Windows CE (build environment rebuilt in a virtual machine), carried out the on-site rollout at a customer and analysed handheld-terminal errors.",
+          "j01modula: web application integrating the ERP with automated warehouses (DB2 and SQL Server), which remains operational when either database is unavailable.",
+          "Working method: 30+ documents including functional analyses, test plans and user manuals, plus around 40 technical notes; one branch per ticket, pull requests and code review on Bitbucket; authored a 12-page internal guide on using Claude Code for ticket analysis.",
         ],
       },
       {
-        role: "Robotics & Computing Educator",
+        role: "Robotics & Computer Science Educator",
         org: "Scienza Ludica APS",
         period: "Sep 2024 — present",
         intro:
-          "Educational robotics and programming workshops in primary and secondary schools in Prato and Pistoia, with LEGO Spike, Ozobot and Scratch. Member of the association.",
+          "Educational robotics and programming workshops in primary and secondary schools in Prato and Pistoia, using LEGO Spike, Ozobot and Scratch. Member of the association.",
         bullets: [],
       },
     ],
@@ -181,11 +179,11 @@ export const cv = {
       period: "Mar 2026 — present",
       link: { label: "digitalions108la.it", href: "https://digitalions108la.it" },
       intro:
-        "The platform of Lions District 108 LA (Tuscany), designed and built entirely by me: database, permissions, interface and production deployment. About 3,000 members, 92 clubs, 7,000+ service activities.",
+        "Platform for Lions District 108 LA (Tuscany), designed and developed entirely by me: database, permission model, user interface and production deployment. Around 3,000 members, 92 clubs and over 7,000 recorded service activities.",
       bullets: [
-        "Role-by-page permission matrix enforced by the database (Row Level Security, column privileges): each officer sees their own club, zone or the whole district.",
-        "Dashboard refreshed every night from Lions International's official statistics, with automatic retries; full import from the official portal with total checks.",
-        "«La Sfida dei Leoni» (the Lions' Challenge): scoring and ranking engine across clubs, following the District's rules.",
+        "Role- and page-based permissions enforced by the database (Row Level Security, column privileges): each officer accesses data for their own club, zone or the entire district.",
+        "Dashboard refreshed nightly from Lions International's official statistics, with automatic retries; full import from the official portal with total reconciliation.",
+        "«La Sfida dei Leoni» (The Lions' Challenge): scoring and club-ranking engine compliant with the District's regulations.",
       ],
       stack: "Next.js · React · TypeScript · Tailwind CSS · Supabase (PostgreSQL) · Vercel",
     },
@@ -196,34 +194,34 @@ export const cv = {
         period: "Nov 2018 — Apr 2023",
         grade: "98/110",
         body:
-          "Thesis in Computational Linguistics: NLP analysis of a corpus of gold-medal texts in Python with NLTK (tokenisation, POS tagging, named entity recognition). Text encoding with XML, XSLT and TEI.",
+          "Thesis in Computational Linguistics: NLP analysis of a corpus of gold-medal texts, in Python with NLTK (tokenisation, POS tagging, named entity recognition). Text encoding with XML, XSLT and TEI.",
       },
       {
         title: "Technical Diploma in Computer Science",
         org: "ITTS «Fedi-Fermi»",
         period: "Sep 2013 — Jun 2018",
         grade: "78/100",
-        body: "Final paper: «The Digital Revolution compared with Anarchy».",
+        body: "",
       },
     ],
     skills: [
       { group: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Three.js", "PWA"] },
-      { group: "Backend & data", items: ["Supabase", "PostgreSQL", "PostGIS", "Row Level Security", "Node.js"] },
-      { group: "Enterprise systems", items: ["Java", "DB2 on IBM i", "SQL Server", "ERP", "eVB · Windows CE"] },
-      { group: "Method", items: ["Functional analysis", "Test plans", "Code review", "Documentation", "Git · Bitbucket"] },
+      { group: "Backend & databases", items: ["Supabase", "PostgreSQL", "PostGIS", "Row Level Security", "Node.js"] },
+      { group: "Enterprise systems (ERP)", items: ["Java", "DB2 on IBM i", "SQL Server", "eVB · Windows CE"] },
+      { group: "Methodology", items: ["Functional analysis", "Test plans", "Code review", "Technical documentation", "Git · Bitbucket"] },
       { group: "Tools & AI", items: ["Claude Code", "Cursor", "Docker", "Linux", "Vercel"] },
-      { group: "NLP", items: ["Python", "NLTK", "XML · XSLT · TEI"] },
+      { group: "NLP & Digital Humanities", items: ["Python", "NLTK", "XML · XSLT · TEI"] },
     ],
     languages: [
       { name: "Italian", level: "Native" },
       { name: "English", level: "B2" },
     ],
     extra: [
-      "Driving licence B · Own car",
-      "Volunteer: member of Vento e Vertigine APS, since 2024",
-      "Competitive padel · Chess",
+      "Full driving licence (B), own car",
+      "Volunteer: member of Vento e Vertigine APS since 2024",
+      "Interests: competitive padel, chess",
     ],
     privacy:
-      "I authorise the processing of the personal data in this CV under EU Regulation 2016/679 (GDPR).",
+      "I authorise the processing of the personal data contained in this CV in accordance with EU Regulation 2016/679 (GDPR).",
   },
 };

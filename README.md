@@ -26,4 +26,4 @@ Il sito è in due lingue: italiano su `/portfolio/` ([`index.html`](index.html))
 - Le due lingue devono avere la stessa struttura: se aggiungi un campo in italiano, aggiungilo anche in inglese (lo controlla `npm test`).
 
 ## CV
-Sorgente in [`cv/`](cv/) (testi in `cv/content.mjs`). `npm run cv` rigenera `public/cv-fabio-coppini.pdf` e `public/cv-fabio-coppini-en.pdf` (serve Playwright: `npm i --no-save playwright && npx playwright install chromium`).
+Sorgente in [`cv/`](cv/) (testi in `cv/content.mjs`, foto in `cv/foto.jpg`). `npm run cv` rigenera `public/cv-fabio-coppini.pdf` e `public/cv-fabio-coppini-en.pdf` (serve Playwright: `npm i --no-save playwright && npx playwright install chromium`).

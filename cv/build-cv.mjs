@@ -31,8 +31,9 @@ const font = (file, family, weight) =>
 const fontsCss = [
   font("Inter.woff2", "Inter", "400 700"),
   font("JetBrainsMono.woff2", "JetBrains Mono", "400 500"),
-  font("Fraunces.woff2", "Fraunces", "400 600"),
 ].join("\n");
+// la foto (primo piano su sfondo chiaro), anche lei incorporata
+const photo = `data:image/jpeg;base64,${readFileSync(join(here, "foto.jpg")).toString("base64")}`;
 
 const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
 // A4 a 96 dpi; scala 2 per anteprime nitide
@@ -40,7 +41,7 @@ const page = await browser.newPage({ viewport: { width: 794, height: 1123 }, dev
 let ok = true;
 
 for (const d of Object.values(cv)) {
-  await page.setContent(renderCv(d, fontsCss), { waitUntil: "load" });
+  await page.setContent(renderCv(d, fontsCss, photo), { waitUntil: "load" });
   await page.evaluate(() => document.fonts.ready);
 
   // il CV è di una pagina: misura lo spazio libero in fondo a ogni colonna

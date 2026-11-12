@@ -1,13 +1,13 @@
 // Template HTML del CV (A4, una pagina). `fontsCss` contiene le @font-face con i
-// font incorporati (Inter, JetBrains Mono, Fraunces), così il PDF non dipende
-// da font di sistema né dalla rete.
+// font incorporati (Inter, JetBrains Mono) e `photo` la foto come data URI,
+// così il PDF non dipende da font di sistema né dalla rete.
 const esc = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 const link = (l) => (l ? `<a class="link" href="${esc(l.href)}">${esc(l.label)}</a>` : "");
 const bullets = (list) => (list.length ? `<ul>${list.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : "");
 
-export function renderCv(d, fontsCss) {
+export function renderCv(d, fontsCss, photo) {
   const L = d.labels;
   return `<!doctype html>
 <html lang="${d.lang}">
@@ -33,7 +33,11 @@ a { color: inherit; text-decoration: none; }
 .side { background: #f6f5fb; border-right: 1px solid #e4e0f2; display: flex; flex-direction: column; }
 .brand {
   background: linear-gradient(160deg, #0b0a14 0%, #1d1033 58%, #0c2a29 100%);
-  color: #fff; padding: 11mm 7.5mm 7mm;
+  color: #fff; padding: 9mm 7.5mm 7mm;
+}
+.photo {
+  display: block; width: 29mm; height: 29mm; margin-bottom: 5mm; border-radius: 50%;
+  border: 0.7mm solid rgba(255, 255, 255, 0.9);
 }
 .brand h1 { margin: 0; font-weight: 700; font-size: 25pt; line-height: 0.95; letter-spacing: -0.02em; text-transform: uppercase; }
 .brand h1 span { display: block; }
@@ -43,7 +47,6 @@ a { color: inherit; text-decoration: none; }
 .brand .stack { font-family: "JetBrains Mono", monospace; font-size: 7.6pt; color: #c4b5fd; margin-top: 0.6mm; }
 .brand .sub { font-size: 7.6pt; color: #cbd5e1; margin-top: 2.2mm; line-height: 1.4; }
 .brand .place { font-size: 7.6pt; color: #94a3b8; margin-top: 1.2mm; }
-.brand .tag { font-family: "Fraunces", serif; font-size: 9.5pt; color: #e9d5ff; margin-top: 3mm; }
 
 .side section { padding: 4.2mm 7.5mm 0; }
 h2 {
@@ -53,12 +56,10 @@ h2 {
 }
 .contacts { margin: 0; padding: 0; list-style: none; font-size: 7.4pt; }
 .contacts li { margin-bottom: 1mm; }
-.skill { margin-bottom: 1.6mm; }
-.skill b { display: block; font-weight: 600; font-size: 7.6pt; margin-bottom: 0.9mm; }
-.chip {
-  display: inline-block; margin: 0 0.9mm 1mm 0; padding: 0.25mm 1.8mm;
-  border: 1px solid #d9d3ef; border-radius: 99px; background: #fff; font-size: 6.9pt; color: #3f3b52;
-}
+.skill { margin-bottom: 1.9mm; font-size: 7.4pt; color: #3f3b52; }
+.skill b { display: block; font-weight: 600; font-size: 7.6pt; color: #1f1d2b; margin-bottom: 0.3mm; }
+/* si va a capo solo tra una voce e l'altra, mai a metà ("Tailwind / CSS") */
+.nw { white-space: nowrap; }
 .lang { display: flex; justify-content: space-between; font-size: 7.8pt; margin-bottom: 0.9mm; }
 .lang em { font-style: normal; font-family: "JetBrains Mono", monospace; font-size: 7pt; color: #0f766e; }
 .extra { margin: 0; padding: 0; list-style: none; font-size: 7.4pt; color: #4b4760; }
@@ -88,12 +89,12 @@ li::marker { color: #a855f7; }
 <div class="page">
   <aside class="side">
     <div class="brand">
+      ${photo ? `<img class="photo" src="${photo}" alt="${esc(d.name.join(" "))}" />` : ""}
       <h1><span>${esc(d.name[0])}</span><span class="last">${esc(d.name[1])}</span></h1>
       <div class="role">${esc(d.role)}</div>
       <div class="stack">${esc(d.stack)}</div>
-      <div class="sub">${esc(d.sub)}</div>
+      <div class="sub">${d.sub.split(" · ").map((p) => `<div>${esc(p).replace(/\(([^)]*)\)/, '<span class="nw">($1)</span>')}</div>`).join("")}</div>
       <div class="place">${esc(d.place)}</div>
-      <div class="tag">“${esc(d.tagline)}”</div>
     </div>
 
     <section>
@@ -105,7 +106,7 @@ li::marker { color: #a855f7; }
 
     <section>
       <h2>${esc(L.skills)}</h2>
-      ${d.skills.map((s) => `<div class="skill"><b>${esc(s.group)}</b>${s.items.map((i) => `<span class="chip">${esc(i)}</span>`).join("")}</div>`).join("")}
+      ${d.skills.map((s) => `<div class="skill"><b>${esc(s.group)}</b>${s.items.map((i, k) => `<span class="nw">${esc(i)}${k < s.items.length - 1 ? " ·" : ""}</span>`).join(" ")}</div>`).join("")}
     </section>
 
     <section>
@@ -156,7 +157,7 @@ li::marker { color: #a855f7; }
           <div><span class="title">${esc(e.title)}</span> · <span class="org">${esc(e.org)}</span></div>
           <span class="period">${esc(e.period)}</span>
         </header>
-        <p class="intro"><span class="grade">${esc(L.grade)} ${esc(e.grade)}.</span> ${esc(e.body)}</p>
+        <p class="intro"><span class="grade">${esc(L.grade)}: ${esc(e.grade)}</span>${e.body ? ` · ${esc(e.body)}` : ""}</p>
       </div>`).join("")}
     </section>
 
